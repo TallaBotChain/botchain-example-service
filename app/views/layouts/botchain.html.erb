@@ -7,14 +7,12 @@
 
     <%= stylesheet_link_tag    'application', media: 'all' %>
     <%= javascript_include_tag 'application' %>
+    <%= js_config %>
   </head>
 
   <body>
-    <nav>
-      <%= link_to "Botchain", root_path, class: "logo" %>
-      <%= link_to "Sign Up", sign_up_path %>
-      <%= link_to "Login", sign_in_path %>
-    </nav>
+    <div id="app"></div>
     <%= yield %>
+    <%= javascript_pack_tag 'application' %>
   </body>
 </html>

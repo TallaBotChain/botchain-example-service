@@ -7,4 +7,33 @@
 // To reference this file, add <%= javascript_pack_tag 'application' %> to the appropriate
 // layout file, like app/views/layouts/application.html.erb
 
-console.log('Hello World from Webpacker')
+
+import React from 'react'
+import { render } from 'react-dom'
+import { createLogger } from 'redux-logger'
+import thunkMiddleware from 'redux-thunk'
+import { Provider } from 'react-redux'
+import { createStore, applyMiddleware  } from 'redux'
+import { BrowserRouter as Router, Route, Link, Switch } from 'react-router-dom'
+import rootReducer from './reducers'
+import Developer from './containers/Developer'
+import Nav from './components/shared/Nav'
+
+const loggerMiddleware = createLogger()
+
+
+let store = createStore(rootReducer, {}, applyMiddleware(thunkMiddleware, loggerMiddleware));
+
+render(
+  <Provider store={store}>
+    <Router>
+      <div>
+        <Nav />
+        <Switch>
+          <Route exact path="/" component={Developer}/>
+        </Switch>
+      </div>
+    </Router>
+  </Provider>,
+  document.getElementById('app')
+)
