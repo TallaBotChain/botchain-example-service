@@ -1,7 +1,10 @@
 class PagesController < ApplicationController
 
   def home
-    render html: '', layout: true
+  end
+
+  def developer
+    render html: '', layout: 'botchain'
   end
 
 end

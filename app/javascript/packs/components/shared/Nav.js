@@ -16,7 +16,17 @@ class Nav extends React.Component {
             </li>
           </ul>
         </div>
-        <NavLink to="/faq">FAQ</NavLink>
+        <div className='menu-item'>{window.app_config.current_user} <b>&#8964;</b>
+          <ul className="submenu">
+            <li>
+              <NavLink to="/">Settings</NavLink>
+              <br/>
+              <NavLink to="/">Help</NavLink>
+              <br/>
+              <a href="/sign_out" data-method="delete">Logout</a>
+            </li>
+          </ul>
+        </div>
       </nav>
     )
   }
