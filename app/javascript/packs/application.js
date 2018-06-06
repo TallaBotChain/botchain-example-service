@@ -18,11 +18,14 @@ import { BrowserRouter as Router, Route, Link, Switch } from 'react-router-dom'
 import rootReducer from './reducers'
 import Developer from './containers/Developer'
 import Nav from './components/shared/Nav'
+import KeyTools from './blockchain/KeyTools'
 
 const loggerMiddleware = createLogger()
 
 
 let store = createStore(rootReducer, {}, applyMiddleware(thunkMiddleware, loggerMiddleware));
+
+window.keyTools = new KeyTools('https://kovan.infura.io/quylRadtDHfbMF9rF15R');
 
 render(
   <Provider store={store}>
