@@ -3,7 +3,7 @@ import artifact from './abi/BotCoin.json'
 
 class BotCoin {
   constructor() {
-    this.web3 = new Web3(window.web3.currentProvider);
+    this.web3 = window.keyTools.web3;
     this.contract = new this.web3.eth.Contract(artifact.abi, BOTCOIN_CONTRACT);
     this.decimals = 18;
     console.log("New instance of BotCoin connector with address ", BOTCOIN_CONTRACT);

@@ -19,9 +19,3 @@
 <%= form.check_box :age, checked: false %><span><%= form.label :age, "I confirm that I am 18 years or older" %></span>
 
 <%= form.hidden_field :encrypted_mnemonic %>
-
-<script>
-document.addEventListener("DOMContentLoaded", function(){
-  window.keyTools.generateEncryptedMnemonic("123");
-});
-</script>

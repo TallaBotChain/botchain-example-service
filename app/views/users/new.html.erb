@@ -24,3 +24,19 @@
   </div>
   <% end %>
 </div>
+
+<script>
+  function buildNewWallet() {
+    var encryptedMnemonic = window.keyTools.generateEncryptedMnemonic(
+      $("#user_password").val()
+    );
+    $("#user_encrypted_mnemonic").val( encryptedMnemonic );
+  }
+
+  $(function(){
+    $("#new_user").submit(function(evt) {
+      buildNewWallet();
+      return true;
+    });
+  });
+</script>
