@@ -34,6 +34,7 @@ input, textarea {
     color:#acaeb0;
   }
 }
+
 button, .white-button {
   color: #00bb90;
   font-size: 18px;
@@ -53,7 +54,6 @@ button, .white-button {
   margin: 0 10px 15px;
   display: inline-block;
   width: 100%;
-  max-width: 150px
 }
 
 button.primary {
@@ -146,5 +146,18 @@ a.button {
     &:hover {
       color: rgba(255,255,255,1);
     }
+  }
+}
+
+.new_user {
+  input[type="checkbox"] {
+    height: 25px;
+    width: 25px;
+    margin: 10px 15px 0 0;
+    float: left;
+  }
+
+  label {
+    margin: 10px 15px 30px;
   }
 }
