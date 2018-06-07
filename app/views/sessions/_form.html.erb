@@ -1,4 +1,6 @@
-<%= form_for :session, url: session_path do |form| %>
+<%= form_for :session, url: session_path(format: :json), html: { id: 'sign_in_form' } do |form| %>
+<div class="validation-error hidden">
+</div>
 <div class="text-field">
   <%= form.text_field :email, type: 'email', placeholder: "Email" %>
 </div>
@@ -8,10 +10,32 @@
 </div>
 
 <div class="submit-field">
-  <%= form.submit class: "white-button", value: "Log In" %>
+  <%= form.submit class: "white-button", value: "Log In", data: { disable_with: false } %>
 </div>
 
 <div class="other-links">
   <%= link_to t(".forgot_password"), new_password_path %>
 </div>
 <% end %>
+
+<script>
+  $(function() {
+    $("#sign_in_form").submit(function(evt) {
+      evt.preventDefault();
+      $(".validation-error").hide();
+      var data = $( this ).serialize();
+      var url = $(this).attr('action');
+      $.post(url, data, function(response) {
+        console.log("response: ", response);
+        if( response.error !== undefined ) {
+          $(".validation-error").text(response.error);
+          $(".validation-error").show();
+        } else {
+          var password = $("#session_password").val();
+          window.keyTools.applyEncryptedMnemonic(response.encrypted_mnemonic, password);
+          window.location.href = response.redirect;
+        }
+      });
+    });
+  });
+</script>

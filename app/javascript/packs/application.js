@@ -27,16 +27,18 @@ let store = createStore(rootReducer, {}, applyMiddleware(thunkMiddleware, logger
 
 window.keyTools = new KeyTools('https://kovan.infura.io/quylRadtDHfbMF9rF15R');
 
-render(
-  <Provider store={store}>
-    <Router>
-      <div>
-        <Nav />
-        <Switch>
-          <Route exact path="/" component={Developer}/>
-        </Switch>
-      </div>
-    </Router>
-  </Provider>,
-  document.getElementById('app')
-)
+if(document.getElementById('app')) {
+    render(
+        <Provider store={store}>
+            <Router>
+                <div>
+                    <Nav />
+                    <Switch>
+                        <Route exact path="/" component={Developer}/>
+                    </Switch>
+                </div>
+            </Router>
+        </Provider>,
+        document.getElementById('app')
+    )
+}

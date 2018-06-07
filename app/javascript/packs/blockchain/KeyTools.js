@@ -12,17 +12,19 @@ class KeyTools {
     generateEncryptedMnemonic(password) {
         let plainMnemonic = bip39.generateMnemonic();
         console.log("mnemonic: ", plainMnemonic);
-        let pk0 = this.privateKeyFromMnemonic(plainMnemonic);
-        console.log("pk0: ", pk0);
+        let pk = this.privateKeyFromMnemonic(plainMnemonic);
+        this.encryptAndSave(pk, password);
         let encryptionKey = this.encryptionKeyFromPassword(password);
-        console.log("encryption key: ", encryptionKey);
         let encryptedMnemonic = this.aesEncrypt(plainMnemonic, encryptionKey);
-        console.log("encrypted mnemonic: ", encryptedMnemonic);
+        return encryptedMnemonic;
+    }
+
+    applyEncryptedMnemonic(encryptedMnemonic, password) {
+        let encryptionKey = this.encryptionKeyFromPassword(password);
         let decryptedMnemonic = this.aesDecrypt(encryptedMnemonic, encryptionKey);
         console.log("decrypted mnemonic: ", decryptedMnemonic);
         let pk = this.privateKeyFromMnemonic(decryptedMnemonic);
-        console.log("pk: ", pk);
-        this.encryptAndSave(pk, password); // this is going to happen on successful login
+        this.encryptAndSave(pk, password);
     }
 
     encryptionKeyFromPassword(password) {
