@@ -15,6 +15,8 @@ Rails.application.routes.draw do
 
   constraints Clearance::Constraints::SignedIn.new do
     root to: "pages#developer"
+    get "/settings" => "pages#developer", as: "settings"
+    get "/help" => "pages#developer", as: "help"
   end
 
   constraints Clearance::Constraints::SignedOut.new do
