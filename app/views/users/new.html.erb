@@ -2,14 +2,16 @@
   <h1><%= t(".title") %></h1>
 
   <% if @user.errors.any? %>
-  <h3>Please fix the following errors:</h3>
-  <ul>
-    <% @user.errors.full_messages.each do |msg| %>
-    <li>
-      <%= msg %>
-    </li>
-    <% end %>
-  </ul>
+    <div class="validation-error">
+      <h3>Please fix the following errors:</h3>
+      <ul>
+        <% @user.errors.full_messages.each do |msg| %>
+        <li>
+          <%= msg %>
+        </li>
+        <% end %>
+      </ul>
+    </div>
   <% end %>
 
   <%= form_for @user do |form| %>
