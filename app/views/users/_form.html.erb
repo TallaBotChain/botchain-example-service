@@ -1,0 +1,21 @@
+<div class="text-field">
+  <%= form.text_field :name, placeholder: "Name" %>
+</div>
+
+<div class="text-field">
+  <%= form.text_field :email, type: 'email', placeholder: "Email" %>
+</div>
+
+<div class="password-field">
+  <%= form.password_field :password, placeholder: "Password" %>
+</div>
+
+<div class="password-field">
+  <%= form.password_field :password_confirmation, placeholder: "Confirm Password" %>
+</div>
+
+<%= recaptcha_tags %>
+
+<%= form.check_box :age, checked: false %><span><%= form.label :age, "I confirm that I am 18 years or older" %></span>
+
+<%= form.hidden_field :encrypted_mnemonic %>

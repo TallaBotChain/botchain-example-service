@@ -2,7 +2,7 @@ import Web3 from 'web3'
 
 class BaseRegistry {
   constructor() {
-    this.web3 = new Web3(window.web3.currentProvider);
+    this.web3 = window.keyTools.web3;
     return this;
   }
 

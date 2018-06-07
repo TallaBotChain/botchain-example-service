@@ -3,7 +3,11 @@
   "private": true,
   "dependencies": {
     "@rails/webpacker": "3.5",
+    "aes-js": "^3.1.1",
     "babel-preset-react": "^6.24.1",
+    "bip39": "^2.5.0",
+    "create-hash": "^1.2.0",
+    "ethereumjs-wallet": "^0.6.0",
     "immutability-helper": "^2.7.0",
     "prop-types": "^15.6.1",
     "react": "^16.4.0",

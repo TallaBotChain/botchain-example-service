@@ -34,7 +34,7 @@ input, textarea {
     color:#acaeb0;
   }
 }
-button {
+button, .white-button {
   color: #00bb90;
   font-size: 18px;
   font-weight: bold;
@@ -47,6 +47,13 @@ button {
   &:hover {
     background-color: rgba(255,255,255,0.95);
   }
+}
+
+.white-button {
+  margin: 0 10px 15px;
+  display: inline-block;
+  width: 100%;
+  max-width: 150px
 }
 
 button.primary {
@@ -125,4 +132,19 @@ a.button {
   padding: 10px 20px;
   text-align: center;
   width: auto;
+}
+
+.submit-field {
+  text-align: center;
+}
+
+.other-links {
+  text-align: center;
+  a {
+    color: rgba(255,255,255,0.9);
+    font-size: 0.875rem;
+    &:hover {
+      color: rgba(255,255,255,1);
+    }
+  }
 }

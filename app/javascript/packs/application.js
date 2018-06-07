@@ -17,23 +17,30 @@ import { createStore, applyMiddleware  } from 'redux'
 import { BrowserRouter as Router, Route, Link, Switch } from 'react-router-dom'
 import rootReducer from './reducers'
 import Developer from './containers/Developer'
+import Settings from './containers/Settings'
+import Help from './containers/Help'
 import Nav from './components/shared/Nav'
+import KeyTools from './blockchain/KeyTools'
 
 const loggerMiddleware = createLogger()
 
 
 let store = createStore(rootReducer, {}, applyMiddleware(thunkMiddleware, loggerMiddleware));
 
-render(
-  <Provider store={store}>
-    <Router>
-      <div>
-        <Nav />
-        <Switch>
-          <Route exact path="/" component={Developer}/>
-        </Switch>
-      </div>
-    </Router>
-  </Provider>,
-  document.getElementById('app')
-)
+window.keyTools = new KeyTools('https://kovan.infura.io/quylRadtDHfbMF9rF15R');
+
+if(document.getElementById('app')) {
+    render(
+        <Provider store={store}>
+            <Router>
+                <div>
+                    <Nav />
+                    <Route exact path="/" component={Developer}/>
+                    <Route path="/settings" component={Settings}/>
+                    <Route path="/help" component={Help}/>
+                </div>
+            </Router>
+        </Provider>,
+        document.getElementById('app')
+    )
+}
