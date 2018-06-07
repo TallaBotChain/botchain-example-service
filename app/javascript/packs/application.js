@@ -17,6 +17,8 @@ import { createStore, applyMiddleware  } from 'redux'
 import { BrowserRouter as Router, Route, Link, Switch } from 'react-router-dom'
 import rootReducer from './reducers'
 import Developer from './containers/Developer'
+import Settings from './containers/Settings'
+import Help from './containers/Help'
 import Nav from './components/shared/Nav'
 import KeyTools from './blockchain/KeyTools'
 
@@ -33,9 +35,9 @@ if(document.getElementById('app')) {
             <Router>
                 <div>
                     <Nav />
-                    <Switch>
-                        <Route exact path="/" component={Developer}/>
-                    </Switch>
+                    <Route exact path="/" component={Developer}/>
+                    <Route path="/settings" component={Settings}/>
+                    <Route path="/help" component={Help}/>
                 </div>
             </Router>
         </Provider>,
