@@ -34,6 +34,19 @@ input, textarea {
     color:#acaeb0;
   }
 }
+form .checkbox {
+  input {
+    display: inline-block;
+    margin-right: 10px;
+    width: auto;
+    vertical-align: middle;
+  }
+  label {
+    display: inline-block;
+    line-height: 1.5em;
+    vertical-align: middle;
+  }
+}
 button, .white-button {
   color: #00bb90;
   font-size: 18px;
