@@ -29,7 +29,7 @@ const loggerMiddleware = createLogger()
 
 let store = createStore(rootReducer, {}, applyMiddleware(thunkMiddleware, loggerMiddleware));
 
-window.keyTools = new KeyTools('https://kovan.infura.io/quylRadtDHfbMF9rF15R');
+window.keyTools = new KeyTools(window.app_config.geth_rpc);
 
 if(document.getElementById('app')) {
     render(

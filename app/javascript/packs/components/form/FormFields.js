@@ -1,4 +1,11 @@
 import React from 'react';
+import ReCAPTCHA from 'react-google-recaptcha';
+
+export const captchaField = (props) => (
+  <div>
+    <ReCAPTCHA sitekey={window.app_config.recaptcha_key} onChange={props.input.onChange}/>
+  </div>
+)
 
 export const inputField = ({ input, label, type, meta: { asyncValidating, touched, error, warning }, readOnly, placeholder, appendComponent }) => (
   <div className='input'>
@@ -28,4 +35,3 @@ export const checkboxField = ({ input, label, type, meta: { asyncValidating, tou
     {appendComponent}
   </div>
 )
-
