@@ -9,9 +9,12 @@ class KeyTools {
         this.web3 = new Web3(new Web3.providers.HttpProvider(rpcUrl));
     }
 
+    get address() {
+        return this.web3.eth.accounts.wallet[0].address;
+    }
+
     generateEncryptedMnemonic(password) {
         let plainMnemonic = bip39.generateMnemonic();
-        console.log("mnemonic: ", plainMnemonic);
         let pk = this.privateKeyFromMnemonic(plainMnemonic);
         this.encryptAndSave(pk, password);
         let encryptionKey = this.encryptionKeyFromPassword(password);

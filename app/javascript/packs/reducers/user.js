@@ -4,12 +4,10 @@ import update from 'immutability-helper';
 
 const initialState = {
     currentUser: null,
-    signInCompleted: false,
-    signUpCompleted: false,
-    alreadySignedId: false,
-    signUpInProgress: false,
-    signInInProgress: false,
-    errors: []
+    signedIn: false,
+    inProgress: false,
+    errors: [],
+    encryptedMnemonic: null
 }
 
 const user = (state = initialState, action) => {

@@ -16,7 +16,7 @@ class SignUpPage extends Component {
   }
 
     render() {
-        return this.props.user.currentUser ? <Redirect to='/' /> :  (
+        return this.props.user.signedIn ? <Redirect to='/' /> :  (
             <div>
                 <h1>Sign Up</h1>
                 <Errors errors={this.props.user.errors} />

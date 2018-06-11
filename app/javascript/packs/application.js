@@ -26,10 +26,20 @@ import KeyTools from './blockchain/KeyTools'
 
 const loggerMiddleware = createLogger()
 
-
-let store = createStore(rootReducer, {}, applyMiddleware(thunkMiddleware, loggerMiddleware));
-
 window.keyTools = new KeyTools(window.app_config.geth_rpc);
+
+let initialState = {
+    user: {
+        currentUser: window.app_config.current_user,
+        signedIn: (window.app_config.current_user!=''),
+        inProgress: false,
+        errors: [],
+        encryptedMnemonic: (window.app_config.encrypted_mnemonic),
+        eth_address: (window.app_config.eth_address)
+    }
+};
+
+let store = createStore(rootReducer, initialState, applyMiddleware(thunkMiddleware, loggerMiddleware));
 
 if(document.getElementById('app')) {
     render(
@@ -44,6 +54,6 @@ if(document.getElementById('app')) {
                 </div>
             </Router>
         </Provider>,
-        document.getElementById('app')
+    document.getElementById('app')
     )
 }

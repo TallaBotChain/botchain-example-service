@@ -1,4 +1,5 @@
 class SessionsController < Clearance::SessionsController
+  skip_before_action :verify_authenticity_token, only: [:destroy]
 
   def create
     respond_to do |format|
