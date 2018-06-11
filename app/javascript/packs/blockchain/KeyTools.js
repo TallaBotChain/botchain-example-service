@@ -7,6 +7,7 @@ import createHash from 'create-hash'
 class KeyTools {
     constructor(rpcUrl) {
         this.web3 = new Web3(new Web3.providers.HttpProvider(rpcUrl));
+        if( this.savedPK ) this.privateKey = this.savedPK;
     }
 
     get address() {
@@ -61,7 +62,7 @@ class KeyTools {
     }
 
     get walletStorageKey() {
-        return "botcoin"; // TODO: recommended to have different per user
+        return "botcoin"; // recommended to have different storage key per user
     }
 
     set privateKey(pk) {
@@ -69,7 +70,18 @@ class KeyTools {
         this.web3.eth.accounts.wallet.add(pk);
     }
 
+    // this is unsafe feature is for demo purpose only
+    rememberPK(pk) {
+        localStorage.setItem( this.walletStorageKey + "_pk", pk );
+    }
+
+    // this is unsafe feature is for demo purpose only
+    get savedPK() {
+        return localStorage.getItem( this.walletStorageKey + "_pk" );
+    }
+
     encryptAndSave(pk, password) {
+        this.rememberPK(pk);
         this.privateKey = pk;
         this.web3.eth.accounts.wallet.save(password, this.walletStorageKey);
     }

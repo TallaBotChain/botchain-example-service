@@ -38,7 +38,7 @@ class SignUpForm extends Component {
       <Field name="age" type="checkbox" component={checkboxField} label="I confirm that I am 18 years or older" validate={acceptance({message: "Must be at least 18 years old"})}/>
 
       <button className='white-button' type="submit">Sign up</button>
-      <Loader visible={this.props.user.signUpInProgress}/>
+      <Loader visible={this.props.user.inProgress}/>
     </form>);
   }
 }

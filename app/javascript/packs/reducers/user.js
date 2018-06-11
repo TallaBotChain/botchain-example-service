@@ -7,7 +7,8 @@ const initialState = {
     signedIn: false,
     inProgress: false,
     errors: [],
-    encryptedMnemonic: null
+    encryptedMnemonic: null,
+    ethAddress: null
 }
 
 const user = (state = initialState, action) => {

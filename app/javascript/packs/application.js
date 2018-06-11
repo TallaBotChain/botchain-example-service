@@ -20,7 +20,7 @@ import Developer from './containers/Developer'
 import Settings from './containers/Settings'
 import Help from './containers/Help'
 import SignUp from './containers/SignUp'
-//import SignIn from './containers/SignIn'
+import SignIn from './containers/SignIn'
 import Nav from './components/shared/Nav'
 import KeyTools from './blockchain/KeyTools'
 
@@ -51,6 +51,7 @@ if(document.getElementById('app')) {
                     <Route path="/settings" component={Settings}/>
                     <Route path="/help" component={Help}/>
                     <Route path='/sign_up' component={SignUp} />
+                    <Route path='/sign_in' component={SignIn} />
                 </div>
             </Router>
         </Provider>,
