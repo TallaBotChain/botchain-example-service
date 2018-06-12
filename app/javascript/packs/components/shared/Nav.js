@@ -21,6 +21,8 @@ class Nav extends React.Component {
             <li>
               <NavLink to="/settings">Settings</NavLink>
               <br/>
+              <NavLink to="/wallet">Wallet</NavLink>
+              <br/>
               <NavLink to="/help">Help</NavLink>
               <br/>
               <a href="/sign_out" data-method="delete">Logout</a>

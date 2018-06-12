@@ -4,9 +4,9 @@ import artifact from './abi/BotCoin.json'
 class BotCoin {
   constructor() {
     this.web3 = window.keyTools.web3;
-    this.contract = new this.web3.eth.Contract(artifact.abi, BOTCOIN_CONTRACT);
+    this.contract = new this.web3.eth.Contract(artifact.abi, window.app_config.botcoin_contract);
     this.decimals = 18;
-    console.log("New instance of BotCoin connector with address ", BOTCOIN_CONTRACT);
+    console.log("New instance of BotCoin connector with address ", window.app_config.botcoin_contract);
   }
 
   convertToHuman(bigNumber) {
@@ -71,12 +71,14 @@ class BotCoin {
   }
 
   // @return Promise
-  getTokenBalance() {
+  getTokenBalance(address) {
     let contract = this.contract;
-    return this.web3.eth.getAccounts().then( (accounts) => {
-      let ethAddress = accounts[0];
-      return contract.methods.balanceOf(ethAddress).call();
-    });
+    return contract.methods.balanceOf(address).call();
+  }
+
+  // @return Promise
+  getBalance(address) {
+    return this.web3.eth.getBalance(address)
   }
 
 }

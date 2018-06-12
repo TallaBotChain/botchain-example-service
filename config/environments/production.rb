@@ -94,4 +94,5 @@ Rails.application.configure do
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false
   config.x.geth_rpc = "https://kovan.infura.io/quylRadtDHfbMF9rF15R"
+  config.x.botcoin_contract = "0x337bA7e4F7e86F429494D7196b7c122918f31f48"
 end
