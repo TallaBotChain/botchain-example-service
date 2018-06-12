@@ -19,9 +19,9 @@ class Nav extends React.Component {
         <div className='menu-item'>{window.app_config.current_user} <b>&#8964;</b>
           <ul className="submenu">
             <li>
-              <NavLink to="/">Settings</NavLink>
+              <NavLink to="/settings">Settings</NavLink>
               <br/>
-              <NavLink to="/">Help</NavLink>
+              <NavLink to="/help">Help</NavLink>
               <br/>
               <a href="/sign_out" data-method="delete">Logout</a>
             </li>
