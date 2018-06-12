@@ -9,20 +9,24 @@ class Nav extends React.Component {
     return (
       <nav>
         <a href='/' className="logo">Botchain</a>
-        <div className='menu-item'>Developer <b>&#8964;</b>
+        <div className='menu-item'>Developer
           <ul className="submenu">
+            <span className="triangle-up"></span>
             <li>
               <NavLink to="/developer">Register</NavLink>
             </li>
           </ul>
         </div>
-        <div className='menu-item'>{window.app_config.current_user} <b>&#8964;</b>
+        <div className='menu-item'>{window.app_config.current_user}
           <ul className="submenu">
+          <span className="triangle-up"></span>
             <li>
               <NavLink to="/settings">Settings</NavLink>
-              <br/>
+            </li>
+            <li>
               <NavLink to="/help">Help</NavLink>
-              <br/>
+            </li>
+            <li>
               <a href="/sign_out" data-method="delete">Logout</a>
             </li>
           </ul>
