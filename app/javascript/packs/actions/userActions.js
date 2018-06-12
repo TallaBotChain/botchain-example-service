@@ -28,18 +28,17 @@ const setEthAddress = (value) => {
 
 export const signUpUser = (payload) => (dispatch) => {
     dispatch( setInProgress(true) );
-    var token = $( 'meta[name="csrf-token"]' ).attr( 'content' );
     payload.encrypted_mnemonic = window.keyTools.generateEncryptedMnemonic(payload.password);
     payload.eth_address = window.keyTools.address;
     $.ajax('/users',{ method: 'POST',
         data: JSON.stringify(payload),
-        contentType: "application/json",
-        headers: {'X-CSRF-Token': token} })
+        contentType: "application/json"})
         .done( (response) => {
             if( response.errors !== undefined ) {
                 dispatch( setErrors(response.errors) );
                 dispatch( setInProgress(false) );
             } else {
+                dispatch( setErrors(null) );
                 dispatch( setEncryptedMnemonic(payload.encrypted_mnemonic) );
                 dispatch( setEthAddress(payload.eth_address) );
                 dispatch( setCurrentUser(response.current_user) );
@@ -63,6 +62,7 @@ export const signInUser = (payload) => (dispatch) => {
                 dispatch( setErrors([response.error]) );
                 dispatch( setInProgress(false) );
             } else {
+                dispatch( setErrors(null) );
                 dispatch( setEncryptedMnemonic(response.encrypted_mnemonic) );
                 dispatch( setEthAddress(response.eth_address) );
                 dispatch( setCurrentUser(response.current_user) );

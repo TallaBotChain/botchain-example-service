@@ -1,5 +1,4 @@
 class SessionsController < Clearance::SessionsController
-  skip_before_action :verify_authenticity_token, only: [:destroy,:create]
 
   def new
     render html: '', layout: 'botchain'
