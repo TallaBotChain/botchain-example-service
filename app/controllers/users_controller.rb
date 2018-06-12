@@ -1,5 +1,7 @@
 class UsersController < Clearance::UsersController
 
+  before_action :require_login, only: [:update]
+
   def new
     render html: '', layout: 'botchain'
   end
@@ -12,6 +14,20 @@ class UsersController < Clearance::UsersController
     else
       render json: { errors: errors_to_array(@user.errors) }
     end
+  end
+
+  def update
+    @user = current_user
+    if @user.authenticated?(params[:current_password])
+      if @user.update(password: params[:password], password_confirmation: params[:password_confirmation], encrypted_mnemonic: params[:encrypted_mnemonic])
+         #sign_in @user
+         return render json: { current_user: @user.email, encrypted_mnemonic: @user.encrypted_mnemonic }
+      end
+    else
+      @user.errors.add(:password, :invalid)
+    end
+
+    render json: { errors: errors_to_array(@user.errors) }
   end
 
   private

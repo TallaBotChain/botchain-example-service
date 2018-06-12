@@ -1,15 +1,30 @@
 import React, { Component } from 'react';
 import {connect} from 'react-redux'
 import { Redirect } from 'react-router-dom'
+import Errors from '../components/Errors';
 import PasswordForm from '../components/settings/PasswordForm';
+import ViewMnemonicForm from '../components/settings/ViewMnemonicForm';
+import * as UserActions from '../actions/userActions';
 
 class SettingsPage extends Component {
 
   constructor(props) {
     super(props);
+    this.state = { view_mnemonic: false };
   }
 
-  componentDidMount() {
+  updatePassword = (values) => {
+    console.log("Change password payload: ", values);
+    this.props.updatePassword(values.current_password, values.password, values.password_confirmation);
+  }
+
+  decryptMnemonic = (values) => {
+    console.log("View Mnemonic: ", values);
+    this.props.decryptMnemonic(values.password);
+  }
+
+  toggleMnemonicForm = () => {
+    this.setState({view_mnemonic: !this.state.view_mnemonic});
   }
 
   render() {
@@ -18,18 +33,25 @@ class SettingsPage extends Component {
       <div>
         <div>
           <h1>Settings</h1>
+          <Errors errors={this.props.user.errors} />
           <div className="centered">
-            <h3 >1. Change Password</h3>
-            <PasswordForm />
+            <h3>1. Change Password</h3>
+            <PasswordForm onSubmit={this.updatePassword} {...this.props}/>
           </div>
           <div className="centered">
-            <h3>2. Email Verification</h3>
-            <p>Email has been verified</p>
-          </div>
-          <div className="centered">
-            <h3>Backup</h3>
+            <h3>2. Backup</h3>
             <p>If you forget your password and you do not have your mnemonic then your funds are lost forever. But if you have your mnemonic, your funds can be recovered. Be sure to write down your mnemonic.</p>
-            <button className='primary' type="button">View Mnemonic</button>
+            {this.state.view_mnemonic ? (
+              <div>
+                {this.props.user.mnemonic ? (
+                  <p className='alert-info'>{this.props.user.mnemonic}</p>
+                ) : (
+                  <ViewMnemonicForm onSubmit={this.decryptMnemonic} {...this.props}/>
+                )}
+              </div>
+            ) : (
+              <button className='primary' type="button" onClick={this.toggleMnemonicForm}>View Mnemonic</button>
+            )}
           </div>
         </div>
       </div>
@@ -39,14 +61,18 @@ class SettingsPage extends Component {
 
 const mapStateToProps = state => {
   return {
-    developer: state.developer,
-    transactions: state.txObserver.transactions
+    user: state.user
   }
 }
 
 const mapDispatchToProps = dispatch => {
   return {
-
+    updatePassword: (current_password, password, password_confirmation) => {
+      dispatch( UserActions.updatePassword(current_password, password, password_confirmation));
+    },
+    decryptMnemonic: (password) => {
+      dispatch( UserActions.decryptMnemonic(password));
+    },
   }
 }
 
