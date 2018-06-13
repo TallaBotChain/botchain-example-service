@@ -6,6 +6,7 @@ import WalletNav from '../components/wallet/WalletNav';
 import Information from '../components/wallet/Information';
 import TransferForm from '../components/wallet/TransferForm';
 import TransferModal from '../components/wallet/TransferModal';
+import Deposit from '../components/wallet/Deposit';
 import * as WalletActions from '../actions/walletActions.js'
 
 class WalletPage extends Component {
@@ -85,9 +86,7 @@ class WalletPage extends Component {
               </div>
             )}
             {this.state.activeTab == 'Deposit' && (
-              <div id="#Deposit">
-                <p>Not yet implemented</p>
-              </div>
+              <Deposit eth_address={this.props.user.eth_address} />
             )}
           </div>
         </div>
