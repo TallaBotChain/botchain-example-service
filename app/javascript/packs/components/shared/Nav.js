@@ -17,7 +17,7 @@ class Nav extends React.Component {
             </li>
           </ul>
         </div>
-        <div className='menu-item'>{window.app_config.current_user}
+        <div className='menu-item'>{this.props.user.currentUser}
           <ul className="submenu">
           <span className="triangle-up"></span>
             <li>
@@ -39,7 +39,8 @@ class Nav extends React.Component {
 const mapStateToProps = state => {
   return {
     developerRecord: state.developerRecord,
-    auth: state.auth
+    auth: state.auth,
+    user: state.user
   }
 }
 

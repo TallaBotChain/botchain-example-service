@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Field, reduxForm } from 'redux-form';
-import { required } from 'redux-form-validators'
+import {required, length} from 'redux-form-validators'
 import { inputField } from '../form/FormFields';
 import {connect} from 'react-redux'
 
@@ -10,19 +10,21 @@ class PasswordForm extends Component {
     const { handleSubmit, pristine, reset, submitting } = this.props;
     return (
       <form onSubmit={handleSubmit}>
-        <Field name="password" type="text"
-          component={inputField} label="" placeholder="Current Password"
-          validate={[ required()]}
-        />
-        <Field name="new_password" type="text"
-          component={inputField} label="" placeholder="New Password"
-          validate={[ required()]}
-        />
-        <Field name="new_password_confirmation" type="text"
-          component={inputField} label="" placeholder="Confirm Password"
-          validate={[ required()]}
-        />
-        <button className='primary' type="submit">Change Password</button>
+        <Field name="current_password" type="password" component={inputField}  placeholder="Current Password" validate={[
+            required(),
+            length({min: 8})
+          ]}/>
+
+        <Field name="password" type="password" component={inputField}  placeholder="New Password" validate={[
+            required(),
+            length({min: 8})
+          ]}/>
+
+        <Field name="password_confirmation" type="password" component={inputField} placeholder="Confirm Password" validate={[
+            required(),
+            length({min: 8})
+          ]}/>
+        <button className='primary' type="submit">Change</button>
       </form>
     );
   }

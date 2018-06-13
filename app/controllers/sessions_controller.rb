@@ -1,5 +1,9 @@
 class SessionsController < Clearance::SessionsController
 
+  def new
+    render html: '', layout: 'botchain'
+  end
+
   def create
     respond_to do |format|
       format.json do
@@ -9,7 +13,10 @@ class SessionsController < Clearance::SessionsController
           if status.success?
             next_url = return_to || url_after_create
             render json: { redirect: next_url,
-                           encrypted_mnemonic: @user.encrypted_mnemonic }
+                           encrypted_mnemonic: @user.encrypted_mnemonic,
+                           eth_address: @user.eth_address,
+                           current_user: @user.email
+                         }
           else
             render json: { error: status.failure_message }
           end
