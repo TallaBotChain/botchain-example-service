@@ -55,7 +55,7 @@ class PaymentModal extends Component {
                 <b>{this.props.entryPrice} BOTC</b>.
                 Please approve this payment.
                 <p className='info'>
-                  No BOTC tokens will be transferred during this process. A metamask window will popup for you sign and authorize this transaction. To learn more about this process click here.
+                  No BOTC tokens will be transferred during this process.
                 </p>
                 <button type="button" className="primary" onClick={this.approveClick}>Authorize</button>
                 <button type="button" className="" onClick={this.cancelClick}>Cancel</button>
@@ -69,7 +69,7 @@ class PaymentModal extends Component {
           </div>
           <div className={ this.state.step == 2 ? '' : 'hidden' }>
             <p>Transaction successfully submitted. Waiting for confirmation. <a href={`${"https://kovan.etherscan.io"}/tx/${this.props.tx_id}`} target='_blank'>Click here</a>  to check the status of this transaction.</p>
-            <Loader />
+            <Loader visible={true} />
             <p className='warning'>Please do not close this browser window. The Transactions speed depends on the Ethereum Network and can range anywhere from a few seconds to up to an hour.</p>
           </div>
         </div>

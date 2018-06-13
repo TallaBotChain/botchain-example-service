@@ -7,6 +7,7 @@ import PaymentModal from '../components/shared/PaymentModal';
 import TransactionModal from '../components/shared/TransactionModal';
 import TxStatus from '../helpers/TxStatus'
 import * as DeveloperActions from '../actions/developerActions';
+import * as WalletActions from '../actions/walletActions.js'
 import Success from '../components/developer/Success';
 
 class DeveloperPage extends Component {
@@ -17,9 +18,9 @@ class DeveloperPage extends Component {
   }
 
   componentDidMount() {
-    // this.props.connectToMetamask();
-    // this.props.fetchEntryPrice();
-    // this.props.fetchDeveloperId();
+    this.props.getBalances();
+    this.props.fetchEntryPrice();
+    this.props.fetchDeveloperId();
   }
 
   componentWillReceiveProps(nextProps) {
@@ -61,11 +62,11 @@ class DeveloperPage extends Component {
             <Errors errors={this.props.developer.errors} />
             {this.props.developer.developerId > 0 && (
               <div className="alert">
-                {this.props.metamask.eth_address} is already a registered developer! You can <a href="/add_bot">register a Product</a> now or <a href="/">search</a> for what products are already out there.
+                {this.props.user.eth_address} is already a registered developer!
               </div>
             )}
             <DeveloperForm onSubmit={this.submit} />
-            <PaymentModal token_balance={0} tx_id={this.props.developer.allowanceTxId} visible={this.state.payment_modal_visible && (!this.props.developer.allowanceTxMined) } okClick={this.okClick} approveClick={this.approveClick} cancelClick={this.cancelClick} entryPrice={this.props.developer.entryPrice} />
+            <PaymentModal token_balance={this.props.wallet.tokenBalance} tx_id={this.props.developer.allowanceTxId} visible={this.state.payment_modal_visible && (!this.props.developer.allowanceTxMined) } okClick={this.okClick} approveClick={this.approveClick} cancelClick={this.cancelClick} entryPrice={this.props.developer.entryPrice} />
             <TransactionModal tx_id={this.props.developer.addDeveloperTxId} visible={this.state.payment_modal_visible && this.props.developer.allowanceTxMined && (!this.props.developer.addDeveloperTxMined) } okClick={this.okClick} continueClick={this.continueClick} cancelClick={this.cancelClick}  />
           </div>
         </div>
@@ -77,7 +78,9 @@ class DeveloperPage extends Component {
 const mapStateToProps = state => {
   return {
     developer: state.developer,
-    transactions: state.txObserver.transactions
+    transactions: state.txObserver.transactions,
+    wallet: state.wallet,
+    user: state.user
   }
 }
 
@@ -85,6 +88,9 @@ const mapDispatchToProps = dispatch => {
   return {
     reset: () => {
       dispatch( DeveloperActions.resetTxs() );
+    },
+    getBalances: () => {
+      dispatch(WalletActions.getBalances());
     },
     fetchEntryPrice: () => {
       dispatch( DeveloperActions.fetchEntryPrice() );

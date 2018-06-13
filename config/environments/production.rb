@@ -95,4 +95,5 @@ Rails.application.configure do
   config.active_record.dump_schema_after_migration = false
   config.x.geth_rpc = "https://kovan.infura.io/quylRadtDHfbMF9rF15R"
   config.x.botcoin_contract = "0x337bA7e4F7e86F429494D7196b7c122918f31f48"
+  config.x.developer_registry_contract = "0x877005c049a458294d3c063d2b5e48485c0900a9"
 end

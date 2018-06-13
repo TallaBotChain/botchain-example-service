@@ -12,7 +12,7 @@ class Nav extends React.Component {
         <div className='menu-item'>Developer <b>&#8964;</b>
           <ul className="submenu">
             <li>
-              <NavLink to="/developer">Register</NavLink>
+              <NavLink to="/">Register</NavLink>
             </li>
           </ul>
         </div>
