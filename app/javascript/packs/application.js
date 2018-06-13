@@ -19,15 +19,27 @@ import rootReducer from './reducers'
 import Developer from './containers/Developer'
 import Settings from './containers/Settings'
 import Help from './containers/Help'
+import SignUp from './containers/SignUp'
+import SignIn from './containers/SignIn'
 import Nav from './components/shared/Nav'
 import KeyTools from './blockchain/KeyTools'
 
 const loggerMiddleware = createLogger()
 
+window.keyTools = new KeyTools(window.app_config.geth_rpc);
 
-let store = createStore(rootReducer, {}, applyMiddleware(thunkMiddleware, loggerMiddleware));
+let initialState = {
+    user: {
+        currentUser: window.app_config.current_user,
+        signedIn: (window.app_config.current_user!=''),
+        inProgress: false,
+        errors: [],
+        encryptedMnemonic: (window.app_config.encrypted_mnemonic),
+        eth_address: (window.app_config.eth_address)
+    }
+};
 
-window.keyTools = new KeyTools('https://kovan.infura.io/quylRadtDHfbMF9rF15R');
+let store = createStore(rootReducer, initialState, applyMiddleware(thunkMiddleware, loggerMiddleware));
 
 if(document.getElementById('app')) {
     render(
@@ -38,9 +50,11 @@ if(document.getElementById('app')) {
                     <Route exact path="/" component={Developer}/>
                     <Route path="/settings" component={Settings}/>
                     <Route path="/help" component={Help}/>
+                    <Route path='/sign_up' component={SignUp} />
+                    <Route path='/sign_in' component={SignIn} />
                 </div>
             </Router>
         </Provider>,
-        document.getElementById('app')
+    document.getElementById('app')
     )
 }
