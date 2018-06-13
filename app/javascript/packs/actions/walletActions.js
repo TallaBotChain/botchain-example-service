@@ -1,4 +1,7 @@
 import BotCoin from '../blockchain/BotCoin';
+import { start as startTxObserver } from './txObserverActions';
+import TxStatus from '../helpers/TxStatus'
+import {reset} from 'redux-form';
 
 export const WalletActions = {
   SET_WALLET_ATTRIBUTE: 'SET_WALLET_ATTRIBUTE',
@@ -25,11 +28,18 @@ export const resetState = () => {
   return { type: WalletActions.RESET_STATE}
 }
 
-export const getBalances = (address) => (dispatch) => {
+export const resetTransferState = () => (dispatch) => {
+  dispatch({ type: WalletActions.SET_WALLET_ATTRIBUTE, key: 'transferTxMined', value: false });
+  dispatch({ type: WalletActions.SET_WALLET_ATTRIBUTE, key: 'transferTxId', value: null });
+  dispatch({ type: WalletActions.SET_WALLET_ATTRIBUTE, key: 'transferSuccess', value: false });
+  dispatch(setError(null))
+}
+
+export const getBalances = () => (dispatch) => {
   dispatch(setInProgress(true))
   let botCoin = new BotCoin()
   // ethers
-  botCoin.getBalance(address).then((balance)=>{
+  botCoin.getBalance().then((balance)=>{
     dispatch(setBallance(botCoin.web3.utils.fromWei(balance, 'ether')))
   }, (error) => {
     console.log(error)
@@ -38,7 +48,7 @@ export const getBalances = (address) => (dispatch) => {
   });
 
   // tokens
-  botCoin.getTokenBalance(address).then((balance) => {
+  botCoin.getTokenBalance().then((balance) => {
     dispatch(setTokenBallance(botCoin.web3.utils.fromWei(balance, 'ether')))
     dispatch(setInProgress(false))
   }, (error) => {
@@ -50,25 +60,29 @@ export const getBalances = (address) => (dispatch) => {
 
 
 
-export const transferTokens = (to, amount) => (dispatch) => {
-  dispatch({ type: WalletActions.SET_WALLET_ATTRIBUTE, key: 'transferCompleted', value: false });
-  if(!blockchainConnector.validAddress(to)){
-    dispatch({ type: WalletActions.SET_WALLET_ATTRIBUTE, key: 'error', value: `${to} is not valid address` })
-    return;
-  }
+export const transferTokens = (to, amount) => async (dispatch) => {
   dispatch(setInProgress(true))
-  blockchainConnector.transferTokens(to, amount).then(function(result) {
-    console.log("Sent tokens",result);
-    if( result ) {
-      dispatch({ type: WalletActions.SET_WALLET_ATTRIBUTE, key: 'error', value: false });
-      dispatch({ type: WalletActions.SET_WALLET_ATTRIBUTE, key: 'transferCompleted', value: true });
-    }else {
-      dispatch({ type: WalletActions.SET_WALLET_ATTRIBUTE, key: 'error', value: "Something went wrong" });
-    }
+  let botCoin = new BotCoin()
+  let amount_wei = botCoin.web3.utils.toWei(amount.toString(), 'ether');
+  try {
+    let txId = await botCoin.transferTokens(to, amount_wei);
+    dispatch( { type: WalletActions.SET_WALLET_ATTRIBUTE, key: 'transferTxId', value: txId });
+    dispatch(startTxObserver(txId, transferTxMined));
+  }catch(e) {
+    console.log(e);
+    dispatch( setError( "Failed to initiate transfer." ));
     dispatch(setInProgress(false))
-  }, function( error ) {
-    console.log(error);
-    dispatch({ type: WalletActions.SET_WALLET_ATTRIBUTE, key: 'error', value: "Transfer failed" });
-    dispatch(setInProgress(false))
-  });
+  }
+}
+
+const transferTxMined = (status) => (dispatch) => {
+  dispatch(setInProgress(false))
+  dispatch(reset('transfer'));
+  dispatch({ type: WalletActions.SET_WALLET_ATTRIBUTE, key: 'transferTxMined', value: true });
+  if(status == TxStatus.SUCCEED){
+    dispatch({ type: WalletActions.SET_WALLET_ATTRIBUTE, key: 'transferSuccess', value: true });
+    dispatch(getBalances())
+  } else {
+    dispatch( setError("Transfer transaction failed." ));
+  }
 }

@@ -7,7 +7,9 @@ const initialState = {
   error: null,
   balance: 0,
   tokenBalance: 0,
-  transferCompleted: false
+  transferTxId: null,
+  transferTxMined: false,
+  transferSuccess: false
 }
 
 const wallet = (state = initialState, action) => {

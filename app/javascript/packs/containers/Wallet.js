@@ -17,11 +17,11 @@ class WalletPage extends Component {
       transfer_modal_visible: false,
       amount: null,
       to: null
-     };
+    };
   }
 
   componentDidMount() {
-    this.props.getBalances(this.props.user.eth_address)
+    this.props.getBalances()
   }
 
   onTabChange = (tab) => {
@@ -29,6 +29,7 @@ class WalletPage extends Component {
   }
 
   openTransferModal = (values) => {
+    this.props.resetTransferState()
     this.setState({
       transfer_modal_visible: true,
       amount: values.amount,
@@ -42,6 +43,10 @@ class WalletPage extends Component {
 
   okClick = () => {
     this.props.transferTokens(this.state.to, this.state.amount);
+  }
+
+  canTransfer = () => {
+    return parseFloat(this.props.wallet.balance) > 0 && parseFloat(this.props.wallet.tokenBalance) > 0
   }
 
 
@@ -66,8 +71,17 @@ class WalletPage extends Component {
             )}
             {this.state.activeTab == 'Transfer' && (
               <div>
-                <TransferForm onSubmit={this.openTransferModal} {...this.props}/>
-                <TransferModal visible={this.state.transfer_modal_visible } amount={this.state.amount} okClick={this.okClick} cancelClick={this.cancelClick} />
+                {this.props.wallet.transferSuccess && (
+                  <p className='alert-info'>Transfer was successfully completed!!</p>
+                )}
+                {this.canTransfer() ? (
+                  <div>
+                    <TransferForm onSubmit={this.openTransferModal} {...this.props}/>
+                    <TransferModal tx_id={this.props.wallet.transferTxId} visible={this.state.transfer_modal_visible && !this.props.wallet.transferTxMined} amount={this.state.amount} okClick={this.okClick} cancelClick={this.cancelClick} />
+                  </div>
+                ) : (
+                  <p className='alert-info'>Not enough funds for transfer!</p>
+                )}
               </div>
             )}
             {this.state.activeTab == 'Deposit' && (
@@ -91,8 +105,11 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    getBalances: (address) => {
-      dispatch(WalletActions.getBalances(address));
+    resetTransferState: () => {
+      dispatch( WalletActions.resetTransferState() );
+    },
+    getBalances: () => {
+      dispatch(WalletActions.getBalances());
     },
     transferTokens: (to, amount) => {
       dispatch(WalletActions.transferTokens(to, amount));

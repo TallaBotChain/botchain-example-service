@@ -6,6 +6,7 @@ class BotCoin {
     this.web3 = window.keyTools.web3;
     this.contract = new this.web3.eth.Contract(artifact.abi, window.app_config.botcoin_contract);
     this.decimals = 18;
+    this.gasPrice = 100000000;
     console.log("New instance of BotCoin connector with address ", window.app_config.botcoin_contract);
   }
 
@@ -71,16 +72,37 @@ class BotCoin {
   }
 
   // @return Promise
-  getTokenBalance(address) {
+  getTokenBalance() {
     let contract = this.contract;
+    let address = this.web3.eth.accounts.wallet[0].address
     return contract.methods.balanceOf(address).call();
   }
 
   // @return Promise
-  getBalance(address) {
+  getBalance() {
+    let address = this.web3.eth.accounts.wallet[0].address
     return this.web3.eth.getBalance(address)
   }
 
+  transferTokens(to, amount) {
+    let self = this;
+    let fromAddress = this.web3.eth.accounts.wallet[0].address
+    return self.contract.methods.transfer(to, amount).estimateGas({from: fromAddress}).then(function(gas) {
+      return new Promise(function(resolve, reject) {
+        self.contract.methods.transfer(to, amount)
+        .send({gasPrice: self.gasPrice, from: fromAddress, gas: gas},
+          function(err, tx_id) {
+            if (!err) {
+              console.log("transfer tx_id:", tx_id);
+              resolve(tx_id);
+            }
+          }
+        ).catch((err) => {
+          reject(err);
+        });
+      });
+    })
+  }
 }
 
 export default BotCoin;
