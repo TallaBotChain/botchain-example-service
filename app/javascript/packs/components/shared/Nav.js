@@ -4,31 +4,45 @@ import { NavLink, withRouter } from 'react-router-dom'
 
 class Nav extends React.Component {
 
+  signedInNav() {
+    return ([
+      <div className='menu-item'>Developer
+        <b>&#8964;</b>
+        <ul className="submenu">
+          <li>
+            <NavLink to="/">Register</NavLink>
+          </li>
+        </ul>
+      </div>,
+      <div className='menu-item'>{this.props.user.currentUser}
+        <b>&#8964;</b>
+        <ul className="submenu">
+          <li>
+            <NavLink to="/settings">Settings</NavLink>
+            <br/>
+            <NavLink to="/wallet">Wallet</NavLink>
+            <br/>
+            <NavLink to="/help">Help</NavLink>
+            <br/>
+            <a href="/sign_out" data-method="delete">Logout</a>
+          </li>
+        </ul>
+      </div>
+    ])
+  }
+
+  signedOutNav() {
+    return ([
+      <NavLink className='menu-item' to="/sign_up">Sign Up</NavLink>,
+      <NavLink className='menu-item' to="/sign_in">Sign In</NavLink>
+    ])
+  }
   render() {
 
     return (
       <nav>
         <a href='/' className="logo">Botchain</a>
-        <div className='menu-item'>Developer <b>&#8964;</b>
-          <ul className="submenu">
-            <li>
-              <NavLink to="/">Register</NavLink>
-            </li>
-          </ul>
-        </div>
-        <div className='menu-item'>{this.props.user.currentUser} <b>&#8964;</b>
-          <ul className="submenu">
-            <li>
-              <NavLink to="/settings">Settings</NavLink>
-              <br/>
-              <NavLink to="/wallet">Wallet</NavLink>
-              <br/>
-              <NavLink to="/help">Help</NavLink>
-              <br/>
-              <a href="/sign_out" data-method="delete">Logout</a>
-            </li>
-          </ul>
-        </div>
+        { this.props.user.signedIn ? this.signedInNav() : this.signedOutNav() }
       </nav>
     )
   }
