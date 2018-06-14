@@ -10,25 +10,27 @@ class BotCoin {
     console.log("New instance of BotCoin connector with address ", window.app_config.botcoin_contract);
   }
 
+  get account() {
+    return this.web3.eth.accounts.wallet[0].address;
+  }
+
   convertToHuman(bigNumber) {
     return bigNumber / (10**this.decimals);
   }
 
   approve(amount,to) {
-    let self = this;
-    return this.web3.eth.getAccounts().then( (accounts) => {
-      return new Promise(function(resolve,reject) {
-        self.contract.methods.approve(to,amount*10**self.decimals)
-          .send({from: accounts[0]},
-            function(err,tx_id) {
-              if( ! err ) {
-                console.log("approve tx_id:",tx_id);
-                resolve(tx_id);
-              }
-            }).catch( (err) => {
-              reject(err);
-            });
-      });
+    // TODO: estimate gas
+    return new Promise((resolve,reject) => {
+      this.contract.methods.approve(to,amount*10**this.decimals)
+        .send({from: this.account,gas: 100000,gasPrice: this.gasPrice},
+          function(err,tx_id) {
+            if( ! err ) {
+              console.log("approve tx_id:",tx_id);
+              resolve(tx_id);
+            }
+          }).catch( (err) => {
+            reject(err);
+          });
     });
   }
 

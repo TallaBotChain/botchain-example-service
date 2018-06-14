@@ -4,31 +4,43 @@ import { NavLink, withRouter } from 'react-router-dom'
 
 class Nav extends React.Component {
 
+  signedInNav() {
+    return ([
+      <NavLink to="/" key={1}>Register</NavLink>,
+      <div className='menu-item' key={2}>{this.props.user.currentUser}
+        <b>&#8964;</b>
+        <ul className="submenu">
+          <span className="triangle-up"></span>
+          <li><b>{this.props.wallet.tokenBalance}</b><br/>BOTC</li>
+          <li>
+            <NavLink to="/settings">Settings</NavLink>
+          </li>
+          <li>
+            <NavLink to="/wallet">Wallet</NavLink>
+          </li>
+          <li>
+            <NavLink to="/help">Help</NavLink>
+          </li>
+          <li>
+            <a href="/sign_out" data-method="delete">Logout</a>
+          </li>
+        </ul>
+      </div>
+    ])
+  }
+
+  signedOutNav() {
+    return ([
+      <NavLink className='menu-item' to="/sign_up" key={1}>Sign Up</NavLink>,
+      <NavLink className='menu-item' to="/sign_in" key={2}>Sign In</NavLink>
+    ])
+  }
   render() {
 
     return (
       <nav>
         <a href='/' className="logo">Botchain</a>
-        <div className='menu-item'>Developer <b>&#8964;</b>
-          <ul className="submenu">
-            <li>
-              <NavLink to="/developer">Register</NavLink>
-            </li>
-          </ul>
-        </div>
-        <div className='menu-item'>{this.props.user.currentUser} <b>&#8964;</b>
-          <ul className="submenu">
-            <li>
-              <NavLink to="/settings">Settings</NavLink>
-              <br/>
-              <NavLink to="/wallet">Wallet</NavLink>
-              <br/>
-              <NavLink to="/help">Help</NavLink>
-              <br/>
-              <a href="/sign_out" data-method="delete">Logout</a>
-            </li>
-          </ul>
-        </div>
+        { this.props.user.signedIn ? this.signedInNav() : this.signedOutNav() }
       </nav>
     )
   }
@@ -36,9 +48,8 @@ class Nav extends React.Component {
 
 const mapStateToProps = state => {
   return {
-    developerRecord: state.developerRecord,
-    auth: state.auth,
-    user: state.user
+    user: state.user,
+    wallet: state.wallet
   }
 }
 

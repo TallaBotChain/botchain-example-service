@@ -43,16 +43,15 @@ class TransactionModal extends Component {
         <div className='payment-modal'>
           <div className={ this.state.step == 1 ? '' : 'hidden' }>
             <h2> Finalizing Transaction!</h2>
-            <p> A metamask window will popup for you sign and authorize this transaction.</p>
             <p className='info'>
-              BOTC tokens will be transferred from your account during this process. Please ensure MetaMask is installed, unlocked and set to the Kovan test network. To learn more about this process click here.
+              BOTC tokens will be transferred from your account during this process. To learn more about this process click here.
             </p>
             <button type="button" className="primary" onClick={this.continueClick}>Continue</button>
             <button type="button" className="" onClick={this.cancelClick}>Cancel</button>
           </div>
           <div className={ this.state.step == 2 ? '' : 'hidden' }>
             <p>Transaction successfully submitted. Waiting for confirmation. <a href={`${"https://kovan.etherscan.io"}/tx/${this.props.tx_id}`} target='_blank'>Click here</a>  to check the status of this transaction.</p>
-            <Loader />
+            <Loader visible={true} />
             <p className='warning'>Please do not close this browser window. The Transactions speed depends on the Ethereum Network and can range anywhere from a few seconds to up to an hour.</p>
           </div>
         </div>

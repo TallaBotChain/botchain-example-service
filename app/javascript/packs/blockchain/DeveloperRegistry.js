@@ -4,22 +4,22 @@ import BaseRegistry from './BaseRegistry'
 class DeveloperRegistry extends BaseRegistry {
   constructor() {
     super();
-    this.contract = new this.web3.eth.Contract(artifact.abi, DEVELOPER_REGISTRY_CONTRACT);
+    this.contract = new this.web3.eth.Contract(artifact.abi, window.app_config.developer_registry_contract);
+    this.gasPrice = 100000000;
+  }
+
+  get account() {
+    return this.web3.eth.accounts.wallet[0].address;
   }
 
   getDeveloperId() {
     let contract = this.contract;
-    return this.web3.eth.getAccounts().then( (accounts) => {
-      let ethAddress = accounts[0];
-      return contract.methods.owns(ethAddress).call({from: accounts[0]});
-    });
+    return contract.methods.owns(this.account).call({from: this.account});
   }
 
   getDeveloperApproval(developerId) {
     let contract = this.contract;
-    return this.web3.eth.getAccounts().then( (accounts) => {
-      return contract.methods.approvalStatus(developerId).call({from: accounts[0]});
-    });
+    return contract.methods.approvalStatus(developerId).call({from: this.account});
   }
 
   /**
@@ -33,10 +33,9 @@ class DeveloperRegistry extends BaseRegistry {
     let contract = this.contract;
     console.log("url: ", urlBytes );
     console.log("data:", metadataHash );
-    return this.web3.eth.getAccounts().then( (accounts) => {
-      return new Promise(function(resolve,reject) {
-        contract.methods.addDeveloper(metadataHash, urlBytes)
-        .send({from: accounts[0]},
+    return new Promise((resolve,reject) => {
+      contract.methods.addDeveloper(metadataHash, urlBytes)
+        .send({from: this.account, gasPrice: this.gasPrice, gas: 300000},
           function(err,tx_id) {
             if( err ) {
               console.log("addDeveloper error:",err);
@@ -47,9 +46,8 @@ class DeveloperRegistry extends BaseRegistry {
             }
           });
 
-        });
-      });
-    }
+    });
   }
+}
 
-  export default DeveloperRegistry;
+export default DeveloperRegistry;
