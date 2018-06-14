@@ -8,7 +8,9 @@ module ApplicationHelper
       geth_rpc: Rails.application.config.x.geth_rpc,
       recaptcha_key: Rails.application.credentials.recaptcha_key,
       botcoin_contract: Rails.application.config.x.botcoin_contract,
-      developer_registry_contract: Rails.application.config.x.developer_registry_contract
+      developer_registry_contract: Rails.application.config.x.developer_registry_contract,
+	    bitly_access_token: Rails.application.config.x.bitly_access_token,
+      bitly_group_guid: Rails.application.config.x.bitly_group_guid
     }
     javascript_tag("window.app_config=#{config.to_json};")
   end
