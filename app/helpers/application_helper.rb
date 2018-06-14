@@ -10,7 +10,8 @@ module ApplicationHelper
       botcoin_contract: Rails.application.config.x.botcoin_contract,
       developer_registry_contract: Rails.application.config.x.developer_registry_contract,
 	    bitly_access_token: Rails.application.config.x.bitly_access_token,
-      bitly_group_guid: Rails.application.config.x.bitly_group_guid
+      bitly_group_guid: Rails.application.config.x.bitly_group_guid,
+      gas_price: Rails.application.config.x.gas_price
     }
     javascript_tag("window.app_config=#{config.to_json};")
   end

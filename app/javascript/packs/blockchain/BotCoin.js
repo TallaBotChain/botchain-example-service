@@ -6,7 +6,7 @@ class BotCoin {
     this.web3 = window.keyTools.web3;
     this.contract = new this.web3.eth.Contract(artifact.abi, window.app_config.botcoin_contract);
     this.decimals = 18;
-    this.gasPrice = 100000000;
+    this.gasPrice = window.app_config.gas_price;
     console.log("New instance of BotCoin connector with address ", window.app_config.botcoin_contract);
   }
 
@@ -19,18 +19,22 @@ class BotCoin {
   }
 
   approve(amount,to) {
-    // TODO: estimate gas
     return new Promise((resolve,reject) => {
       this.contract.methods.approve(to,amount*10**this.decimals)
-        .send({from: this.account,gas: 100000,gasPrice: this.gasPrice},
-          function(err,tx_id) {
-            if( ! err ) {
-              console.log("approve tx_id:",tx_id);
-              resolve(tx_id);
-            }
-          }).catch( (err) => {
-            reject(err);
-          });
+        .estimateGas({from: this.account,gasPrice: this.gasPrice})
+        .then( (gas) => {
+          console.log("Approve tx estimate gas: ", gas);
+          this.contract.methods.approve(to,amount*10**this.decimals)
+            .send({from: this.account,gas: gas,gasPrice: this.gasPrice},
+              function(err,tx_id) {
+                if( ! err ) {
+                  console.log("approve tx_id:",tx_id);
+                  resolve(tx_id);
+                }
+              }).catch( (err) => {
+                reject(err);
+              });
+        });
     });
   }
 

@@ -5,7 +5,7 @@ class DeveloperRegistry extends BaseRegistry {
   constructor() {
     super();
     this.contract = new this.web3.eth.Contract(artifact.abi, window.app_config.developer_registry_contract);
-    this.gasPrice = 100000000;
+    this.gasPrice = window.app_config.gas_price;
   }
 
   get account() {
@@ -35,17 +35,20 @@ class DeveloperRegistry extends BaseRegistry {
     console.log("data:", metadataHash );
     return new Promise((resolve,reject) => {
       contract.methods.addDeveloper(metadataHash, urlBytes)
-        .send({from: this.account, gasPrice: this.gasPrice, gas: 300000},
-          function(err,tx_id) {
-            if( err ) {
-              console.log("addDeveloper error:",err);
-              reject( err );
-            }else {
-              console.log("addDeveloper tx_id:",tx_id);
-              resolve(tx_id);
-            }
-          });
-
+        .estimateGas({from: this.account, gasPrice: this.gasPrice}).then( (gas) => {
+          console.log("Add developer estimated gas: ", gas);
+          return contract.methods.addDeveloper(metadataHash, urlBytes)
+            .send({from: this.account, gasPrice: this.gasPrice, gas: gas},
+              function(err,tx_id) {
+                if( err ) {
+                  console.log("addDeveloper error:",err);
+                  reject( err );
+                }else {
+                  console.log("addDeveloper tx_id:",tx_id);
+                  resolve(tx_id);
+                }
+              });
+        });
     });
   }
 }
