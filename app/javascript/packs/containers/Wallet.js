@@ -65,7 +65,7 @@ class WalletPage extends Component {
           <div className="centered">
             {this.state.activeTab == 'Information' && (
               <Information
-                eth_address={this.props.user.eth_address}
+                ethAddress={this.props.user.ethAddress}
                 balance={this.props.wallet.balance}
                 tokenBalance={this.props.wallet.tokenBalance}
               />
@@ -86,7 +86,7 @@ class WalletPage extends Component {
               </div>
             )}
             {this.state.activeTab == 'Deposit' && (
-              <Deposit eth_address={this.props.user.eth_address} />
+              <Deposit ethAddress={this.props.user.ethAddress} />
             )}
           </div>
         </div>

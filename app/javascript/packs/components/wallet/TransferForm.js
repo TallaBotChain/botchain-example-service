@@ -31,7 +31,7 @@ TransferForm = reduxForm({
 
 TransferForm = connect(
   state => ({
-    initialValues: {from: state.user.eth_address},
+    initialValues: {from: state.user.ethAddress},
     enableReinitialize: true, // pull initial values from reducer
   })
 )(TransferForm)

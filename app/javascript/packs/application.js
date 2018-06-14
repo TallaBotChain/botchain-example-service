@@ -37,7 +37,7 @@ let initialState = {
         inProgress: false,
         errors: [],
         encryptedMnemonic: (window.app_config.encrypted_mnemonic),
-        eth_address: (window.app_config.eth_address)
+        ethAddress: (window.app_config.eth_address)
     }
 };
 
