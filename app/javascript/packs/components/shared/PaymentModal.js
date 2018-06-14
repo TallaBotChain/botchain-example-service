@@ -49,6 +49,11 @@ class PaymentModal extends Component {
       <Modal {...this.props} >
         <div className='payment-modal'>
           <div className={ this.state.step == 1 ? '' : 'hidden' }>
+            {this.props.balance == 0 && (
+              <div className="alert">
+                Warning: not enough Ether to pay for gas.
+              </div>
+            )}
             {this.props.token_balance >= this.props.entryPrice ? (
               <div>
                 The fee for this transaction is <br />
