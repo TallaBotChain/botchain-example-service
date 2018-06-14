@@ -2,13 +2,11 @@ import React, { Component } from 'react';
 import Modal from '../Modal';
 import Loader from '../Loader';
 
-class TransactionModal extends Component {
+class TransferModal extends Component {
 
   constructor(props) {
     super(props);
     this.state = {step: 1};
-    this.continueClick = this.continueClick.bind(this);
-    this.cancelClick = this.cancelClick.bind(this);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -19,21 +17,17 @@ class TransactionModal extends Component {
     }
   }
 
-  resetState() {
+  resetState = () => {
     this.setState({step: 1});
   }
 
-  nextStep() {
-    let step = (this.state.step + 1)
-    this.setState({step: step });
+  okClick = () =>  {
+    this.props.okClick();
+    this.resetState()
   }
 
-  continueClick() {
-    this.props.continueClick();
-  }
-
-  cancelClick() {
-    this.resetState();
+  cancelClick = () =>  {
+    this.resetState()
     this.props.cancelClick();
   }
 
@@ -42,16 +36,14 @@ class TransactionModal extends Component {
       <Modal {...this.props} >
         <div className='payment-modal'>
           <div className={ this.state.step == 1 ? '' : 'hidden' }>
-            <h2> Finalizing Transaction!</h2>
-            <p className='info'>
-              BOTC tokens will be transferred from your account during this process. To learn more about this process click here.
-            </p>
-            <button type="button" className="primary" onClick={this.continueClick}>Continue</button>
+            <h2> Confirmation</h2>
+            <p>Your account will be deducted {this.props.amount} BOTC for this transaction.</p>
+            <button type="button" className="primary" onClick={this.okClick}>Continue</button>
             <button type="button" className="" onClick={this.cancelClick}>Cancel</button>
           </div>
           <div className={ this.state.step == 2 ? '' : 'hidden' }>
             <p>Transaction successfully submitted. Waiting for confirmation. <a href={`${"https://kovan.etherscan.io"}/tx/${this.props.tx_id}`} target='_blank'>Click here</a>  to check the status of this transaction.</p>
-            <Loader visible={true} />
+            <Loader />
             <p className='warning'>Please do not close this browser window. The Transactions speed depends on the Ethereum Network and can range anywhere from a few seconds to up to an hour.</p>
           </div>
         </div>
@@ -60,4 +52,4 @@ class TransactionModal extends Component {
   }
 }
 
-export default TransactionModal;
+export default TransferModal;

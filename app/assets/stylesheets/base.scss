@@ -44,3 +44,12 @@ h1 {
   width: 630px;
   margin: 0 auto;
 }
+.wallet-nav {
+  text-align: center;
+  a {
+    color: white;
+    &.active {
+      text-decoration:underline;
+    }
+  }
+}
