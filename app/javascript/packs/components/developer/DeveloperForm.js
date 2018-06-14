@@ -49,7 +49,7 @@ DeveloperForm = reduxForm({
 
 DeveloperForm = connect(
   state => ({
-    initialValues: {eth_address: "0x123"},
+    initialValues: {eth_address: window.keyTools.address},
     enableReinitialize: true, // pull initial values from reducer
   })
 )(DeveloperForm)

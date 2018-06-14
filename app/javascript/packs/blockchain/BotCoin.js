@@ -4,9 +4,14 @@ import artifact from './abi/BotCoin.json'
 class BotCoin {
   constructor() {
     this.web3 = window.keyTools.web3;
-    this.contract = new this.web3.eth.Contract(artifact.abi, BOTCOIN_CONTRACT);
+    this.contract = new this.web3.eth.Contract(artifact.abi, window.app_config.botcoin_contract);
     this.decimals = 18;
-    console.log("New instance of BotCoin connector with address ", BOTCOIN_CONTRACT);
+    this.gasPrice = 100000000;
+    console.log("New instance of BotCoin connector with address ", window.app_config.botcoin_contract);
+  }
+
+  get account() {
+    return this.web3.eth.accounts.wallet[0].address;
   }
 
   convertToHuman(bigNumber) {
@@ -14,20 +19,18 @@ class BotCoin {
   }
 
   approve(amount,to) {
-    let self = this;
-    return this.web3.eth.getAccounts().then( (accounts) => {
-      return new Promise(function(resolve,reject) {
-        self.contract.methods.approve(to,amount*10**self.decimals)
-          .send({from: accounts[0]},
-            function(err,tx_id) {
-              if( ! err ) {
-                console.log("approve tx_id:",tx_id);
-                resolve(tx_id);
-              }
-            }).catch( (err) => {
-              reject(err);
-            });
-      });
+    // TODO: estimate gas
+    return new Promise((resolve,reject) => {
+      this.contract.methods.approve(to,amount*10**this.decimals)
+        .send({from: this.account,gas: 100000,gasPrice: this.gasPrice},
+          function(err,tx_id) {
+            if( ! err ) {
+              console.log("approve tx_id:",tx_id);
+              resolve(tx_id);
+            }
+          }).catch( (err) => {
+            reject(err);
+          });
     });
   }
 
@@ -73,12 +76,35 @@ class BotCoin {
   // @return Promise
   getTokenBalance() {
     let contract = this.contract;
-    return this.web3.eth.getAccounts().then( (accounts) => {
-      let ethAddress = accounts[0];
-      return contract.methods.balanceOf(ethAddress).call();
-    });
+    let address = this.web3.eth.accounts.wallet[0].address
+    return contract.methods.balanceOf(address).call();
   }
 
+  // @return Promise
+  getBalance() {
+    let address = this.web3.eth.accounts.wallet[0].address
+    return this.web3.eth.getBalance(address)
+  }
+
+  transferTokens(to, amount) {
+    let self = this;
+    let fromAddress = this.web3.eth.accounts.wallet[0].address
+    return self.contract.methods.transfer(to, amount).estimateGas({from: fromAddress}).then(function(gas) {
+      return new Promise(function(resolve, reject) {
+        self.contract.methods.transfer(to, amount)
+        .send({gasPrice: self.gasPrice, from: fromAddress, gas: gas},
+          function(err, tx_id) {
+            if (!err) {
+              console.log("transfer tx_id:", tx_id);
+              resolve(tx_id);
+            }
+          }
+        ).catch((err) => {
+          reject(err);
+        });
+      });
+    })
+  }
 }
 
 export default BotCoin;

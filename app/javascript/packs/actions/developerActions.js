@@ -1,18 +1,16 @@
 import DeveloperRegistry from '../blockchain/DeveloperRegistry';
 import BotCoin from '../blockchain/BotCoin';
 import { start as startTxObserver } from './txObserverActions';
-//import { UrlShortener } from '../../google/UrlShortener';
+import { Bitly } from "../helpers/Bitly";
 import TxStatus from '../helpers/TxStatus'
-
 
 export const DeveloperActions = {
   RESET_STATE: "DEVELOPER_RESET_STATE",
   SET_ATTRIBUTE: "DEVELOPER_SET_ATTRIBUTE"
 }
 
-
 export const fetchDeveloperId = () => async (dispatch, getState) => {
-  let registry = new DeveloperRegistry(DEVELOPER_REGISTRY_CONTRACT);
+  let registry = new DeveloperRegistry(window.app_config.developer_registry_contract);
   let developerId = await registry.getDeveloperId();
   dispatch({ type: DeveloperActions.SET_ATTRIBUTE, key: 'developerId', value: developerId });
   if( developerId > 0 ) {
@@ -22,7 +20,7 @@ export const fetchDeveloperId = () => async (dispatch, getState) => {
 }
 
 export const fetchEntryPrice = () => async (dispatch) => {
-  let registry = new DeveloperRegistry(DEVELOPER_REGISTRY_CONTRACT);
+  let registry = new DeveloperRegistry(window.app_config.developer_registry_contract);
   let price = await registry.getEntryPrice();
   let botCoin = new BotCoin();
   dispatch({ type: DeveloperActions.SET_ATTRIBUTE, key: 'entryPrice', value: botCoin.convertToHuman(price) });
@@ -38,19 +36,19 @@ export const checkTransferAllowance = () => {}
 export const addDeveloper = (url, metadata) => async (dispatch) => {
   let shorten_url = url
   if (url.length > 32) {
-    shorten_url = await UrlShortener.shorten(url, URLSHORTENER_API_KEY);
+    shorten_url = await Bitly.shorten(url);
   }
   //NOTE: metadata here is a json string, not an object
   console.log("addDeveloper with url:", shorten_url, " metadata:", metadata);
-  console.log("Developer registry contract:", DEVELOPER_REGISTRY_CONTRACT);
-  let registry = new DeveloperRegistry(DEVELOPER_REGISTRY_CONTRACT);
+  console.log("Developer registry contract:", window.app_config.developer_registry_contract);
+  let registry = new DeveloperRegistry(window.app_config.developer_registry_contract);
   try {
     let txId = await registry.addDeveloper(shorten_url, metadata);
     dispatch( { type: DeveloperActions.SET_ATTRIBUTE, key: 'addDeveloperTxId', value: txId });
     dispatch(startTxObserver(txId, addTxMined));
   }catch(e) {
     console.log(e);
-    dispatch( setErrors( ["Not signed in MetaMask. Request cancelled."] ));
+    dispatch( setErrors( ["Not signed. Request cancelled."] ));
   }
 }
 
@@ -80,7 +78,7 @@ const setPayTxId = (tx_id) => {
 
 export const approvePayment = () => (dispatch, getState) => {
   let botCoin = new BotCoin();
-  let chargingContract = DEVELOPER_REGISTRY_CONTRACT; // IS IT?
+  let chargingContract = window.app_config.developer_registry_contract;
   let amount = getState().developer.entryPrice;
   console.log("Approving for amount ", amount);
   botCoin.approve(amount, chargingContract)
@@ -89,6 +87,6 @@ export const approvePayment = () => (dispatch, getState) => {
     return dispatch( setPayTxId(tx_id) );
   }).catch( (err)=> {
     console.log(err);
-    dispatch( setErrors( ["Not approved in MetaMask. Request cancelled."] ));
+    dispatch( setErrors( ["Not approved. Request cancelled."] ));
   });
 }
