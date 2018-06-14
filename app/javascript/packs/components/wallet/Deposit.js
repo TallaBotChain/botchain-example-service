@@ -6,8 +6,8 @@ class Deposit extends Component {
   render() {
     return (
       <div id="#Deposit">
-        <QRCode value={this.props.eth_address} />
-        <p className='alert-info'>{this.props.eth_address}</p>
+        <QRCode value={this.props.ethAddress} />
+        <p className='alert-info'>{this.props.ethAddress}</p>
       </div>
     );
   }

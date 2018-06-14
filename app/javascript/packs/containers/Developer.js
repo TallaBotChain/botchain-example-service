@@ -62,7 +62,7 @@ class DeveloperPage extends Component {
             <Errors errors={this.props.developer.errors} />
             {this.props.developer.developerId > 0 && (
               <div className="alert">
-                {this.props.user.eth_address} is already a registered developer!
+                {this.props.user.ethAddress} is already a registered developer!
               </div>
             )}
             <DeveloperForm onSubmit={this.submit} />
