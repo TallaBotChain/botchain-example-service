@@ -6,24 +6,22 @@ class Nav extends React.Component {
 
   signedInNav() {
     return ([
-      <div className='menu-item'>Developer
+      <NavLink to="/" key={1}>Register</NavLink>,
+      <div className='menu-item' key={2}>{this.props.user.currentUser}
         <b>&#8964;</b>
         <ul className="submenu">
-          <li>
-            <NavLink to="/">Register</NavLink>
-          </li>
-        </ul>
-      </div>,
-      <div className='menu-item'>{this.props.user.currentUser}
-        <b>&#8964;</b>
-        <ul className="submenu">
+          <span className="triangle-up"></span>
+          <li><b>{this.props.wallet.tokenBalance}</b><br/>BOTC</li>
           <li>
             <NavLink to="/settings">Settings</NavLink>
-            <br/>
+          </li>
+          <li>
             <NavLink to="/wallet">Wallet</NavLink>
-            <br/>
+          </li>
+          <li>
             <NavLink to="/help">Help</NavLink>
-            <br/>
+          </li>
+          <li>
             <a href="/sign_out" data-method="delete">Logout</a>
           </li>
         </ul>
@@ -33,8 +31,8 @@ class Nav extends React.Component {
 
   signedOutNav() {
     return ([
-      <NavLink className='menu-item' to="/sign_up">Sign Up</NavLink>,
-      <NavLink className='menu-item' to="/sign_in">Sign In</NavLink>
+      <NavLink className='menu-item' to="/sign_up" key={1}>Sign Up</NavLink>,
+      <NavLink className='menu-item' to="/sign_in" key={2}>Sign In</NavLink>
     ])
   }
   render() {
@@ -50,9 +48,8 @@ class Nav extends React.Component {
 
 const mapStateToProps = state => {
   return {
-    developerRecord: state.developerRecord,
-    auth: state.auth,
-    user: state.user
+    user: state.user,
+    wallet: state.wallet
   }
 }
 
