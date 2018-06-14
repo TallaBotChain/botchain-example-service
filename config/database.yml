@@ -80,6 +80,8 @@ test:
 #
 production:
   <<: *default
-  database: botchain-example-service_production
-  username: botchain-example-service
-  password: <%= ENV['BOTCHAIN-EXAMPLE-SERVICE_DATABASE_PASSWORD'] %>
+  database: <%= ENV['PGDATABASE'] %>
+  username: <%= ENV['PGUSER'] %>
+  password: <%= ENV['PGPASSWORD'] %>
+  host: <%= ENV['PGHOST'] %>
+  port: <%= ENV['PGPORT'] %>
