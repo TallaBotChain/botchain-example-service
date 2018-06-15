@@ -1,7 +1,7 @@
 import DeveloperRegistry from '../blockchain/DeveloperRegistry';
 import BotCoin from '../blockchain/BotCoin';
 import { start as startTxObserver } from './txObserverActions';
-import { Bitly } from "../helpers/Bitly";
+import { UrlShortener } from "../helpers/UrlShortener";
 import TxStatus from '../helpers/TxStatus'
 
 export const DeveloperActions = {
@@ -36,7 +36,7 @@ export const checkTransferAllowance = () => {}
 export const addDeveloper = (url, metadata) => async (dispatch) => {
   let shorten_url = url
   if (url.length > 32) {
-    shorten_url = await Bitly.shorten(url);
+    shorten_url = await UrlShortener.shorten(url);
   }
   //NOTE: metadata here is a json string, not an object
   console.log("addDeveloper with url:", shorten_url, " metadata:", metadata);

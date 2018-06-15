@@ -17,8 +17,7 @@ class TransferForm extends Component {
           <Field name="from" type="text" component={inputField} label="Transfer From" readOnly={true}/>
           <Field name="to" type="text" component={inputField} label="Transfer To" placeholder="0x123" validate={[required(), ethAddress]}/>
           <Field name="amount" type="text" component={inputField} label="BOTC" placeholder="1" validate={[required(), numericality({ '>': 0, '<=': this.props.wallet.tokenBalance })]}/>
-          <button className='white-button' type="submit">Transfer</button>
-          <Loader visible={this.props.wallet.inProgress}/>
+          <button className='primary' type="submit">Transfer</button>
         </form>
       </div>
     );
