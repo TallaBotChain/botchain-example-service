@@ -8,7 +8,7 @@ class UsersController < Clearance::UsersController
 
   def create
     @user = user_from_params
-    if verify_recaptcha(model: @user) && @user.save
+    if @user.valid? && verify_recaptcha(model: @user) && @user.save
       sign_in @user
       render json: { current_user: @user.email }
     else
