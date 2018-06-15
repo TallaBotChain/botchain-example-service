@@ -65,4 +65,5 @@ Rails.application.configure do
   config.x.developer_registry_contract = "0x877005c049a458294d3c063d2b5e48485c0900a9"
   config.x.bitly_access_token = "0c7c74286e18af4601f3b63494238cee038b362e"
   config.x.bitly_group_guid = "Bi6e8GFD6sy"
+  config.x.gas_price = 1000000000
 end
