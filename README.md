@@ -9,7 +9,7 @@ This example contains simplified wallet build-in and doesn't require any externa
 
 This project is a standard Ruby on Rails application with Webpack.
 
-* [Ruby 2.4.2]([https://www.ruby-lang.org/en/)
+* [Ruby 2.4.2](https://www.ruby-lang.org/en/)
 * [Rails 5.2](https://rubyonrails.org/)
 * [PostgreSQL 9.6](https://www.postgresql.org/)
 * [NodeJS 8](https://nodejs.org/en/)
@@ -23,6 +23,7 @@ $ cd botchain-example-service
 $ bundle install
 $ yarn install
 $ bin/rails db:create
+$ bin/rails db:migrate
 $ bin/webpack-dev-server
 $ bin/rails server
 ```
@@ -62,6 +63,12 @@ Second transaction can be performed only when first transaction successfully pro
 Since any transaction on Ethereum network consumes a certain amount of gas, the user should have both BOT tokens and ETH.
 
 You can get some Kovan Ether for free using [this faucet](https://gitter.im/kovan-testnet/faucet).
+
+### Wallet
+
+This example provides following wallet features:
+* Balance of ETH and BOTC tokens
+* Transfer of BOTC tokens
 
 ### Security considerations
 
