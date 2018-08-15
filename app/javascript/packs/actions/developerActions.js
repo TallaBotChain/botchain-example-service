@@ -1,4 +1,5 @@
 import DeveloperRegistry from '../blockchain/DeveloperRegistry';
+import CurationCouncil from '../blockchain/CurationCouncil';
 import BotCoin from '../blockchain/BotCoin';
 import { start as startTxObserver } from './txObserverActions';
 import { UrlShortener } from "../helpers/UrlShortener";
@@ -56,9 +57,14 @@ export const resetTxs = () => (dispatch) => {
   dispatch({ type: DeveloperActions.RESET_STATE });
 }
 
-const addTxMined = (status) => (dispatch) => {
+const addTxMined = (status) => async (dispatch) => {
   dispatch({ type: DeveloperActions.SET_ATTRIBUTE, key: 'addDeveloperTxMined', value: true });
   if(status == TxStatus.SUCCEED){
+    // call CurationCouncil ( this is temporary )
+    let council = new CurationCouncil(window.app_config.curation_council_contract);
+    let voteTxId = await council.createRegistrationVote();
+    console.log("create vote tx id:", voteTxId);
+    //
     dispatch({ type: DeveloperActions.SET_ATTRIBUTE, key: 'successfullyAdded', value: true });
   } else {
     dispatch( setErrors( ["Add developer transaction failed."] ));
