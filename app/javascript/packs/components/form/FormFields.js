@@ -9,11 +9,11 @@ export const captchaField = (props) => (
 
 export const inputField = ({ input, label, type, meta: { asyncValidating, touched, error, warning }, readOnly, placeholder, appendComponent }) => (
   <div className='input'>
-    <label htmlFor={input.name}>{label}</label>
-    <input {...input} placeholder={placeholder || label} type={type} readOnly={readOnly}  />
+    <input {...input} placeholder={placeholder || label} type={type} readOnly={readOnly} className={touched && ((error && "error") || (warning && "warning"))}/>
     {touched && ((error && <span className='validation-error'>{error}</span>) || (warning && <span>{warning}</span>))}
     {asyncValidating && (<span>validating...</span>)}
     {appendComponent}
+    <label htmlFor={input.name}>{label}</label>
   </div>
 )
 

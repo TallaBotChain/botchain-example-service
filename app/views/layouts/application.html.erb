@@ -10,12 +10,19 @@
   </head>
 
   <body>
-    <nav>
-      <%= link_to "Botchain", root_path, class: "logo" %>
-      <%= link_to "Sign Up", sign_up_path %>
-      <%= link_to "Login", sign_in_path %>
-    </nav>
-    <%= yield %>
+    <div class="container">
+      <nav>
+        <%= link_to "Botchain", root_path, class: "logo" %>
+        <%= link_to "Sign Up", sign_up_path %>
+        <%= link_to "Sign In", sign_in_path %>
+      </nav>
+      <div class="white-container">
+        <%= yield %>
+      </div>
+      <footer>
+        Copyright © 2018, Talla, Inc.
+      </footer>
+    </div>
     <%= javascript_pack_tag 'application' %>
   </body>
 </html>

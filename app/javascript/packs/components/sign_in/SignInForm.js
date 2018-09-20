@@ -9,10 +9,9 @@ class SignInForm extends Component {
   render() {
     const {handleSubmit, pristine, reset, submitting} = this.props;
     return (<form onSubmit={handleSubmit}>
-      <Field name="email" type="text" component={inputField} label="Email" placeholder="Your email" validate={[required(), email()]}/>
-
+      <Field name="email" type="text" component={inputField} label="Email address" placeholder="Email address" validate={[required(), email()]}/>
       <Field name="password" type="password" component={inputField} label="Password" placeholder="Password" validate={[required()]}/>
-      <button className='white-button' type="submit">Sign in</button>
+      <button className='orange-button big-button' type="submit">Sign In</button>
       <Loader visible={this.props.user.inProgress}/>
     </form>);
   }

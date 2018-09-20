@@ -1,3 +1,5 @@
+@import './buttons.scss';
+
 @mixin shadow {
   -webkit-box-shadow: 0px 0px 39px 0px rgba(0,0,0,0.5);
   -moz-box-shadow: 0px 0px 39px 0px rgba(0,0,0,0.5);
@@ -7,22 +9,118 @@
 form {
   display: block;
   width: 630px;
-  margin: 0 auto;
+
+  .input {
+    margin-bottom: 5px;
+    min-height: 48px;
+  }
+
+  label {
+    font-weight: 400;
+    font-size: 0.875em;
+    display: none;
+    margin: 0;
+    color: $gray-label;
+    max-width: 100%;
+  }
+
+  input {
+    display: block;
+    width: 100%;
+    max-width: 390px;
+    padding: 6px 12px;
+    background-color: #fff;
+    background-image: none;
+    border: 2px solid $gray-input;
+    box-shadow: inset 0 0 5px $gray-input;
+    height: 48px;
+    color: $state;
+    line-height: 23px;
+    font-size: 1em;
+    border-radius: 6px;
+    font-weight: 500;
+    -webkit-transition: border-color ease-in-out .15s,-webkit-box-shadow ease-in-out .15s;
+    -o-transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+    transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+    &:not(:placeholder-shown) {
+      padding-top: 13px;
+      &+label{
+        display: block;
+        color: $placeholder;
+        font-size: 0.625em;
+        padding: 0 0 0 15px;
+        letter-spacing: 0.1em;
+        position: relative;
+        top: -42px;
+        margin-bottom: -15px;
+        text-transform: uppercase;
+      }
+    }
+
+    &[readonly] {
+      &.green-input {
+        color: $green-input-text;
+        background: $green-bg;
+        padding-top: 0;
+        max-width: 430px;
+      }
+    }
+
+    &:placeholder-shown {
+      color: $placeholder;
+      padding-top: 0;
+      font-weight: 300;
+    }
+
+    &.error {
+      color: $error;
+      border-color: $error-border;
+      background-color: $error-bg;
+      box-shadow: inset 0 0 5px $error-gray-input;
+      &:placeholder-shown {
+        color: $error-placeholder;
+      }
+
+      &:not(:placeholder-shown) {
+        &+.validation-error {
+          &+label {
+            display: block;
+            color: $error-placeholder;
+            font-size: 0.625em;
+            padding: 0 0 0 15px;
+            letter-spacing: 0.1em;
+            top: -63px;
+            position: relative;
+            margin-bottom: -15px;
+            text-transform: uppercase;
+          }
+        }
+      }
+    }
+  }
+  button {
+    margin-top: 3px;
+  }
+
+  .validation-error {
+    font-size: 0.875em;
+    color: $error-placeholder;
+    margin: 0;
+    display: block;
+  }
 }
-form input, form select, form button, form textarea {
+
+input:focus, select:focus, textarea:focus, button:focus {
+  outline: none;
+}
+
+form, form select, form textarea {
   margin-bottom: 1rem;
   width: 100%;
   box-sizing: border-box;
 }
-form label {
-  display: block;
-  margin-bottom: 0.5rem;
-}
-form .validation-error {
-  margin-top: -0.8rem;
-  margin-bottom: 1rem;
-}
-input, textarea {
+
+textarea {
   font-size: 18px;
   border: solid 1px #cccccc;
   border-radius: 5px;
@@ -47,7 +145,7 @@ form .checkbox {
   }
 }
 
-button, .white-button {
+.white-button {
   color: #00bb90;
   font-size: 18px;
   font-weight: bold;
@@ -76,7 +174,7 @@ button.primary {
 }
 
 form .input {
-  position: relative;
+  // position: relative;
   .tooltip {
     left: 100%;
     position: absolute;
@@ -169,9 +267,6 @@ a.button {
 }
 
 .validation-error {
-  width: 630px;
-  margin: 0 auto;
-  color: #FFDB99;
 
   h3 {
     font-size: 1.375rem;
@@ -181,13 +276,5 @@ a.button {
   ul {
     padding-left: 0;
     margin-top: 10;
-  }
-}
-
-.sign-in, .sign-up {
-  .white-button {
-    margin: 20px auto;
-    width: 200px;
-    display: block;
   }
 }

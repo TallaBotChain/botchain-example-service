@@ -11,8 +11,15 @@
   </head>
 
   <body>
-    <div id="app"></div>
-    <%= yield %>
+    <div class="container">
+      <div id="app"></div>
+      <%= yield %>
+      <div class="footer">
+      </div>
+      <footer>
+        Copyright © 2018, Talla, Inc.
+      </footer>
+    </div>
     <%= javascript_pack_tag 'application' %>
   </body>
 </html>

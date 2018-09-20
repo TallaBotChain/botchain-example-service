@@ -1,17 +1,60 @@
 @import url("https://use.typekit.net/fnn1wzh.css");
+
+$botcoin-green: #00BC90;
+$green: #20A284;
+$light-green: #D9FAF2;
+
+* {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+:after, :before {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
 body {
   font-family: 'Soleil', sans-serif;
   font-size: 16px;
+  line-height: 1.42857143;
   margin: 0;
   padding: 0;
-
-  background-color: #00bc90;
+  background-color: $botcoin-green;
   color: #efefef;
-  &.home {
-    background-image: asset_url('big-gear.png'), asset_url('small-gear.png'), asset_url('bg.png');
-    background-repeat: no-repeat,no-repeat,no-repeat;
-    background-position: 5px 400px, 275px 270px, center center;
-  }
+}
+
+.container {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 0 15px;
+  min-height: 100vh;
+  position: relative;
+}
+
+.white-container {
+  background: white;
+  border-radius: 13px;
+  height: calc(100vh - 165px);
+  padding-bottom: 70px;
+  padding: 25px 25px 70px 80px;
+  overflow-y: auto;
+}
+
+.footer {
+  height: 90px;
+}
+
+footer {
+  height: 90px;
+  color: $light-green;
+  font-size: 0.875em;
+  font-weight: 300;
+  padding-top: 20px;
+  padding-left: 25px;
+  position: absolute;
+  bottom: 0;
 }
 
 a {
@@ -24,19 +67,22 @@ img {
 }
 
 h1 {
-  font-size: 36px;
-  text-align: center;
+  font-size: 1.5em;
+  text-transform: uppercase;
+  color: $green;
+  margin-top: 0;
+  padding-top: 30px;
 }
 
 .logo {
   text-indent: -1000em;
-  background-image: asset_url('logo.png');
+  background-image: asset_url('logo_sm.png');
   background-repeat: no-repeat;
+  background-size: 155px auto;
   background-position: left center;
-  background-size: 187px 44px;
-  width: 187px;
-  height: 44px;
-  margin-left: 60px;
+  width: 155px;
+  height: 20.5px;
+  margin-left: 25px;
 }
 
 .centered {
@@ -51,5 +97,11 @@ h1 {
     &.active {
       text-decoration:underline;
     }
+  }
+}
+
+.sign-in, .sign-up {
+  .alert {
+    max-width: 390px;
   }
 }

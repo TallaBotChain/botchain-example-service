@@ -17,11 +17,13 @@ class SignInPage extends Component {
 
     render() {
         return this.props.user.signedIn ? <Redirect to='/' /> :  (
+          <div className="white-container">
             <div className='sign-in'>
-                <h1>Sign In</h1>
-                <Errors errors={this.props.user.errors} />
-                <SignInForm onSubmit={this.submit} {...this.props} />
+              <h1>Sign In</h1>
+              <Errors errors={this.props.user.errors} />
+              <SignInForm onSubmit={this.submit} {...this.props} />
             </div>
+          </div>
         )
     }
 
@@ -42,4 +44,3 @@ const mapDispatchToProps = dispatch => {
 }
 
 export default connect(mapStateToProps,mapDispatchToProps)(SignInPage);
-
