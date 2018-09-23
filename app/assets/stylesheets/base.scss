@@ -1,17 +1,5 @@
 @import url("https://use.typekit.net/fnn1wzh.css");
-
-$botcoin-green: #00BC90;
-$green: #20A284;
-$light-green: #D9FAF2;
-$state: #32373E;
-$border-green: #ABEBDC;
-$link-blue: #002CBC;
-$gray-input: rgba(29,32,36,.13);
-$blue-hover-link: #2463C7;
-
-.green-text {
-  color: #20A284;
-}
+@import './colors.scss';
 
 * {
   -webkit-box-sizing: border-box;

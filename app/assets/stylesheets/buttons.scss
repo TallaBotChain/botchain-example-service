@@ -1,31 +1,4 @@
-$orange: #FF6F59;
-$gray-text: #757B83;
-$gray-border: rgba(29,32,36,.22);
-$gray-text-hover: #60676F;
-$gray-border-hover: rgba(29,32,36,0.69);
-$lighter-gray: #E1E2E4;
-$placeholder: #8B9096;
-$gray-gradient1: #F6F7F7;
-$gray-gradient2: #E1E2E4;
-$gray-gradient3: #CBCED0;
-$botcoin-green: #00BC90;
-$active-green: #3ABCA5;
-$check-green: #00A37D;
-$red: #E95858;
-$red-hover: #C24C3A;
-$red-active: #DF3C3C;
-
-$gray-input: rgba(29,32,36,.13);
-$state: #32373E;
-$green-input-text: #138F72;
-$green-bg: #DAFCF4;
-$error: #DF3C3C;
-$error-border:#FFDBD5;
-$error-bg: #FFF1EE;
-$error-gray-input: rgba(29,32,36,.03);
-$error-placeholder: #E98080;
-$gray-label: #B6B9BD;
-$gray-link: #CBCED0;
+@import './colors.scss';
 
 @mixin form-button ($color, $font-color: white) {
   display: inline-block;
