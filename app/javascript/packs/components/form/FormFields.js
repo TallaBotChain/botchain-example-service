@@ -12,8 +12,8 @@ export const inputField = ({ input, label, type, meta: { asyncValidating, touche
     <input {...input} placeholder={placeholder || label} type={type} readOnly={readOnly} className={touched && ((error && "error") || (warning && "warning"))}/>
     {touched && ((error && <span className='validation-error'>{error}</span>) || (warning && <span>{warning}</span>))}
     {asyncValidating && (<span>validating...</span>)}
-    {appendComponent}
     <label htmlFor={input.name}>{label}</label>
+    {appendComponent}
   </div>
 )
 

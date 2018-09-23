@@ -27,7 +27,7 @@ class DeveloperForm extends Component {
           validate={[ required()]}
         />
         <Field name="metadata_url" type="url"
-          component={inputField} label="Developer Metadata URL" placeholder="https://example.com/..."
+          component={inputField} label="Developer Metadata URL" placeholder="Developer Metadata URL"
           validate={[ required(), length({ max: 132 }), url() ]}
           appendComponent={<MetadataTooltip />}
         />
@@ -35,7 +35,7 @@ class DeveloperForm extends Component {
           component={textareaField} label="Metadata" placeholder="Will be autoloaded from url above"
           validate={[required(), validateMetadata]}
         />
-        <button className='primary' type="submit">Register</button>
+        <button className='orange-button cta-button' type="submit">REGISTER</button>
       </form>
     );
   }

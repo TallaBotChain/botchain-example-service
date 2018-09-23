@@ -5,6 +5,7 @@ class Tooltip extends Component {
     return (
       <div className='tooltip'>
         <div>
+          <span></span>
           <div className='popup'>
             {this.props.children}
           </div>
@@ -15,4 +16,3 @@ class Tooltip extends Component {
 }
 
 export default Tooltip;
-
