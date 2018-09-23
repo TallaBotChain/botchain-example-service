@@ -5,6 +5,10 @@
 @import './developer.scss';
 @import './wallet.scss';
 
+.botcoin-green {
+  color: $botcoin-green;
+}
+
 nav {
   width: 100%;
   display: flex;

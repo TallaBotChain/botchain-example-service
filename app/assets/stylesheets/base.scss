@@ -3,6 +3,15 @@
 $botcoin-green: #00BC90;
 $green: #20A284;
 $light-green: #D9FAF2;
+$state: #32373E;
+$border-green: #ABEBDC;
+$link-blue: #002CBC;
+$gray-input: rgba(29,32,36,.13);
+$blue-hover-link: #2463C7;
+
+.green-text {
+  color: #20A284;
+}
 
 * {
   -webkit-box-sizing: border-box;
@@ -22,7 +31,7 @@ body {
   margin: 0;
   padding: 0;
   background-color: $botcoin-green;
-  color: #efefef;
+  color: $state;
 }
 
 .container {
@@ -38,8 +47,11 @@ body {
   border-radius: 13px;
   height: calc(100vh - 165px);
   padding-bottom: 70px;
-  padding: 25px 25px 70px 80px;
   overflow-y: auto;
+}
+
+.inner-container {
+  padding: 25px 25px 70px 80px;
 }
 
 .footer {
@@ -57,6 +69,37 @@ footer {
   bottom: 0;
 }
 
+.welcome {
+  background-color: $light-green;
+  min-height: 225px;
+  border-bottom: 2px solid $border-green;
+  padding: 25px 25px 20px 80px;
+
+  h1 {
+    margin-bottom: 0;
+  }
+
+  h2 {
+    max-width: 540px;
+    line-height: 1.75em;
+    font-weight: 400;
+    margin-top: 2px;
+  }
+  a {
+    color: $link-blue;
+    font-size: 0.9em;
+    font-weight: 600;
+    text-decoration: none;
+    display: inline-block;
+    border-bottom: 1px solid $gray-input;
+    line-height: 1.6em;
+
+    &:hover, &:active {
+      color: $blue-hover-link;
+    }
+  }
+}
+
 a {
   text-decoration: none;
   color: #108db8;
@@ -68,10 +111,15 @@ img {
 
 h1 {
   font-size: 1.5em;
-  text-transform: uppercase;
-  color: $green;
   margin-top: 0;
   padding-top: 30px;
+  &.green-text {
+    text-transform: uppercase;
+  }
+}
+
+h2 {
+  font-size: 1.25em;
 }
 
 .logo {
@@ -103,5 +151,12 @@ h1 {
 .sign-in, .sign-up {
   .alert {
     max-width: 390px;
+  }
+}
+.sign-up {
+  padding-top: 0px;
+
+  form{
+    margin-top: 25px;
   }
 }

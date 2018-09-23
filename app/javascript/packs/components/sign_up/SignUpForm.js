@@ -19,25 +19,25 @@ class SignUpForm extends Component {
   render() {
     const {handleSubmit, pristine, reset, submitting} = this.props;
     return (<form onSubmit={handleSubmit}>
-      <Field name="name" type="text" component={inputField} label="Name" placeholder="Your name" validate={[
+      <Field name="name" type="text" component={inputField} label="Name" placeholder="Name" validate={[
           required(),
           length({max: 36})
         ]}/>
-      <Field name="email" type="text" component={inputField} label="Email" placeholder="Your email" validate={[required(), email()]}/>
+      <Field name="email" type="text" component={inputField} label="Email address" placeholder="Email address" validate={[required(), email()]}/>
 
       <Field name="password" type="password" component={inputField} label="Password" placeholder="Password" validate={[
           required(),
           length({min: 8})
         ]}/>
 
-      <Field name="password_confirmation" type="password" component={inputField} label="Password confirmation" placeholder="Password confirmation" validate={[
+      <Field name="password_confirmation" type="password" component={inputField} label="Confirm password" placeholder="Confirm password" validate={[
           required(),
           length({min: 8})
         ]}/>
       <Field name='g-recaptcha-response' component={captchaField}/>
       <Field name="age" type="checkbox" component={checkboxField} label="I confirm that I am 18 years or older" validate={acceptance({message: "Must be at least 18 years old"})}/>
 
-      <button className='white-button' type="submit">Sign up</button>
+      <button className='orange-button big-button' type="submit">Sign Up</button>
       <Loader visible={this.props.user.inProgress}/>
     </form>);
   }

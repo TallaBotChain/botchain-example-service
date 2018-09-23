@@ -98,6 +98,70 @@ form {
       }
     }
   }
+
+  .checkbox {
+    margin-bottom: 20px;
+    input[type="checkbox"] {
+      height: 16px;
+      width: 16px;
+      border: 1px solid $gray-input;
+      margin: 30px 15px 0 0;
+      vertical-align: top;
+      position: absolute;
+      opacity: 0;
+      border-radius: 4px;
+      &+label {
+        cursor: pointer;
+      }
+      &:not(checked){
+        &+label {
+          position: relative;
+          padding: 0 0 0 25px;
+          font-weight: 400;
+          font-size: 1em;
+          text-transform: none;
+          color: $state;
+          letter-spacing: 0.01em;
+          margin-bottom: -45px;
+          margin-top: 53px;
+          max-width: 300px;
+          &:before {
+            content: '';
+            position: absolute;
+            top: 4px;
+            left: 0;
+            width: 16px;
+            height: 16px;
+            border: 1px solid $gray-input;
+            box-shadow: 0 0 5px $error-gray-input;
+            background: white;
+            border-radius: 4px;
+          }
+        }
+        &:hover {
+          &+label:before {
+            background: $check-green;
+            border: 2px solid $check-green;
+          }
+        }
+      }
+      &:checked {
+        &+label:before {
+          background: $check-green asset_url('check.png') no-repeat -11px 2px;
+          border: 2px solid $check-green;
+        }
+        &:hover {
+          &+label:before {
+            background: white asset_url('check.png') no-repeat 1px 2px;
+          }
+        }
+      }
+    }
+    .validation-error {
+      margin-top: 0;
+    }
+  }
+
   button {
     margin-top: 3px;
   }
@@ -114,7 +178,7 @@ input:focus, select:focus, textarea:focus, button:focus {
   outline: none;
 }
 
-form, form select, form textarea {
+form, form textarea {
   margin-bottom: 1rem;
   width: 100%;
   box-sizing: border-box;
@@ -127,21 +191,6 @@ textarea {
   padding: 15px 15px;
   &::placeholder {
     color: #cccccc;
-  }
-}
-
-form .checkbox {
-  input {
-    height: 25px;
-    width: 25px;
-    display: inline-block;
-    margin: 10px 10px 15px 0;
-    vertical-align: middle;
-  }
-  label {
-    display: inline-block;
-    line-height: 1.5em;
-    vertical-align: middle;
   }
 }
 
@@ -174,7 +223,6 @@ button.primary {
 }
 
 form .input {
-  // position: relative;
   .tooltip {
     left: 100%;
     position: absolute;
