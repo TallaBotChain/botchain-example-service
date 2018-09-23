@@ -33,8 +33,7 @@ body {
 .white-container {
   background: white;
   border-radius: 13px;
-  height: calc(100vh - 165px);
-  padding-bottom: 70px;
+  min-height: calc(100vh - 165px);
   overflow-y: auto;
 }
 
