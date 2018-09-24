@@ -37,5 +37,9 @@ $gray-input: rgba(29,32,36,.13);
 $blue-hover-link: #2463C7;
 
 .green-text {
-  color: #20A284;
+  color: $green;
+}
+
+.botcoin-green {
+  color: $botcoin-green;
 }

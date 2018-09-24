@@ -5,10 +5,6 @@
 @import './developer.scss';
 @import './wallet.scss';
 
-.botcoin-green {
-  color: $botcoin-green;
-}
-
 nav {
   width: 100%;
   display: flex;
@@ -16,83 +12,43 @@ nav {
   flex-wrap: nowrap;
   font-weight: normal;
   height: 75px;
-}
 
-nav a, nav .menu-item {
-  color: $light-green;
-  padding: 35px 1rem 1rem;
-  &:last-child {
-    margin-right: 25px;
-  }
-}
-
-nav .logo {
-  color: white;
-  padding: 65px 1rem 1rem;
-  flex-grow: 1;
-  flex-shrink: 0;
-}
-
-nav a, nav .menu-item {
-  position: relative;
-  margin-right: 30px;
-  .submenu {
-    display: none;
-    position: absolute;
-    top: 40px;
-    left: 20px;
-    width: 150px;
-    background-color: rgb(74, 74, 74);
-    padding-left: 0;
-    z-index: 1;
+  .logo {
     color: white;
-    text-align: center;
-    border-radius: 5px;
-    box-shadow: 0px 3px 16px rgba(0, 0, 0, 0.15);
+    padding: 65px 1rem 1rem;
+    text-indent: -1000em;
+    background-image: asset_url('logo_sm.png');
+    background-repeat: no-repeat;
+    background-size: 155px auto;
+    background-position: left center;
+    width: 180px;
+    height: 20.5px;
+    margin-left: 25px;
+  }
 
-    .triangle-up {
-      width: 0;
-      height: 0;
-      border-left: 8px solid transparent;
-      border-right: 8px solid transparent;
-      border-bottom: 8px solid rgb(74, 74, 74);
-      position: absolute;
-      left: calc(50% - 8px);
-      top: -5px;
-      z-index: -1;
+  >div {
+    display: flex;
+    flex-grow: 2;
+    justify-content: flex-start;
+    a {
+      position: relative;
+      color: $light-green;
+      padding: 30px 20px 0;
+      letter-spacing: 0.02em;
+      display: inline-block;
+      white-space: nowrap;
+      &:hover, &:active, &.active {
+        color: white;
+      }
     }
-    li {
-      border-bottom: 1px solid rgb(101, 101, 101);
-      color: white;
-      overflow: hidden;
-      &:first-of-type {
-        border-radius: 5px 5px 0 0;
+    &.right-nav {
+      flex-grow: 1;
+      justify-content: flex-end;
+      a {
         &:last-child {
-          border-radius: 5px;
+          margin-right: 5px;
         }
       }
-      &:last-child {
-        border-bottom: none;
-        border-radius: 0 0 5px 5px;
-      }
-    }
-    a {
-      text-decoration: none;
-      display: block;
-      padding: 10px 0px;
-      margin: 0 auto;
-      color: $light-green;
-      &:hover, &:active {
-        color: white;
-        background-color: #00bc90;
-      }
-    }
-  }
-  &:hover, &:active  {
-    color: white;
-
-    .submenu {
-      display: block;
     }
   }
 }

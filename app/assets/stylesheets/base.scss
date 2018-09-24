@@ -23,7 +23,7 @@ body {
 }
 
 .container {
-  max-width: 1180px;
+  max-width: 1210px;
   margin: 0 auto;
   padding: 0 15px;
   min-height: 100vh;
@@ -111,17 +111,6 @@ h1 {
 
 h2 {
   font-size: 1.25em;
-}
-
-.logo {
-  text-indent: -1000em;
-  background-image: asset_url('logo_sm.png');
-  background-repeat: no-repeat;
-  background-size: 155px auto;
-  background-position: left center;
-  width: 155px;
-  height: 20.5px;
-  margin-left: 25px;
 }
 
 .centered {

@@ -6,34 +6,25 @@ class Nav extends React.Component {
 
   signedInNav() {
     return ([
-      <NavLink to="/" key={1}>Register</NavLink>,
-      <div className='menu-item' key={2}>{this.props.user.currentUser}
-        <b>&#8964;</b>
-        <ul className="submenu">
-          <span className="triangle-up"></span>
-          <li><b>{this.props.wallet.tokenBalance}</b><br/>BOTC</li>
-          <li>
-            <NavLink to="/settings">Settings</NavLink>
-          </li>
-          <li>
-            <NavLink to="/wallet">Wallet</NavLink>
-          </li>
-          <li>
-            <NavLink to="/help">Help</NavLink>
-          </li>
-          <li>
-            <a href="/sign_out" data-method="delete">Logout</a>
-          </li>
-        </ul>
+      <div>
+        <NavLink to="/" key={1}>Register</NavLink>
+        <NavLink to="/wallet" key={2}>Wallet</NavLink>
+        <NavLink to="/settings" key={3}>Settings</NavLink>
+        <NavLink to="/help" key={4}>Help</NavLink>
+      </div>,
+      <div className="right-nav">
+        <a href="/sign_out" data-method="delete">Sign Out</a>
       </div>
     ])
   }
 
   signedOutNav() {
-    return ([
-      <NavLink className='menu-item' to="/sign_up" key={1}>Sign Up</NavLink>,
-      <NavLink className='menu-item' to="/sign_in" key={2}>Sign In</NavLink>
-    ])
+    return (
+      <div className="right-nav">
+        <NavLink to="/sign_up" key={1}>Sign Up</NavLink>
+        <NavLink to="/sign_in" key={2}>Sign In</NavLink>
+      </div>
+    )
   }
   render() {
 
