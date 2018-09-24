@@ -55,8 +55,8 @@ class WalletPage extends Component {
   render() {
 
     return (
-      <div>
-        <div>
+      <div className="white-container">
+        <div className='inner-container registration'>
           <h1>Wallet</h1>
           <Errors errors={this.props.user.errors} />
           <div className="centered">

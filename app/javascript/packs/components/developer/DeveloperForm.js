@@ -32,7 +32,7 @@ class DeveloperForm extends Component {
           appendComponent={<MetadataTooltip />}
         />
         <Field name="metadata"
-          component={textareaField} label="Metadata" placeholder="Will be autoloaded from url above"
+          component={textareaField} label="Metadata" placeholder="Will be autoloaded from url above" readOnly={true}
           validate={[required(), validateMetadata]}
         />
         <button className='orange-button cta-button' type="submit">REGISTER</button>
