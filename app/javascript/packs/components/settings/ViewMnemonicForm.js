@@ -10,11 +10,11 @@ class ViewMnemonicForm extends Component {
     const { handleSubmit, pristine, reset, submitting } = this.props;
     return (
       <form onSubmit={handleSubmit}>
-        <Field name="password" type="password" label="Please enter your password to view mnemonic" component={inputField}  placeholder="Password" validate={[
+        <Field name="password" type="password" label="Enter password to view mnemonic" component={inputField}  placeholder="Enter password to view mnemonic" validate={[
             required(),
             length({min: 8})
           ]}/>
-        <button className='primary' type="submit">View</button>
+        <button className='orange-button cta-button' type="submit">VIEW</button>
       </form>
     );
   }

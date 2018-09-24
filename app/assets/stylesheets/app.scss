@@ -58,31 +58,32 @@ nav {
 }
 
 .alert {
-  padding: 5px 13px;
+  padding: 5px 13px 10px;
   margin-bottom: 10px;
-  border-radius: 6px;
+  border-radius: 0;
   color: $error;
-  border-color: $error-border;
+  border: none;
   background: $error-bg;
-  box-shadow: inset 0 0 5px $error-gray-input;
-  max-width: 390px;
+  max-width: 470px;
+  text-align: left;
+  display: inline-block;
   ul {
     margin: 0;
+    padding-left: 0;
   }
 }
 
 .alert-info {
-  background-color: #d8edf8;
-  border-color: #bbe8f2;
-  border-radius: 6px;
-  border: 1px solid #bbe8f2;
-  color: #3585af;
+  background-color: $alert-blue-bg;
+  border-radius: 0;
+  border: none;
+  color: $alert-blue;
   line-height: 1.8em;
   margin-top: 25px;
-  padding: 5px 13px;
+  padding: 5px 13px 10px;
   text-align: left;
-  max-width: 600px;
-  font-weight: 300;
+  font-weight: 500;
+  display: inline-block;
 }
 
 ul li {

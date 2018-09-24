@@ -113,6 +113,10 @@ h2 {
   font-size: 1.25em;
 }
 
+h3 {
+  font-size: 1.125em;
+}
+
 .centered {
   display: block;
   width: 630px;
@@ -155,6 +159,26 @@ h2 {
       input {
         max-width: 480px;
       }
+    }
+  }
+}
+
+.settings {
+  h1 {
+    margin-bottom: 30px;
+  }
+  form {
+    margin-bottom: 40px;
+  }
+  p {
+    margin-top: 2px;
+    max-width: 570px;
+    line-height: 1.6em;
+    margin-bottom: 8px;
+  }
+  h3 {
+    &:last-of-type {
+      margin-bottom: 0;
     }
   }
 }
