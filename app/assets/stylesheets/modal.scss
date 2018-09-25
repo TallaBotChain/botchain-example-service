@@ -47,12 +47,13 @@
   }
 
   p {
-    max-width: 370px;
+    max-width: 380px;
     margin: 0 auto 15px;
     line-height: 1.7em;
+    font-weight: 400;
 
     &.large-p {
-      max-width: 440px;
+      max-width: 450px;
     }
   }
 
@@ -68,11 +69,12 @@
     display: block;
     max-width: 505px;
     margin-bottom: 3px;
+    background-position: 13px 20px;
   }
 
   .warning {
     max-width: 505px;
-    background: $gold-bg asset_url('warning.png') no-repeat 13px 13px;
+    background: $gold-bg asset_url('warning.png') no-repeat 13px 12px;
     border: 1px solid $gold-border;
     color: $gold;
     padding: 10px 20px 10px 40px;
@@ -82,13 +84,14 @@
     h4 {
       text-transform: uppercase;
       margin: 0;
-      letter-spacing: 0.05em;
+      letter-spacing: 0.08em;
     }
 
     p {
       max-width: unset;
       margin: 0;
       font-weight: 300;
+      letter-spacing: 0.01em;
     }
   }
 

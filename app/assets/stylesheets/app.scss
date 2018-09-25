@@ -33,7 +33,7 @@ nav {
     a {
       position: relative;
       color: $light-green;
-      padding: 30px 20px 0;
+      padding: 32px 20px 0;
       letter-spacing: 0.02em;
       display: inline-block;
       white-space: nowrap;
@@ -63,7 +63,7 @@ nav {
   border-radius: 0;
   color: $alert;
   border: 1px solid $alert-border;
-  background: $alert-bg asset_url('error.png') no-repeat 13px 22px;
+  background: $alert-bg asset_url('error.png') no-repeat 13px 18px;
   max-width: 470px;
   text-align: left;
   display: inline-block;

@@ -13,8 +13,10 @@
 }
 
 body {
-  font-family: 'Soleil', sans-serif;
-  font-size: 16px;
+  font-family: 'IBM Plex Sans', sans-serif;
+  font-size: 15px;
+  font-weight: 300;
+  letter-spacing: 0.05em;
   line-height: 1.42857143;
   margin: 0;
   padding: 0;
@@ -99,8 +101,10 @@ img {
 
 h1 {
   font-size: 1.5em;
+  font-weight: 600;
   margin-top: 0;
   padding-top: 30px;
+  letter-spacing: 0.08em;
   &.green-text {
     text-transform: uppercase;
   }
@@ -108,6 +112,8 @@ h1 {
 
 h2 {
   font-size: 1.25em;
+  font-weight: 600;
+  letter-spacing: 0.08em;
 }
 
 h3 {
@@ -116,6 +122,11 @@ h3 {
 
 h4 {
   font-size: 0.9375em;
+  font-weight: 600;
+}
+
+strong, b {
+  font-weight: 600;
 }
 
 .centered {
@@ -126,7 +137,6 @@ h4 {
 .wallet-nav {
   text-align: center;
   a {
-    color: white;
     &.active {
       text-decoration:underline;
     }
