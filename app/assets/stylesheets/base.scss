@@ -77,23 +77,20 @@ footer {
     margin-top: 2px;
   }
   a {
-    color: $link-blue;
     font-size: 0.9em;
     font-weight: 600;
-    text-decoration: none;
     display: inline-block;
     border-bottom: 1px solid $gray-input;
     line-height: 1.6em;
-
-    &:hover, &:active {
-      color: $blue-hover-link;
-    }
   }
 }
 
 a {
   text-decoration: none;
-  color: #108db8;
+  color: $link-blue;
+  &:hover, &:active {
+    color: $blue-hover-link;
+  }
 }
 
 img {
@@ -115,6 +112,10 @@ h2 {
 
 h3 {
   font-size: 1.125em;
+}
+
+h4 {
+  font-size: 0.9375em;
 }
 
 .centered {

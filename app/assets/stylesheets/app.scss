@@ -58,15 +58,16 @@ nav {
 }
 
 .alert {
-  padding: 5px 13px 10px;
+  padding: 15px 40px;
   margin-bottom: 10px;
   border-radius: 0;
-  color: $error;
-  border: none;
-  background: $error-bg;
+  color: $alert;
+  border: 1px solid $alert-border;
+  background: $alert-bg asset_url('error.png') no-repeat 13px 22px;
   max-width: 470px;
   text-align: left;
   display: inline-block;
+
   ul {
     margin: 0;
     padding-left: 0;

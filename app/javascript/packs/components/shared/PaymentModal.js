@@ -49,33 +49,46 @@ class PaymentModal extends Component {
       <Modal {...this.props} >
         <div className='payment-modal'>
           <div className={ this.state.step == 1 ? '' : 'hidden' }>
+            <h2>Finish Registration</h2>
+            <h3>Step 1 of 2</h3>
             {this.props.balance == 0 && (
-              <div className="alert">
-                Warning: not enough Ether to pay for gas.
+              <div>
+                <p className="alert">
+                  Warning: not enough Ether to pay for gas.
+                </p>
               </div>
             )}
             {this.props.token_balance >= this.props.entryPrice ? (
               <div>
-                The fee for this transaction is <br />
-                <b>{this.props.entryPrice} BOTC</b>.
-                Please approve this payment.
-                <p className='info'>
-                  No BOTC tokens will be transferred during this process.
+                <p>
+                  The fee for this transaction is <b>{this.props.entryPrice} BOTC</b>.<br/>
+                  No BOTC tokens will be transferred during this first part
+                  of the process. <a href="">Learn more</a>
                 </p>
-                <button type="button" className="primary" onClick={this.approveClick}>Authorize</button>
-                <button type="button" className="" onClick={this.cancelClick}>Cancel</button>
+                <div>
+                  <button type="button" className="orange-button cta-button" onClick={this.approveClick}>AUTHORIZE PAYMENT</button>
+                </div>
+                <div>
+                  <button className="default-button small-button width-86" type="button" onClick={this.cancelClick}>Cancel</button>
+                </div>
               </div>
             ) : (
               <div>
-                Insufficient tokens to carry out the transaction. <br />
-                <button type="button" onClick={this.cancelClick}>Cancel</button>
+                <p className="alert">Insufficient tokens to carry out the transaction.</p>
+                <button className="default-button small-button width-86" type="button" onClick={this.cancelClick}>Cancel</button>
               </div>
             )}
           </div>
           <div className={ this.state.step == 2 ? '' : 'hidden' }>
-            <p>Transaction successfully submitted. Waiting for confirmation. <a href={`${"https://kovan.etherscan.io"}/tx/${this.props.tx_id}`} target='_blank'>Click here</a>  to check the status of this transaction.</p>
-            <Loader visible={true} />
-            <p className='warning'>Please do not close this browser window. The Transactions speed depends on the Ethereum Network and can range anywhere from a few seconds to up to an hour.</p>
+            <h2 className="gold">Registration pending</h2>
+            <p className="large-p">
+              <b>This transaction has been successfully submitted</b><br/>  and is now awaiting confirmation. You can check the status of this transaction on <a href={`${"https://kovan.etherscan.io"}/tx/${this.props.tx_id}`} target='_blank'>Etherscan here</a>.
+            </p>
+            <div className='warning'>
+              <h4>Do not close this browser window!</h4>
+              <p> The Transaction's speed depends on the Ethereum Network and can range anywhere from a few seconds to up to an hour. This modal will close automatically when the transaction is complete.</p>
+            </div>
+            <Loader visible={true} message="Processing Transaction"/>
           </div>
         </div>
       </Modal>

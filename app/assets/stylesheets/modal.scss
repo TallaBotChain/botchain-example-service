@@ -1,3 +1,5 @@
+@import './colors.scss';
+
 .modal {
   position: fixed;
   z-index: 1;
@@ -6,68 +8,95 @@
   width: 100%;
   height: 100%;
   overflow: auto;
-  background-color: rgb(0,0,0);
-  background-color: rgba(0,0,0,0.75);
+  background-color: $overlay;
 }
 
 .modal-content {
-  background-color: #fefefe;
-  color: #32373e;
-  margin: 15% auto;
-  padding: 20px;
-  border: 1px solid #888;
-  border-radius: 20px;
-  width: 360px;
-  min-height: 150px;
-  background-image: asset_url('logo-green.png');
-  background-repeat: no-repeat;
-  background-position: 50% 20px;
-  background-size: 187px 52px;
-  padding-top: 85px;
-  > div {
-    border-top: solid 1px #ccc;
-    margin-left: -20px;
-    margin-right: -20px;
-    padding-left: 20px;
-    padding-right: 20px;
-    padding-top: 20px;
+  background-color: white;
+  margin: 10% auto 0;
+  border: none;
+  border-radius: 8px;
+  max-width: 600px;
+  min-height: 240px;
+  padding: 30px 20px 20px;
+  box-shadow: 0 0 8px $gray-border;
+  text-align: center;
+
+  h2 {
+    text-transform: uppercase;
+    margin-bottom: 0;
+    margin-top: 0;
+    letter-spacing: 0.04em;
+
+    &.gold {
+      margin-bottom: 10px;
+    }
   }
 
-  button {
-    background-color: transparent;
-    color: #32373e;
-    margin-right: 15px;
-    margin-top: 25px;
+  h3 {
+    color: $gray-text;
+    font-weight: 300;
+    margin-top: 0;
   }
 
-  button.primary {
-    background-color: #0854cc;
-    color: #fff;
+  a {
+    font-weight: 600;
+    display: inline-block;
+    border-bottom: 1px solid $gray-input;
+    line-height: 1.2em;
   }
 
-  .info {
-    background-color: #d8edf8;
-    border-color: #bbe8f2;
-    color: #3585af;
-    padding: 15px;
-    border-radius: 5px;
-    margin-top: 25px;
+  p {
+    max-width: 370px;
+    margin: 0 auto 15px;
+    line-height: 1.7em;
+
+    &.large-p {
+      max-width: 440px;
+    }
+  }
+
+  .orange-button {
+    margin-bottom: 5px;
+  }
+
+  .default-button {
+    margin-top: 60px;
+  }
+
+  p.alert {
+    display: block;
+    max-width: 505px;
+    margin-bottom: 3px;
   }
 
   .warning {
-    background-color: #fcf8e2;
-    border-color: #fbeed4;
-    color: #c0994c;
-    padding: 15px;
-    border-radius: 5px;
-    margin-top: 25px;
+    max-width: 505px;
+    background: $gold-bg asset_url('warning.png') no-repeat 13px 13px;
+    border: 1px solid $gold-border;
+    color: $gold;
+    padding: 10px 20px 10px 40px;
+    text-align: left;
+    margin: 0 auto 10px;
+
+    h4 {
+      text-transform: uppercase;
+      margin: 0;
+      letter-spacing: 0.05em;
+    }
+
+    p {
+      max-width: unset;
+      margin: 0;
+      font-weight: 300;
+    }
   }
 
-}
+  .lds-css {
+    margin: 0 auto 25px;
+  }
 
-.payment-modal {
-  text-align: center;
-  .alert {
-    width: auto;
+  .lds-spinner {
+    float: left;
   }
 }

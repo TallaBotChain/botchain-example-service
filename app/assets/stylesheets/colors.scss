@@ -14,7 +14,7 @@ $check-green: #00A37D;
 $red: #E95858;
 $red-hover: #C24C3A;
 $red-active: #DF3C3C;
-
+$overlay:rgba(29,32,36,.86);
 $input-bg: rgba(246,247,247,.5);
 $gray-input: rgba(29,32,36,.13);
 $state: #32373E;
@@ -25,6 +25,9 @@ $error-border:#FFDBD5;
 $error-bg: #FFF1EE;
 $error-gray-input: rgba(29,32,36,.03);
 $error-placeholder: #E98080;
+$alert: #FF000F;
+$alert-bg: rgba(255,0,15,.1);
+$alert-border: rgba(255,0,15,.2);
 $gray-label: #B6B9BD;
 $gray-link: #CBCED0;
 $botcoin-green: #00BC90;
@@ -37,6 +40,9 @@ $gray-input: rgba(29,32,36,.13);
 $blue-hover-link: #2463C7;
 $alert-blue: #273399;
 $alert-blue-bg: #EBEEFF;
+$gold: #D1B215;
+$gold-bg: #FFF9DE;
+$gold-border: #FFEB87;
 
 .green-text {
   color: $green;
@@ -44,4 +50,8 @@ $alert-blue-bg: #EBEEFF;
 
 .botcoin-green {
   color: $botcoin-green;
+}
+
+.gold {
+  color: $gold;
 }

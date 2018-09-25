@@ -1,14 +1,21 @@
 import React, { Component } from 'react';
 
 export default (props) => ( props.visible ?
-    <div id="floatingCirclesG">
-      <div className="f_circleG" id="frotateG_01"></div>
-      <div className="f_circleG" id="frotateG_02"></div>
-      <div className="f_circleG" id="frotateG_03"></div>
-      <div className="f_circleG" id="frotateG_04"></div>
-      <div className="f_circleG" id="frotateG_05"></div>
-      <div className="f_circleG" id="frotateG_06"></div>
-      <div className="f_circleG" id="frotateG_07"></div>
-      <div className="f_circleG" id="frotateG_08"></div>
-    </div> : <div></div>
-    );
+  <div class="lds-css ng-scope">
+    <div class="lds-spinner">
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+    </div>
+    { props.message ? <span>{`${props.message}`}</span> : <div></div>}
+  </div>  : <div></div>
+);
