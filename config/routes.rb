@@ -15,7 +15,7 @@ Rails.application.routes.draw do
   end
 
   constraints Clearance::Constraints::SignedOut.new do
-    root to: "pages#home"
+    root to: redirect('/sign_up')
   end
 
 end
