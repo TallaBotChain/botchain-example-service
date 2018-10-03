@@ -23,7 +23,7 @@ import Help from './containers/Help'
 import SignUp from './containers/SignUp'
 import SignIn from './containers/SignIn'
 import Wallet from './containers/Wallet'
-import Nav from './components/shared/Nav'
+import Navigation from './components/shared/Navigation'
 import KeyTools from './blockchain/KeyTools'
 
 const loggerMiddleware = createLogger()
@@ -48,7 +48,7 @@ if(document.getElementById('app')) {
         <Provider store={store}>
             <Router>
                 <div>
-                    <Nav />
+                    <Navigation />
                     <Route exact path="/" component={Developer}/>
                     <Route path="/settings" component={Settings}/>
                     <Route path="/help" component={Help}/>
