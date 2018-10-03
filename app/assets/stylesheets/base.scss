@@ -172,10 +172,12 @@ p {
     margin-bottom: 5px;
   }
   form{
-    .input {
-      max-width: 480px;
+    .form-group {
       input {
         max-width: 480px;
+        @media(max-width : $screen-xs-max) {
+          max-width: 80%;
+        }
       }
     }
   }

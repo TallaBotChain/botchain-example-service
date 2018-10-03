@@ -12,11 +12,19 @@ form {
     min-height: 48px;
     position: relative;
 
-    .tooltip {
-      left: 100%;
+    .tooltip1 {
+      left: 76%;
       position: absolute;
       top: 14px;
       z-index: 1;
+
+      @media(max-width : $screen-sm-max) {
+        left: 77%;
+      }
+
+      @media(max-width : $screen-xs-max) {
+        left: 80%;
+      }
 
       > div {
         cursor: pointer;
@@ -74,6 +82,26 @@ form {
             position: absolute;
             top: 1px;
             width: 0;
+          }
+
+          @media(max-width : $screen-sm-max) {
+            width: 140px;
+          }
+
+          @media(max-width : $screen-xs-max) {
+            width: 200px;
+            margin-left: -210px;
+            margin-top: -65px;
+            &:before {
+              border-color: transparent transparent transparent $lighter-gray;
+              border-width: 10px 0 10px 10px ;
+              left: 0;
+            }
+            &:after {
+              border-color: transparent transparent transparent $gray-gradient1 ;
+              border-width: 9px 0 9px 9px;
+              left: -3px;
+            }
           }
 
           a {
