@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {Field, reduxForm} from 'redux-form';
 import {required, length, url, email, acceptance} from 'redux-form-validators'
-import {inputField, checkboxField, captchaField} from '../form/FormFields'
+import {inputField} from '../form/FormFields'
 import Loader from '../Loader'
 
 class SignInForm extends Component {
