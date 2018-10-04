@@ -279,6 +279,7 @@ p {
   h1.botcoin, h1.ethereum {
     font-size: 3em;
     padding-top: 0;
+    margin-bottom: 2px;
 
     span {
       font-size: 0.333em;
@@ -293,5 +294,10 @@ p {
         float: right !important;
       }
     }
+  }
+
+  .dollar-balance {
+    margin-bottom: 30px;
+    display: block;
   }
 }

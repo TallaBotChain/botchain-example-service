@@ -1,4 +1,5 @@
 $orange: #FF6F59;
+$gray: #A0A4AA;
 $gray-text: #757B83;
 $gray-border: rgba(29,32,36,.22);
 $gray-text-hover: #60676F;
@@ -51,6 +52,10 @@ $gold-bg: #FFF9DE;
 $gold-border: #FFEB87;
 $wallet-link: #37BFA0;
 $wallet-link-active: #009673;
+
+.gray {
+  color: $gray;
+}
 
 .green-text {
   color: $green;

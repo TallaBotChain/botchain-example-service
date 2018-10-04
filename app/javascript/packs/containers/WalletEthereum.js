@@ -71,7 +71,7 @@ class WalletEthereumPage extends Component {
                 {round(this.props.wallet.balance)}<span>ETH</span>
               </h1>
               <strong className="dollar-balance gray">
-                <span>$</span>588.14
+                <span>$</span>{round(this.props.wallet.balance * this.props.wallet.usdExchangeRate)}
               </strong>
             </Col>
             <Col xs={7} sm={9} lg={10} className="buttons">

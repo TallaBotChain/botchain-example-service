@@ -59,7 +59,7 @@ class SendForm extends Component {
                   </Col>
                   <Col xs={4} className="gray-text right-small">
                     <div><small><small><strong>{this.props.currency==="ETH" && this.props.amount ? `$${round(this.props.amount*this.props.usdExchangeRate)}` : "$0" }</strong></small></small></div>
-                    <div><small><small><small>${round(this.props.transferTxEstGas*this.props.usdExchangeRate)}</small></small></small></div>
+                    <div><small><small><small>${round(this.props.transferTxEstGas*this.props.wallet.usdExchangeRate)}</small></small></small></div>
                   </Col>
                 </Row>
               </Row>

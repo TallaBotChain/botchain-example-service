@@ -2,6 +2,7 @@ import BotCoin from '../blockchain/BotCoin';
 import { start as startTxObserver } from './txObserverActions';
 import TxStatus from '../helpers/TxStatus'
 import {reset} from 'redux-form';
+import axios from 'axios'
 
 export const WalletActions = {
   SET_WALLET_ATTRIBUTE: 'SET_WALLET_ATTRIBUTE',
@@ -41,6 +42,7 @@ export const getBalances = () => (dispatch) => {
   // ethers
   botCoin.getBalance().then((balance)=>{
     dispatch(setBallance(botCoin.web3.utils.fromWei(balance, 'ether')))
+    dispatch(getExchangeRate())
   }, (error) => {
     console.log(error)
     dispatch(setBallance(0))
@@ -85,4 +87,15 @@ const transferTxMined = (status) => (dispatch) => {
   } else {
     dispatch( setError("Transfer transaction failed." ));
   }
+}
+
+export const getExchangeRate = () => (dispatch) => {
+  axios.get(window.app_config.coinbase_price_api_url)
+    .then(function (response) {
+      dispatch({ type: WalletActions.SET_WALLET_ATTRIBUTE, key: 'usdExchangeRate', value: response.data.data.amount });
+    })
+    .catch(function (error) {
+      dispatch({ type: WalletActions.SET_WALLET_ATTRIBUTE, key: 'usdExchangeRate', value: 0 });
+      console.log("Failed to retreive ETH - USD exchange rate." + error)
+    })
 }

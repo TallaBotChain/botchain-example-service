@@ -66,4 +66,5 @@ Rails.application.configure do
   config.x.curation_council_contract = "0xe5833761631ba75f34cc80dc85f57f6ff2381d24"
   config.x.urlshortener_api_key = "AIzaSyDS1dYnvSQPmC3Bwh5G62nrwFBD1pmveLM"
   config.x.gas_price = 4000000000
+  config.x.coinbase_price_api_url = "https://api.coinbase.com/v2/prices/ETH-USD/spot"
 end
