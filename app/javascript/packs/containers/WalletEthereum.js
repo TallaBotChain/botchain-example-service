@@ -62,7 +62,7 @@ class WalletEthereumPage extends Component {
     return (
       <div className="white-container">
         <WalletNavigation />
-      <div className='inner-container wallet'>
+        <div className='inner-container wallet'>
           <h1>Ethereum Balance</h1>
           <Errors errors={this.props.user.errors} />
           <Row>
@@ -104,6 +104,9 @@ const mapDispatchToProps = dispatch => {
     },
     transferTokens: (to, amount) => {
       dispatch(WalletActions.transferTokens(to, amount));
+    },
+    transferEstGas: (to, amount) => {
+      dispatch(WalletActions.transferEstGas(to, amount));
     }
   }
 }

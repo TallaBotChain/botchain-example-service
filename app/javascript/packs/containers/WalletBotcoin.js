@@ -13,6 +13,7 @@ import TransferModal from '../components/wallet/TransferModal';
 import Deposit from '../components/wallet/Deposit';
 import * as WalletActions from '../actions/walletActions.js'
 import {round} from '../utils/Rounder'
+import KeyTools from '../blockchain/KeyTools'
 
 class WalletBotcoinPage extends Component {
 
@@ -68,6 +69,7 @@ class WalletBotcoinPage extends Component {
 
   showSendModal = () => {
     this.setState({ show_send_modal: true });
+    this.props.transferEstGas(KeyTools.address, "0")
   }
 
   hideSendModal = () => {
@@ -142,6 +144,9 @@ const mapDispatchToProps = dispatch => {
     },
     transferTokens: (to, amount) => {
       dispatch(WalletActions.transferTokens(to, amount));
+    },
+    transferEstGas: (to, amount) => {
+      dispatch(WalletActions.transferEstGas(to, amount));
     }
   }
 }

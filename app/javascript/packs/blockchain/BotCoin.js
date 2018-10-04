@@ -109,6 +109,10 @@ class BotCoin {
       });
     })
   }
+
+  transferEtherEstGas(to, amount) {
+    return this.web3.eth.estimateGas({from: this.account, to: to, value: this.web3.utils.toWei(amount.toString(), "ether")})
+  }
 }
 
 export default BotCoin;
