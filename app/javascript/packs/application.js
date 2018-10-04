@@ -22,7 +22,8 @@ import Settings from './containers/Settings'
 import Help from './containers/Help'
 import SignUp from './containers/SignUp'
 import SignIn from './containers/SignIn'
-import Wallet from './containers/Wallet'
+import WalletBotcoin from './containers/WalletBotcoin'
+import WalletEthereum from './containers/WalletEthereum'
 import Navigation from './components/shared/Navigation'
 import KeyTools from './blockchain/KeyTools'
 
@@ -54,7 +55,8 @@ if(document.getElementById('app')) {
                     <Route path="/help" component={Help}/>
                     <Route path='/sign_up' component={SignUp} />
                     <Route path='/sign_in' component={SignIn} />
-                    <Route path='/wallet' component={Wallet} />
+                    <Route path='/wallet/botcoin' component={WalletBotcoin} />
+                    <Route path='/wallet/ethereum' component={WalletEthereum} />
                 </div>
             </Router>
         </Provider>,

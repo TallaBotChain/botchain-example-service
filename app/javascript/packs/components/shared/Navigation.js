@@ -12,7 +12,7 @@ class Navigation extends React.Component {
         <LinkContainer exact to="/" key={1}>
           <NavItem eventKey={1}>Register</NavItem>
         </LinkContainer>
-        <LinkContainer to="/wallet" key={2}>
+        <LinkContainer to="/wallet/ethereum" key={2}>
           <NavItem eventKey={2}>Wallet</NavItem>
         </LinkContainer>
         <LinkContainer to="/settings" key={3}>

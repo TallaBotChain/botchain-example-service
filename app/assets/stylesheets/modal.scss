@@ -1,105 +1,362 @@
-@import './colors.scss';
+//
+// .modal {
+//   position: fixed;
+//   z-index: 1;
+//   left: 0;
+//   top: 0;
+//   width: 100%;
+//   height: 100%;
+//   overflow: auto;
+//   background-color: $overlay;
+// }
+//
+// .modal-content {
+//   background-color: white;
+//   margin: 10% auto 0;
+//   border: none;
+//   border-radius: 8px;
+//   max-width: 600px;
+//   min-height: 240px;
+//   padding: 30px 20px 20px;
+//   box-shadow: 0 0 8px $gray-border;
+//   text-align: center;
+//
+//   h2 {
+//     text-transform: uppercase;
+//     margin-bottom: 0;
+//     margin-top: 0;
+//     letter-spacing: 0.04em;
+//
+//     &.gold {
+//       margin-bottom: 10px;
+//     }
+//   }
+//
+//   h3 {
+//     color: $gray-text;
+//     font-weight: 300;
+//     margin-top: 0;
+//   }
+//
+//   a {
+//     font-weight: 600;
+//     display: inline-block;
+//     border-bottom: 1px solid $gray-input;
+//     line-height: 1.2em;
+//   }
+//
+//   p {
+//     max-width: 380px;
+//     margin: 0 auto 15px;
+//     line-height: 1.7em;
+//     font-weight: 400;
+//
+//     &.large-p {
+//       max-width: 450px;
+//     }
+//   }
+//
+//   .orange-button {
+//     margin-bottom: 5px;
+//   }
+//
+//   .default-button {
+//     margin-top: 60px;
+//   }
+//
+//   p.alert {
+//     display: block;
+//     max-width: 505px;
+//     margin-bottom: 3px;
+//     background-position: 13px 20px;
+//   }
+//
+//   .warning {
+//     max-width: 505px;
+//     background: $gold-bg asset_url('warning.png') no-repeat 13px 12px;
+//     border: 1px solid $gold-border;
+//     color: $gold;
+//     padding: 10px 20px 10px 40px;
+//     text-align: left;
+//     margin: 0 auto 10px;
+//
+//     h4 {
+//       text-transform: uppercase;
+//       margin: 0;
+//       letter-spacing: 0.08em;
+//     }
+//
+//     p {
+//       max-width: unset;
+//       margin: 0;
+//       font-weight: 300;
+//       letter-spacing: 0.01em;
+//     }
+//   }
+//
+//   .lds-css {
+//     margin: 0 auto 25px;
+//   }
+//
+//   .lds-spinner {
+//     float: left;
+//   }
+// }
 
-.modal {
-  position: fixed;
-  z-index: 1;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  overflow: auto;
-  background-color: $overlay;
+.modal-backdrop {
+  background-color: $black;
+  &.in {
+    opacity: 0.86;
+  }
 }
 
-.modal-content {
-  background-color: white;
-  margin: 10% auto 0;
-  border: none;
-  border-radius: 8px;
-  max-width: 600px;
-  min-height: 240px;
-  padding: 30px 20px 20px;
-  box-shadow: 0 0 8px $gray-border;
-  text-align: center;
-
-  h2 {
-    text-transform: uppercase;
-    margin-bottom: 0;
-    margin-top: 0;
-    letter-spacing: 0.04em;
-
-    &.gold {
-      margin-bottom: 10px;
-    }
+.modal-dialog.app-modal {
+  margin-top: 180px;
+  .modal-content {
+    min-height: 370px;
+    box-shadow: 0 0 8px $gray-border;
+    padding-bottom: 15px;
   }
+  .modal-header {
+    border-bottom: 0;
 
-  h3 {
-    color: $gray-text;
-    font-weight: 300;
-    margin-top: 0;
-  }
-
-  a {
-    font-weight: 600;
-    display: inline-block;
-    border-bottom: 1px solid $gray-input;
-    line-height: 1.2em;
-  }
-
-  p {
-    max-width: 380px;
-    margin: 0 auto 15px;
-    line-height: 1.7em;
-    font-weight: 400;
-
-    &.large-p {
-      max-width: 450px;
-    }
-  }
-
-  .orange-button {
-    margin-bottom: 5px;
-  }
-
-  .default-button {
-    margin-top: 60px;
-  }
-
-  p.alert {
-    display: block;
-    max-width: 505px;
-    margin-bottom: 3px;
-    background-position: 13px 20px;
-  }
-
-  .warning {
-    max-width: 505px;
-    background: $gold-bg asset_url('warning.png') no-repeat 13px 12px;
-    border: 1px solid $gold-border;
-    color: $gold;
-    padding: 10px 20px 10px 40px;
-    text-align: left;
-    margin: 0 auto 10px;
-
-    h4 {
+    h4{
+      font-size: 1.25em;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      margin-top: 17px;
       text-transform: uppercase;
-      margin: 0;
-      letter-spacing: 0.08em;
     }
-
-    p {
-      max-width: unset;
-      margin: 0;
-      font-weight: 300;
-      letter-spacing: 0.01em;
+    .close {
+      font-size: 2.375em;
+      color: rgba(29,32,36,0.32);
+      opacity: 1;
+      font-weight: 500;
+      &:hover {
+        color: $gray-text-hover;
+      }
     }
   }
 
-  .lds-css {
-    margin: 0 auto 25px;
+  .form-footer {
+    margin-top: 40px;
+
+    div {
+      overflow-x: hidden;
+    }
+
+    strong {
+      font-size: 500;
+    }
+
+    .right-small {
+      border-left: 1px solid $gray-input;
+    }
   }
 
-  .lds-spinner {
-    float: left;
+  .modal-body {
+    padding-bottom: 0;
+  }
+  .modal-footer {
+    border-top: 0;
+    text-align: center;
+    padding-top: 0;
+    small {
+      font-weight: 500;
+    }
+  }
+
+  &.send-modal {
+    .modal-header {
+      padding-bottom: 0;
+    }
+
+    .modal-body {
+      padding-top: 0;
+
+      form {
+        margin-top: 30px;
+      }
+    }
+
+    .modal-content {
+      h3.gray-text {
+        font-weight: 400;
+        span {
+          &.eth {
+            small {
+              color: $ethereum;
+            }
+          }
+          &.botc {
+            small {
+              color: $botcoin-title;
+            }
+          }
+        }
+      }
+
+      .form-icon {
+        display: block;
+        height: 28px;
+        width: 28px;
+        background: asset_url('form_icons.png') no-repeat;
+        position: absolute;
+        top: 11px;
+        left: 10px;
+
+        &.currency-icon {
+          background-position: -30px 0;
+        }
+      }
+
+      .form-group {
+        width: 100%;
+        max-width: 430px;
+        margin: 0 10px 8px auto;
+        input#amount {
+          max-width: 174px;
+        }
+      }
+
+      .currency {
+        position: absolute;
+        top: 11px;
+        left: 225px;
+        font-weight: 500;
+      }
+    }
+
+    &.botc-modal {
+      .modal-content {
+        .form-icon {
+          background-position: -58px 0;
+
+          &.currency-icon {
+            background-position: -88px 0;
+          }
+        }
+      }
+    }
+  }
+
+  &.receive-modal {
+    .modal-content {
+
+      .qr {
+        width: 148px;
+        height: 148px;
+        padding: 8px;
+        background: white;
+        border-radius: 8px;
+        box-shadow: 1px 0 3px $gray-border;
+        margin-bottom: 20px;
+      };
+
+      h3 {
+        letter-spacing: unset;
+        &.gray-text {
+          font-weight: 400;
+          text-transform: capitalize;
+        }
+        &.ethereum, &.botcoin {
+          text-shadow: 0 2px 2px white;
+        }
+        &.botcoin {
+          color: $botcoin;
+        }
+      }
+
+      a {
+        color: $state;
+        &.hover {
+          text-decoration: underline;
+        }
+      }
+    }
+  }
+  &.ethereum-modal, &.eth-modal {
+    .modal-content {
+      background: white asset_url('eth_bg.png') no-repeat top right / cover;
+    }
+    .modal-title {
+      color: $ethereum;
+    }
+  }
+  &.botcoin-modal, &.botc-modal {
+    .modal-content {
+      background: white asset_url('botc_bg.png') no-repeat top right / cover;
+    }
+    .modal-title {
+      color: $botcoin-title;
+    }
+  }
+
+  &.confirm-modal {
+    .modal-content {
+      min-height: 320px;
+    }
+    .modal-title {
+      color: $check-green;
+      margin-bottom: 10px;
+      h4 {
+        margin-bottom: 20px;
+      }
+    }
+    .name {
+      font-size: 1.125em;
+    }
+    .modal-body {
+      small {
+        margin-top: 15px;
+        margin-bottom: 15px;
+        display: inline-block;
+        small {
+          margin: 0;
+        }
+      }
+    }
+    .modal-footer {
+      margin-top: 40px;
+    }
+  }
+  &.reject-modal {
+    .modal-content {
+      background: white asset_url('reject_bg.png') no-repeat top right / cover;
+    }
+    .modal-title {
+      color: $error;
+    }
+  }
+  &.approve-modal {
+    .modal-content {
+      background: white asset_url('approve_bg.png') no-repeat top right / cover;
+    }
+    .modal-body {
+      h4 {
+        margin-bottom: 15px;
+        .botcoin-title {
+          font-size: 0.66em;
+        }
+      }
+      .pending {
+        h4 {
+          margin-bottom: 5px;
+        }
+        em{
+          font-weight: 400;
+        }
+        a.gray-text {
+          text-decoration: none;
+          display: inline-block;
+          border-bottom: 1px solid $gray-input;
+
+          &:hover, &.active {
+            color: $blue-hover-link;
+            border-bottom: 1px solid $gray-border;
+          }
+        }
+      }
+    }
   }
 }

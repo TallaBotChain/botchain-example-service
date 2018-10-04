@@ -27,7 +27,7 @@ class TransferModal extends Component {
   }
 
   cancelClick = () =>  {
-    this.resetState()
+    this.resetState();
     this.props.cancelClick();
   }
 
