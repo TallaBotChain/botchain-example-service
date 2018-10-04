@@ -272,3 +272,26 @@ p {
     background: asset_url('fun-picture.png') no-repeat 0 30px;
   }
 }
+
+.wallet {
+  padding-top: 10px;
+
+  h1.botcoin, h1.ethereum {
+    font-size: 3em;
+    padding-top: 0;
+
+    span {
+      font-size: 0.333em;
+      margin-left: 5px;
+    }
+  }
+
+  .buttons {
+    button {
+      margin-left: 15px;
+      @media(max-width : $screen-xs-max) {
+        float: right !important;
+      }
+    }
+  }
+}

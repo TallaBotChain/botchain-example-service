@@ -12,6 +12,7 @@ import TransferForm from '../components/wallet/TransferForm';
 import TransferModal from '../components/wallet/TransferModal';
 import Deposit from '../components/wallet/Deposit';
 import * as WalletActions from '../actions/walletActions.js'
+import {round} from '../utils/Rounder'
 
 class WalletBotcoinPage extends Component {
 
@@ -78,20 +79,21 @@ class WalletBotcoinPage extends Component {
     return (
       <div className="white-container">
         <WalletNavigation />
-        <div className='inner-container registration'>
+      <div className='inner-container wallet'>
           <h1>Botcoin Balance</h1>
           <Errors errors={this.props.user.errors} />
-          <div className="balance">
-            <h1 className="botcoin">
-              {this.props.wallet.tokenBalance}<span>BOTC</span>
-            </h1>
-          </div>
-          <div className="buttons">
+          <Row>
+            <Col xs={5} sm={3} lg={2} className="balance">
+              <h1 className="botcoin">
+                {round(this.props.wallet.tokenBalance)}<span>BOTC</span>
+              </h1>
+            </Col>
+            <Col xs={7} sm={9} lg={10} className="buttons">
+              <Button onClick={this.showSendModal} bsClass="btn orange-button cta-button width-100 pull-left" disabled={!this.canTransfer()}>SEND</Button>
+            <Button onClick={this.showReceiveModal} bsClass="btn default-button cta-button width-100 pull-left">Receive</Button>
+            </Col>
+          </Row>
 
-              <Button onClick={this.showSendModal} bsClass="btn orange-button small-button width-100" disabled={!this.canTransfer()}>SEND</Button>
-
-            <Button onClick={this.showReceiveModal} bsClass="btn default-button small-button width-100">Receive</Button>
-          </div>
           <h5 className="gray text-left">TRANSACTION HISTORY</h5>
 
           <div className="centered">

@@ -11,6 +11,7 @@ import TransferForm from '../components/wallet/TransferForm';
 import TransferModal from '../components/wallet/TransferModal';
 import Deposit from '../components/wallet/Deposit';
 import * as WalletActions from '../actions/walletActions.js'
+import {round} from '../utils/Rounder'
 
 class WalletEthereumPage extends Component {
 
@@ -61,21 +62,23 @@ class WalletEthereumPage extends Component {
     return (
       <div className="white-container">
         <WalletNavigation />
-        <div className='inner-container registration'>
+      <div className='inner-container wallet'>
           <h1>Ethereum Balance</h1>
           <Errors errors={this.props.user.errors} />
-        <div className="balance">
-            <h1 className="ethereum">
-              {this.props.wallet.balance}<span>ETH</span>
-            </h1>
-            <strong className="dollar-balance gray">
-              <span>$</span>588.14
-            </strong>
-          </div>
-          <div className="buttons">
-            <button className="btn orange-button small-button width-100">SEND</button>
-            <Button onClick={this.showReceiveModal} bsClass="btn default-button small-button width-100">Receive</Button>
-          </div>
+          <Row>
+            <Col xs={5} sm={3} lg={2} className="balance">
+              <h1 className="ethereum">
+                {round(this.props.wallet.balance)}<span>ETH</span>
+              </h1>
+              <strong className="dollar-balance gray">
+                <span>$</span>588.14
+              </strong>
+            </Col>
+            <Col xs={7} sm={9} lg={10} className="buttons">
+              <Button bsClass="btn orange-button cta-button width-100 pull-left" disabled>SEND</Button>
+              <Button onClick={this.showReceiveModal} bsClass="btn default-button cta-button width-100">Receive</Button>
+            </Col>
+          </Row>
           <h5 className="gray text-left">TRANSACTION HISTORY</h5>
         </div>
         <ReceiveModal show={this.state.show_receive_modal} handleClose={this.hideReceiveModal} address={this.props.user.ethAddress} currency="ethereum" />
