@@ -81,10 +81,13 @@ SendForm = reduxForm({
 const selector = formValueSelector('eth_transfer') // <-- same as form name
 
 SendForm = connect(
-  state => ({
-    initialValues: {from: state.user.ethAddress},
-    enableReinitialize: true, // pull initial values from reducer
-  })
+  state => {
+    const amount = selector(state, 'amount')
+    return {
+      amount
+    };
+  }
 )(SendForm);
+
 
 export default SendForm;
