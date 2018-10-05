@@ -10,9 +10,9 @@ export default class SendModal extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    // if(!this.props.walletData.hasPendingTx && nextProps.walletData.hasPendingTx && this.props.show) {
-    //   this.props.handleClose()
-    // }
+    if(!this.props.wallet.hasPendingTx && nextProps.wallet.hasPendingTx && this.props.show) {
+      this.props.handleClose()
+    }
   }
 
 

@@ -91,8 +91,10 @@ class WalletBotcoinPage extends Component {
               </h1>
             </Col>
             <Col xs={7} sm={9} lg={10} className="buttons">
-              <Button onClick={this.showSendModal} bsClass="btn orange-button cta-button width-100 pull-left" disabled={!this.canTransfer()}>SEND</Button>
-            <Button onClick={this.showReceiveModal} bsClass="btn default-button cta-button width-100 pull-left">Receive</Button>
+              <Button onClick={this.showSendModal} bsClass="btn orange-button cta-button width-100 pull-left" disabled={!this.canTransfer() || this.props.wallet.hasPendingTx}>
+                {this.props.wallet.hasPendingTx ? "IN PROGRESS" : "SEND"}
+              </Button>
+              <Button onClick={this.showReceiveModal} bsClass="btn default-button cta-button width-100 pull-left">Receive</Button>
             </Col>
           </Row>
 

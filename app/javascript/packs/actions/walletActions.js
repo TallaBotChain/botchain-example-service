@@ -29,6 +29,10 @@ export const resetState = () => {
   return { type: WalletActions.RESET_STATE}
 }
 
+const setPendingTx = (hasPendingTx) => {
+  return { type: WalletActions.SET_WALLET_ATTRIBUTE, key: 'hasPendingTx', value: hasPendingTx }
+}
+
 export const resetTransferState = () => (dispatch) => {
   dispatch({ type: WalletActions.SET_WALLET_ATTRIBUTE, key: 'transferTxMined', value: false });
   dispatch({ type: WalletActions.SET_WALLET_ATTRIBUTE, key: 'transferTxId', value: null });
@@ -64,6 +68,7 @@ export const getBalances = () => (dispatch) => {
 
 export const transferTokens = (to, amount) => async (dispatch) => {
   dispatch(setInProgress(true))
+  dispatch(setPendingTx(true))
   let botCoin = new BotCoin()
   let amount_wei = botCoin.web3.utils.toWei(amount.toString(), 'ether');
   try {
@@ -74,11 +79,13 @@ export const transferTokens = (to, amount) => async (dispatch) => {
     console.log(e);
     dispatch( setError( "Failed to initiate transfer." ));
     dispatch(setInProgress(false))
+    dispatch(setPendingTx(false))
   }
 }
 
 const transferTxMined = (status) => (dispatch) => {
   dispatch(setInProgress(false))
+  dispatch(setPendingTx(false))
   dispatch(reset('transfer'));
   dispatch({ type: WalletActions.SET_WALLET_ATTRIBUTE, key: 'transferTxMined', value: true });
   if(status == TxStatus.SUCCEED){
