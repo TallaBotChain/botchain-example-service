@@ -6,7 +6,7 @@ import {round} from '../../utils/Rounder'
 export default class SendModal extends Component {
 
   handleSubmit = (values) => {
-    this.props.transfer(values.to, values.amount)
+    this.props.transferTokens(values.to, values.amount)
   }
 
   componentWillReceiveProps(nextProps) {
