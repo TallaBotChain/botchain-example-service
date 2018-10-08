@@ -33,13 +33,6 @@ const setPendingTx = (hasPendingTx) => {
   return { type: WalletActions.SET_WALLET_ATTRIBUTE, key: 'hasPendingTx', value: hasPendingTx }
 }
 
-export const resetTransferState = () => (dispatch) => {
-  dispatch({ type: WalletActions.SET_WALLET_ATTRIBUTE, key: 'transferTxMined', value: false });
-  dispatch({ type: WalletActions.SET_WALLET_ATTRIBUTE, key: 'transferTxId', value: null });
-  dispatch({ type: WalletActions.SET_WALLET_ATTRIBUTE, key: 'transferSuccess', value: false });
-  dispatch(setError(null))
-}
-
 export const getBalances = () => (dispatch) => {
   dispatch(setInProgress(true))
   let botCoin = new BotCoin()

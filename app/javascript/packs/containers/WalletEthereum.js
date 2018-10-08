@@ -4,12 +4,7 @@ import {connect} from 'react-redux'
 import { Redirect } from 'react-router-dom'
 import Errors from '../components/Errors';
 import WalletNavigation from '../components/wallet/WalletNavigation';
-import WalletNav from '../components/wallet/WalletNav';
 import ReceiveModal from '../components/wallet/ReceiveModal';
-import Information from '../components/wallet/Information';
-import TransferForm from '../components/wallet/TransferForm';
-import TransferModal from '../components/wallet/TransferModal';
-import Deposit from '../components/wallet/Deposit';
 import * as WalletActions from '../actions/walletActions.js'
 import {round} from '../utils/Rounder'
 
@@ -18,7 +13,6 @@ class WalletEthereumPage extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      transfer_modal_visible: false,
       amount: null,
       to: null
     };
@@ -26,19 +20,6 @@ class WalletEthereumPage extends Component {
 
   componentDidMount() {
     this.props.getBalances()
-  }
-
-  openTransferModal = (values) => {
-    this.props.resetTransferState()
-    this.setState({
-      transfer_modal_visible: true,
-      amount: values.amount,
-      to: values.to
-    });
-  }
-
-  cancelClick = () => {
-    this.setState({transfer_modal_visible: false});
   }
 
   okClick = () => {
@@ -96,9 +77,6 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    resetTransferState: () => {
-      dispatch( WalletActions.resetTransferState() );
-    },
     getBalances: () => {
       dispatch(WalletActions.getBalances());
     },

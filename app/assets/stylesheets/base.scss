@@ -13,6 +13,37 @@ body {
   }
 }
 
+
+.alert {
+  padding: 15px 40px;
+  margin-bottom: 10px;
+  border-radius: 0;
+  color: $alert;
+  border: 1px solid $alert-border;
+  background: $alert-bg asset_url('error.png') no-repeat 13px 18px;
+  max-width: 470px;
+  text-align: left;
+  display: inline-block;
+
+  ul {
+    margin: 0;
+    padding-left: 0;
+  }
+}
+
+.alert-info {
+  background-color: $alert-blue-bg;
+  border-radius: 0;
+  border: none;
+  color: $alert-blue;
+  line-height: 1.8em;
+  margin-top: 25px;
+  padding: 5px 13px 10px;
+  text-align: left;
+  font-weight: 500;
+  display: inline-block;
+}
+
 .app-container {
   max-width: 1210px;
   min-height: 100vh;

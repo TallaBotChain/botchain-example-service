@@ -4,13 +4,8 @@ import {connect} from 'react-redux'
 import { Redirect } from 'react-router-dom'
 import Errors from '../components/Errors';
 import WalletNavigation from '../components/wallet/WalletNavigation';
-import WalletNav from '../components/wallet/WalletNav';
 import ReceiveModal from '../components/wallet/ReceiveModal';
 import SendModal from '../components/wallet/SendModal';
-import Information from '../components/wallet/Information';
-import TransferForm from '../components/wallet/TransferForm';
-import TransferModal from '../components/wallet/TransferModal';
-import Deposit from '../components/wallet/Deposit';
 import * as WalletActions from '../actions/walletActions.js'
 import {round} from '../utils/Rounder'
 import KeyTools from '../blockchain/KeyTools'
@@ -20,8 +15,6 @@ class WalletBotcoinPage extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      activeTab: 'Information',
-      transfer_modal_visible: false,
       show_receive_modal: false,
       show_send_modal: false,
       amount: null,
@@ -31,28 +24,6 @@ class WalletBotcoinPage extends Component {
 
   componentDidMount() {
     this.props.getBalances()
-  }
-
-  onTabChange = (tab) => {
-    this.setState({activeTab: tab});
-  }
-
-  openTransferModal = (values) => {
-    this.props.resetTransferState()
-    this.setState({
-      transfer_modal_visible: true,
-      amount: values.amount,
-      to: values.to
-    });
-  }
-
-  cancelClick = () => {
-    this.setState({transfer_modal_visible: false});
-    this.setState({show_receive_modal: false});
-  }
-
-  okClick = () => {
-    this.props.transferTokens(this.state.to, this.state.amount);
   }
 
   canTransfer = () => {
@@ -81,7 +52,7 @@ class WalletBotcoinPage extends Component {
     return (
       <div className="white-container">
         <WalletNavigation />
-      <div className='inner-container wallet'>
+        <div className='inner-container wallet'>
           <h1>Botcoin Balance</h1>
           <Errors errors={this.props.user.errors} />
           <Row>
@@ -99,28 +70,6 @@ class WalletBotcoinPage extends Component {
           </Row>
 
           <h5 className="gray text-left">TRANSACTION HISTORY</h5>
-
-          <div className="centered">
-            <WalletNav activeTab={this.state.activeTab} onTabChange={this.onTabChange}/>
-          </div>
-          <div className="centered">
-            {this.state.activeTab == 'Transfer' && (
-              <div>
-                {this.props.wallet.transferSuccess && (
-                  <p className='alert-info'>Transfer was successfully completed!!</p>
-                )}
-                {this.canTransfer() ? (
-                  <div>
-                    <TransferForm onSubmit={this.openTransferModal} {...this.props}/>
-                    <TransferModal tx_id={this.props.wallet.transferTxId} visible={this.state.transfer_modal_visible && !this.props.wallet.transferTxMined} amount={this.state.amount} okClick={this.okClick} cancelClick={this.cancelClick} />
-                  </div>
-                ) : (
-                  <p className='alert-info'>Not enough funds for transfer!</p>
-                )}
-              </div>
-            )}
-          </div>
-
         </div>
         <ReceiveModal show={this.state.show_receive_modal} handleClose={this.hideReceiveModal} address={this.props.user.ethAddress} currency="botcoin" />
         <SendModal show={this.state.show_send_modal} handleClose={this.hideSendModal} {...this.props} currency="BOTC" />
@@ -138,9 +87,6 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    resetTransferState: () => {
-      dispatch( WalletActions.resetTransferState() );
-    },
     getBalances: () => {
       dispatch(WalletActions.getBalances());
     },
