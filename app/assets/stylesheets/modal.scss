@@ -1,108 +1,3 @@
-//
-// .modal {
-//   position: fixed;
-//   z-index: 1;
-//   left: 0;
-//   top: 0;
-//   width: 100%;
-//   height: 100%;
-//   overflow: auto;
-//   background-color: $overlay;
-// }
-//
-// .modal-content {
-//   background-color: white;
-//   margin: 10% auto 0;
-//   border: none;
-//   border-radius: 8px;
-//   max-width: 600px;
-//   min-height: 240px;
-//   padding: 30px 20px 20px;
-//   box-shadow: 0 0 8px $gray-border;
-//   text-align: center;
-//
-//   h2 {
-//     text-transform: uppercase;
-//     margin-bottom: 0;
-//     margin-top: 0;
-//     letter-spacing: 0.04em;
-//
-//     &.gold {
-//       margin-bottom: 10px;
-//     }
-//   }
-//
-//   h3 {
-//     color: $gray-text;
-//     font-weight: 300;
-//     margin-top: 0;
-//   }
-//
-//   a {
-//     font-weight: 600;
-//     display: inline-block;
-//     border-bottom: 1px solid $gray-input;
-//     line-height: 1.2em;
-//   }
-//
-//   p {
-//     max-width: 380px;
-//     margin: 0 auto 15px;
-//     line-height: 1.7em;
-//     font-weight: 400;
-//
-//     &.large-p {
-//       max-width: 450px;
-//     }
-//   }
-//
-//   .orange-button {
-//     margin-bottom: 5px;
-//   }
-//
-//   .default-button {
-//     margin-top: 60px;
-//   }
-//
-//   p.alert {
-//     display: block;
-//     max-width: 505px;
-//     margin-bottom: 3px;
-//     background-position: 13px 20px;
-//   }
-//
-//   .warning {
-//     max-width: 505px;
-//     background: $gold-bg asset_url('warning.png') no-repeat 13px 12px;
-//     border: 1px solid $gold-border;
-//     color: $gold;
-//     padding: 10px 20px 10px 40px;
-//     text-align: left;
-//     margin: 0 auto 10px;
-//
-//     h4 {
-//       text-transform: uppercase;
-//       margin: 0;
-//       letter-spacing: 0.08em;
-//     }
-//
-//     p {
-//       max-width: unset;
-//       margin: 0;
-//       font-weight: 300;
-//       letter-spacing: 0.01em;
-//     }
-//   }
-//
-//   .lds-css {
-//     margin: 0 auto 25px;
-//   }
-//
-//   .lds-spinner {
-//     float: left;
-//   }
-// }
-
 .modal-backdrop {
   background-color: $black;
   &.in {
@@ -116,6 +11,7 @@
     min-height: 370px;
     box-shadow: 0 0 8px $gray-border;
     padding-bottom: 15px;
+    border-radius: 8px;
   }
   .modal-header {
     border-bottom: 0;
@@ -320,42 +216,103 @@
       margin-top: 40px;
     }
   }
-  &.reject-modal {
-    .modal-content {
-      background: white asset_url('reject_bg.png') no-repeat top right / cover;
-    }
-    .modal-title {
-      color: $error;
-    }
-  }
-  &.approve-modal {
-    .modal-content {
-      background: white asset_url('approve_bg.png') no-repeat top right / cover;
-    }
-    .modal-body {
-      h4 {
-        margin-bottom: 15px;
-        .botcoin-title {
-          font-size: 0.66em;
-        }
-      }
-      .pending {
-        h4 {
-          margin-bottom: 5px;
-        }
-        em{
-          font-weight: 400;
-        }
-        a.gray-text {
-          text-decoration: none;
-          display: inline-block;
-          border-bottom: 1px solid $gray-input;
 
-          &:hover, &.active {
-            color: $blue-hover-link;
-            border-bottom: 1px solid $gray-border;
+  &.payment-modal {
+    .modal-content {
+      .modal-header {
+        padding-bottom: 5px;
+
+        h4 {
+          font-weight: 800;
+          letter-spacing: 0.05em;
+
+          &.gold {
+            margin-bottom: 4px;
+            font-weight: 600;
           }
         }
+      }
+
+      .modal-body {
+        padding-top: 0;
+      }
+
+      h3 {
+        color: $gray-text;
+        font-weight: 400;
+        margin-top: 0;
+        margin-bottom: 15px;
+      }
+
+      a {
+        font-weight: 600;
+        display: inline-block;
+        border-bottom: 1px solid $gray-input;
+        line-height: 1.2em;
+
+        &:hover, &:active, &:focus {
+          text-decoration: none;
+        }
+      }
+
+      p {
+        max-width: 440px;
+        margin: 0 auto 15px;
+        line-height: 1.7em;
+        font-weight: 400;
+
+        &.large-p {
+          max-width: 450px;
+        }
+      }
+
+      .orange-button {
+        margin-bottom: 5px;
+      }
+
+      .default-button {
+        margin-top: 60px;
+      }
+
+      p.alert {
+        display: block;
+        max-width: 505px;
+        margin-bottom: 3px;
+        background-position: 13px 20px;
+      }
+
+      .warning {
+        max-width: 505px;
+        background: $gold-bg asset_url('warning.png') no-repeat 13px 12px;
+        border: 1px solid $gold-border;
+        color: $gold;
+        padding: 10px 20px 10px 40px;
+        text-align: left;
+        margin: 0 auto 10px;
+
+        h4 {
+          text-transform: uppercase;
+          margin: 0 0 10px;
+          letter-spacing: 0.08em;
+        }
+
+        p {
+          max-width: unset;
+          margin: 0;
+          font-weight: 300;
+          letter-spacing: 0.01em;
+          line-height: 1.55em;
+          font-size: 0.9375em;
+        }
+      }
+
+      .lds-css {
+        margin: 0 auto 25px;
+        width: 220px;
+      }
+
+      .lds-spinner {
+        float: left;
       }
     }
   }

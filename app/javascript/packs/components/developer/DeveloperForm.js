@@ -5,6 +5,7 @@ import { MetadataValidator } from '../../validators/MetadataValidator';
 import { inputField, textareaField } from '../form/FormFields';
 import {connect} from 'react-redux'
 import MetadataTooltip from './MetadataTooltip';
+import { Button } from 'react-bootstrap';
 
 const REQUIRED_METADATA_ATTRIBUTES = ["name","organization","street_1","city","state/province","postal_code","country","phone","email","url"]
 
@@ -35,7 +36,9 @@ class DeveloperForm extends Component {
           component={textareaField} label="Metadata" placeholder="Will be autoloaded from url above" readOnly={true}
           validate={[required(), validateMetadata]}
         />
-        <button className='orange-button cta-button' type="submit">REGISTER</button>
+        <Button bsClass="btn orange-button cta-button" type="submit">
+          REGISTER
+        </Button>
       </form>
     );
   }

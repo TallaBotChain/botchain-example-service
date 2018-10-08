@@ -9,7 +9,9 @@ const initialState = {
   tokenBalance: 0,
   transferTxId: null,
   transferTxMined: false,
-  transferSuccess: false
+  transferSuccess: false,
+  usdExchangeRate: 0,
+  hasPendingTx: false
 }
 
 const wallet = (state = initialState, action) => {
