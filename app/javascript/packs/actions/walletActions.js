@@ -57,8 +57,6 @@ export const getBalances = () => (dispatch) => {
   });
 }
 
-
-
 export const transferTokens = (to, amount) => async (dispatch) => {
   dispatch(setInProgress(true))
   dispatch(setPendingTx(true))
@@ -104,7 +102,7 @@ export const transferEstGas = (to, amount) => async (dispatch) => {
   dispatch(setInProgress(true))
   try {
     let botCoin = new BotCoin()
-    let transferGas = await botCoin.transferEtherEstGas(to, amount);
+    let transferGas = await botCoin.transferTokensEstGas(to, amount);
     let gasFee = botCoin.web3.utils.fromWei((transferGas*botCoin.gasPrice).toString())
     dispatch( { type: WalletActions.SET_WALLET_ATTRIBUTE, key: 'transferTxEstGas', value: gasFee });
   }catch(e) {

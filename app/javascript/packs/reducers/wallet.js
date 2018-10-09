@@ -11,6 +11,7 @@ const initialState = {
   transferTxMined: false,
   transferSuccess: false,
   usdExchangeRate: 0,
+  transferTxEstGas: 0,
   hasPendingTx: false
 }
 

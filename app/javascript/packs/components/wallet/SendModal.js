@@ -10,7 +10,7 @@ export default class SendModal extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if(!this.props.wallet.hasPendingTx && nextProps.wallet.hasPendingTx && this.props.show) {
+    if(!this.props.walletData.hasPendingTx && nextProps.walletData.hasPendingTx && this.props.show) {
       this.props.handleClose()
     }
   }
@@ -23,7 +23,7 @@ export default class SendModal extends Component {
           <Modal.Title className="text-center">Send {this.props.currency==="ETH" ? "ETHEREUM" : "BOTCOIN"}</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <h3 className="gray-text text-center">Available Balance: <span className={this.props.currency.toLowerCase()}>{round( this.props.currency==="ETH" ? this.props.wallet.balance : this.props.wallet.tokenBalance)} <small>{this.props.currency}</small></span></h3>
+          <h3 className="gray-text text-center">Available Balance: <span className={this.props.currency.toLowerCase()}>{round( this.props.currency==="ETH" ? this.props.walletData.balance : this.props.walletData.tokenBalance)} <small>{this.props.currency}</small></span></h3>
           <SendForm onSubmit={this.handleSubmit} {...this.props} />
         </Modal.Body>
       </Modal>

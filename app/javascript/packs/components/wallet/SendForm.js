@@ -12,14 +12,14 @@ const ethAddress = value => (window.keyTools.web3.utils.isAddress(value) ? undef
 class SendForm extends Component {
 
   hasEnoughEth = () => {
-    return this.props.wallet.balance > this.props.wallet.transferTxEstGas
+    return this.props.walletData.balance > this.props.walletData.transferTxEstGas
   }
 
   availableBalance = () => {
     if (this.props.currency === "ETH") {
-      return this.props.wallet.balance > 0 ? (this.props.wallet.balance - this.props.wallet.transferTxEstGas) : this.props.wallet.balance
+      return this.props.walletData.balance > 0 ? (this.props.walletData.balance - this.props.walletData.transferTxEstGas) : this.props.walletData.balance
     } else {
-      return this.props.wallet.tokenBalance
+      return this.props.walletData.tokenBalance
     }
   }
 
@@ -53,11 +53,11 @@ class SendForm extends Component {
                 <Row>
                   <Col xs={8} className="gray-text">
                     <div><small><strong>Send {this.props.amount ? this.props.amount : 0} <small>{this.props.currency}</small></strong></small></div>
-                    <div><small><small>Gas Fee: {this.props.wallet.transferTxEstGas} <small>ETH</small></small></small></div>
+                    <div><small><small>Gas Fee: {this.props.walletData.transferTxEstGas} <small>ETH</small></small></small></div>
                   </Col>
                   <Col xs={4} className="gray-text right-small">
-                    <div><small><small><strong>{this.props.currency==="ETH" && this.props.amount ? `$${round(this.props.amount*this.props.usdExchangeRate)}` : "$0" }</strong></small></small></div>
-                    <div><small><small><small>${round(this.props.wallet.transferTxEstGas*this.props.wallet.usdExchangeRate)}</small></small></small></div>
+                    <div><small><small><strong>{this.props.currency==="ETH" && this.props.amount ? `$${round(this.props.amount*this.props.walletData.usdExchangeRate)}` : "$0" }</strong></small></small></div>
+                    <div><small><small><small>${round(this.props.walletData.transferTxEstGas*this.props.walletData.usdExchangeRate)}</small></small></small></div>
                   </Col>
                 </Row>
               </Row>

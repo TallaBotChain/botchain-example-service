@@ -8,7 +8,6 @@ import ReceiveModal from '../components/wallet/ReceiveModal';
 import SendModal from '../components/wallet/SendModal';
 import * as WalletActions from '../actions/walletActions.js'
 import {round} from '../utils/Rounder'
-import KeyTools from '../blockchain/KeyTools'
 
 class WalletBotcoinPage extends Component {
 
@@ -27,7 +26,7 @@ class WalletBotcoinPage extends Component {
   }
 
   canTransfer = () => {
-    return parseFloat(this.props.wallet.balance) > 0 && parseFloat(this.props.wallet.tokenBalance) > 0
+    return parseFloat(this.props.walletData.balance) > 0 && parseFloat(this.props.walletData.tokenBalance) > 0
   }
 
   showReceiveModal = () => {
@@ -40,7 +39,7 @@ class WalletBotcoinPage extends Component {
 
   showSendModal = () => {
     this.setState({ show_send_modal: true });
-    this.props.transferEstGas(KeyTools.address, "0")
+    this.props.transferEstGas(window.keyTools.address, "0")
   }
 
   hideSendModal = () => {
@@ -58,12 +57,12 @@ class WalletBotcoinPage extends Component {
           <Row>
             <Col xs={5} sm={3} lg={2} className="balance">
               <h1 className="botcoin">
-                {round(this.props.wallet.tokenBalance)}<span>BOTC</span>
+                {round(this.props.walletData.tokenBalance)}<span>BOTC</span>
               </h1>
             </Col>
             <Col xs={7} sm={9} lg={10} className="buttons">
-              <Button onClick={this.showSendModal} bsClass="btn orange-button cta-button width-100 pull-left" disabled={!this.canTransfer() || this.props.wallet.hasPendingTx}>
-                {this.props.wallet.hasPendingTx ? "IN PROGRESS" : "SEND"}
+              <Button onClick={this.showSendModal} bsClass="btn orange-button cta-button width-100 pull-left" disabled={!this.canTransfer() || this.props.walletData.hasPendingTx}>
+                {this.props.walletData.hasPendingTx ? "IN PROGRESS" : "SEND"}
               </Button>
               <Button onClick={this.showReceiveModal} bsClass="btn default-button cta-button width-100 pull-left">Receive</Button>
             </Col>
@@ -81,7 +80,7 @@ class WalletBotcoinPage extends Component {
 const mapStateToProps = state => {
   return {
     user: state.user,
-    wallet: state.wallet
+    walletData: state.wallet
   }
 }
 

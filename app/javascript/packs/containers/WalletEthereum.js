@@ -5,7 +5,8 @@ import { Redirect } from 'react-router-dom'
 import Errors from '../components/Errors';
 import WalletNavigation from '../components/wallet/WalletNavigation';
 import ReceiveModal from '../components/wallet/ReceiveModal';
-import * as WalletActions from '../actions/walletActions.js'
+import SendModal from '../components/wallet/SendModal';
+import * as EthereumActions from '../actions/ethereumActions.js'
 import {round} from '../utils/Rounder'
 
 class WalletEthereumPage extends Component {
@@ -13,6 +14,8 @@ class WalletEthereumPage extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      show_receive_modal: false,
+      show_send_modal: false,
       amount: null,
       to: null
     };
@@ -22,12 +25,8 @@ class WalletEthereumPage extends Component {
     this.props.getBalances()
   }
 
-  okClick = () => {
-    this.props.transferTokens(this.state.to, this.state.amount);
-  }
-
   canTransfer = () => {
-    return parseFloat(this.props.wallet.balance) > 0 && parseFloat(this.props.wallet.tokenBalance) > 0
+    return parseFloat(this.props.walletData.balance);
   }
 
   showReceiveModal = () => {
@@ -36,6 +35,15 @@ class WalletEthereumPage extends Component {
 
   hideReceiveModal = () => {
     this.setState({ show_receive_modal: false });
+  }
+
+  showSendModal = () => {
+    this.setState({ show_send_modal: true });
+    this.props.transferEstGas(window.keyTools.address, "0")
+  }
+
+  hideSendModal = () => {
+    this.setState({ show_send_modal: false });
   }
 
   render() {
@@ -49,20 +57,23 @@ class WalletEthereumPage extends Component {
           <Row>
             <Col xs={5} sm={3} lg={2} className="balance">
               <h1 className="ethereum">
-                {round(this.props.wallet.balance)}<span>ETH</span>
+                {round(this.props.walletData.balance)}<span>ETH</span>
               </h1>
               <strong className="dollar-balance gray">
-                <span>$</span>{round(this.props.wallet.balance * this.props.wallet.usdExchangeRate)}
+                <span>$</span>{round(this.props.walletData.balance * this.props.walletData.usdExchangeRate)}
               </strong>
             </Col>
             <Col xs={7} sm={9} lg={10} className="buttons">
-              <Button bsClass="btn orange-button cta-button width-100 pull-left" disabled>SEND</Button>
-              <Button onClick={this.showReceiveModal} bsClass="btn default-button cta-button width-100">Receive</Button>
+              <Button onClick={this.showSendModal} bsClass="btn orange-button cta-button width-100 pull-left" disabled={!this.canTransfer() || this.props.walletData.hasPendingTx}>
+                {this.props.walletData.hasPendingTx ? "IN PROGRESS" : "SEND"}
+              </Button>
+              <Button onClick={this.showReceiveModal} bsClass="btn default-button cta-button width-100 pull-left">Receive</Button>
             </Col>
           </Row>
           <h5 className="gray text-left">TRANSACTION HISTORY</h5>
         </div>
         <ReceiveModal show={this.state.show_receive_modal} handleClose={this.hideReceiveModal} address={this.props.user.ethAddress} currency="ethereum" />
+        <SendModal show={this.state.show_send_modal} handleClose={this.hideSendModal} {...this.props} currency="ETH" />
       </div>
     )
   }
@@ -71,20 +82,20 @@ class WalletEthereumPage extends Component {
 const mapStateToProps = state => {
   return {
     user: state.user,
-    wallet: state.wallet
+    walletData: state.ethereum
   }
 }
 
 const mapDispatchToProps = dispatch => {
   return {
     getBalances: () => {
-      dispatch(WalletActions.getBalances());
+      dispatch(EthereumActions.getBalances());
     },
     transferTokens: (to, amount) => {
-      dispatch(WalletActions.transferTokens(to, amount));
+      dispatch(EthereumActions.transfer(to, amount));
     },
     transferEstGas: (to, amount) => {
-      dispatch(WalletActions.transferEstGas(to, amount));
+      dispatch(EthereumActions.transferEstGas(to, amount));
     }
   }
 }

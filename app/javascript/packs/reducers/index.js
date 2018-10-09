@@ -4,6 +4,7 @@ import developer from './developer'
 import txObserver from './txObserver'
 import user from './user'
 import wallet from './wallet'
+import ethereum from './ethereum'
 
 
 const reducer = combineReducers({
@@ -11,7 +12,8 @@ const reducer = combineReducers({
   developer,
   txObserver,
   user,
-  wallet
+  wallet,
+  ethereum
 })
 
 export default reducer
