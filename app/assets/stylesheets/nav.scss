@@ -51,6 +51,11 @@ nav {
           }
         }
       }
+      &.navbar-right {
+        li.active {
+          display: none;
+        }
+      }
     }
   }
 
