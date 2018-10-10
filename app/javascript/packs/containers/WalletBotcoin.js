@@ -7,6 +7,8 @@ import WalletNavigation from '../components/wallet/WalletNavigation';
 import ReceiveModal from '../components/wallet/ReceiveModal';
 import SendModal from '../components/wallet/SendModal';
 import * as WalletActions from '../actions/walletActions.js'
+import TransactionList from '../components/wallet/TransactionList'
+import * as HistoryActions from '../actions/historyActions'
 import {round} from '../utils/Rounder'
 
 class WalletBotcoinPage extends Component {
@@ -23,6 +25,7 @@ class WalletBotcoinPage extends Component {
 
   componentDidMount() {
     this.props.getBalances()
+    this.props.getTransactionList()
   }
 
   canTransfer = () => {
@@ -46,6 +49,11 @@ class WalletBotcoinPage extends Component {
     this.setState({ show_send_modal: false });
   }
 
+  transactionList = () => {
+    let list = this.props.history.botcoin.map((hash) => this.props.history.transactions[hash] )
+    return list
+  }
+
   render() {
 
     return (
@@ -56,7 +64,7 @@ class WalletBotcoinPage extends Component {
           <Errors errors={this.props.user.errors} />
           <Row>
             <Col xs={5} sm={3} lg={2} className="balance">
-              <h1 className="botcoin">
+              <h1 className="botc">
                 {round(this.props.walletData.tokenBalance)}<span>BOTC</span>
               </h1>
             </Col>
@@ -66,9 +74,14 @@ class WalletBotcoinPage extends Component {
               </Button>
               <Button onClick={this.showReceiveModal} bsClass="btn default-button cta-button width-100 pull-left">Receive</Button>
             </Col>
+            <Col xs={12} sm={11}>
+              <h5 className="gray text-left transactions">TRANSACTION HISTORY</h5>
+              <TransactionList transactions={this.transactionList()}
+              currency={this.props.walletData.currency}
+              usdExchangeRate={this.props.walletData.usdExchangeRate}
+              />
+            </Col>
           </Row>
-
-          <h5 className="gray text-left">TRANSACTION HISTORY</h5>
         </div>
         <ReceiveModal show={this.state.show_receive_modal} handleClose={this.hideReceiveModal} address={this.props.user.ethAddress} currency="botcoin" />
         <SendModal show={this.state.show_send_modal} handleClose={this.hideSendModal} {...this.props} currency="BOTC" />
@@ -80,7 +93,8 @@ class WalletBotcoinPage extends Component {
 const mapStateToProps = state => {
   return {
     user: state.user,
-    walletData: state.wallet
+    walletData: state.wallet,
+    history: state.history
   }
 }
 
@@ -94,6 +108,9 @@ const mapDispatchToProps = dispatch => {
     },
     transferEstGas: (to, amount) => {
       dispatch(WalletActions.transferEstGas(to, amount));
+    },
+    getTransactionList: () => {
+      dispatch(HistoryActions.getBotcoinHistory());
     }
   }
 }

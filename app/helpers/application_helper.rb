@@ -12,7 +12,9 @@ module ApplicationHelper
       curation_council_contract: Rails.application.config.x.curation_council_contract,
 	    urlshortener_api_key: Rails.application.config.x.urlshortener_api_key,
       gas_price: Rails.application.config.x.gas_price,
-      coinbase_price_api_url: Rails.application.config.x.coinbase_price_api_url
+      coinbase_price_api_url: Rails.application.config.x.coinbase_price_api_url,
+      etherscan_api_key: Rails.application.config.x.etherscan_api_key,
+      etherscan_api_url: Rails.application.config.x.etherscan_api_url
     }
     javascript_tag("window.app_config=#{config.to_json};")
   end

@@ -23,11 +23,11 @@ const tick = (tx_id, success_callback) => (dispatch) => {
   let botcoin = new BotCoin();
   botcoin.isTxMined(tx_id).then( (mined) => {
     if(mined) {
-      botcoin.isTxSucceed(tx_id).then( (succeeded) => {
-        let status = succeeded ? TxStatus.SUCCEED : TxStatus.FAILED;
-        console.log("status: ", status);
+      botcoin.getTxReceipt(tx_id).then( (receipt) => {
+        console.log("receipt: ",receipt)
+        let status = receipt.status == 1 ? TxStatus.SUCCEED : TxStatus.FAILED;
         dispatch({ type: txObserverActions.UPDATE_TX, tx_id: tx_id, key: 'status', value: status })
-        dispatch(success_callback(status))
+        dispatch(success_callback(status, receipt))
         dispatch(stop(tx_id))
       })
     }

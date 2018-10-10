@@ -12,7 +12,8 @@ const initialState = {
   transferSuccess: false,
   usdExchangeRate: 0,
   transferTxEstGas: 0,
-  hasPendingTx: false
+  hasPendingTx: false,
+  currency: "BOTC"
 }
 
 const wallet = (state = initialState, action) => {

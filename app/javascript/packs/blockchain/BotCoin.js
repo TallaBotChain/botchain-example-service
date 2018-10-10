@@ -1,8 +1,10 @@
+import BaseRegistry from './BaseRegistry'
 import Web3 from 'web3'
 import artifact from './abi/BotCoin.json'
 
-class BotCoin {
+class BotCoin extends BaseRegistry {
   constructor() {
+    super();
     this.web3 = window.keyTools.web3;
     this.contract = new this.web3.eth.Contract(artifact.abi, window.app_config.botcoin_contract);
     this.decimals = 18;
@@ -75,6 +77,10 @@ class BotCoin {
     }).catch(error => {
       return Promise.reject();
     });
+  }
+
+  getTxReceipt(tx_id){
+    return this.web3.eth.getTransactionReceipt(tx_id)
   }
 
   // @return Promise

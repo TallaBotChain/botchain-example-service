@@ -7,6 +7,8 @@ import WalletNavigation from '../components/wallet/WalletNavigation';
 import ReceiveModal from '../components/wallet/ReceiveModal';
 import SendModal from '../components/wallet/SendModal';
 import * as EthereumActions from '../actions/ethereumActions.js'
+import TransactionList from '../components/wallet/TransactionList'
+import * as HistoryActions from '../actions/historyActions'
 import {round} from '../utils/Rounder'
 
 class WalletEthereumPage extends Component {
@@ -23,6 +25,7 @@ class WalletEthereumPage extends Component {
 
   componentDidMount() {
     this.props.getBalances()
+    this.props.getTransactionList()
   }
 
   canTransfer = () => {
@@ -44,6 +47,11 @@ class WalletEthereumPage extends Component {
 
   hideSendModal = () => {
     this.setState({ show_send_modal: false });
+  }
+
+  transactionList = () => {
+    let list = this.props.history.ethereum.map((hash) => this.props.history.transactions[hash] )
+    return list
   }
 
   render() {
@@ -69,8 +77,14 @@ class WalletEthereumPage extends Component {
               </Button>
               <Button onClick={this.showReceiveModal} bsClass="btn default-button cta-button width-100 pull-left">Receive</Button>
             </Col>
+            <Col xs={12} sm={11}>
+              <h5 className="gray text-left transactions">TRANSACTION HISTORY</h5>
+              <TransactionList transactions={this.transactionList()}
+              currency={this.props.walletData.currency}
+              usdExchangeRate={this.props.walletData.usdExchangeRate}
+              />
+            </Col>
           </Row>
-          <h5 className="gray text-left">TRANSACTION HISTORY</h5>
         </div>
         <ReceiveModal show={this.state.show_receive_modal} handleClose={this.hideReceiveModal} address={this.props.user.ethAddress} currency="ethereum" />
         <SendModal show={this.state.show_send_modal} handleClose={this.hideSendModal} {...this.props} currency="ETH" />
@@ -82,7 +96,8 @@ class WalletEthereumPage extends Component {
 const mapStateToProps = state => {
   return {
     user: state.user,
-    walletData: state.ethereum
+    walletData: state.ethereum,
+    history: state.history
   }
 }
 
@@ -96,6 +111,9 @@ const mapDispatchToProps = dispatch => {
     },
     transferEstGas: (to, amount) => {
       dispatch(EthereumActions.transferEstGas(to, amount));
+    },
+    getTransactionList: () => {
+      dispatch(HistoryActions.getEthereumHistory());
     }
   }
 }

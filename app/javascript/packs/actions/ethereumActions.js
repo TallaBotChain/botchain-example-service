@@ -3,6 +3,7 @@ import { start as startTxObserver } from './txObserverActions';
 import TxStatus from '../helpers/TxStatus'
 import {reset} from 'redux-form';
 import axios from 'axios'
+import * as HistoryActions from '../actions/historyActions'
 
 export const EthereumActions = {
   SET_ETHEREUM_ATTRIBUTE: 'SET_ETHEREUM_ATTRIBUTE',
@@ -20,10 +21,6 @@ const setInProgress = (inProgress) => {
 const setBallance = (ballance) => {
   return { type: EthereumActions.SET_ETHEREUM_ATTRIBUTE, key: 'balance', value: ballance }
 }
-//
-// const setTokenBallance = (tokenBalance) => {
-//   return { type: EthereumActions.SET_ETHEREUM_ATTRIBUTE, key: 'tokenBalance', value: tokenBalance }
-// }
 
 export const resetState = () => {
   return { type: EthereumActions.RESET_STATE}
@@ -40,10 +37,12 @@ export const getBalances = () => (dispatch) => {
   botCoin.getBalance().then((balance)=>{
     dispatch(setBallance(botCoin.web3.utils.fromWei(balance, 'ether')))
     dispatch(getExchangeRate())
+    dispatch(setInProgress(false))
   }, (error) => {
     console.log(error)
     dispatch(setBallance(0))
     dispatch({ type: EthereumActions.SET_ETHEREUM_ATTRIBUTE, key: 'error', value: "Failed to retrieve ballance" })
+    dispatch(setInProgress(false))
   });
 }
 
@@ -56,9 +55,9 @@ export const transfer = (to, amount) => async (dispatch) => {
     dispatch(startTxObserver(txId, (status, receipt) => transferTxMined(txId, status, receipt, amount)));
     dispatch(reset('eth_transfer'));
     dispatch(setInProgress(false))
-    //create new history row
-    // let data = { value: amount, txId, input: "0x", from: keyTools.address}
-    // dispatch(HistoryActions.addNewTransaction('ethereum', data))
+    // create new history row
+    let data = { value: amount, txId, input: "0x", from: window.keyTools.address}
+    dispatch(HistoryActions.addNewTransaction('ethereum', data))
 
   }catch(e) {
     console.log(e);
@@ -68,17 +67,16 @@ export const transfer = (to, amount) => async (dispatch) => {
   }
 }
 
-const transferTxMined = (status) => (dispatch) => {
-  dispatch(setInProgress(false))
+const transferTxMined = (txId, status, receipt, amount) => (dispatch) => {
   dispatch(setPendingTx(false))
-  dispatch(reset('transfer'));
-  dispatch({ type: EthereumActions.SET_ETHEREUM_ATTRIBUTE, key: 'transferTxMined', value: true });
   if(status == TxStatus.SUCCEED){
-    dispatch({ type: EthereumActions.SET_ETHEREUM_ATTRIBUTE, key: 'transferSuccess', value: true });
     dispatch(getBalances())
   } else {
     dispatch( setError("Transfer transaction failed." ));
   }
+  //update history row
+  let data = { value: amount, txId, input: "0x", from: window.keyTools.address, ...receipt}
+  dispatch(HistoryActions.addNewTransaction('ethereum', data))
 }
 
 export const getExchangeRate = () => (dispatch) => {

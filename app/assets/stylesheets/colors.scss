@@ -7,7 +7,6 @@ $gray-border-hover: rgba(29,32,36,0.69);
 $lighter-gray: #E1E2E4;
 $placeholder: #8B9096;
 $gray-gradient1: #F6F7F7;
-$gray-gradient2: #E1E2E4;
 $gray-gradient3: #CBCED0;
 $botcoin-green: #00BC90;
 $active-green: #3ABCA5;
@@ -83,4 +82,8 @@ $wallet-link-active: #009673;
 
 .botcoin-title, .botc {
   color: $botcoin-title;
+}
+
+.state-text {
+  color: $state;
 }

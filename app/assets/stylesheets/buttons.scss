@@ -49,7 +49,7 @@
 
 .default-button{
   @include form-button($gray-border, $gray-text);
-  background: linear-gradient($gray-gradient1, $gray-gradient2);
+  background: linear-gradient($gray-gradient1, $lighter-gray);
   &:hover, &:focus{
     color: $gray-text-hover;
     border-color: $gray-border-hover;

@@ -95,10 +95,11 @@ footer {
     font-size: 0.875em;
     font-weight: 500;
     display: inline-block;
-    padding: 10px 20px 9px;
+    padding: 10px 20px 0;
     border-width: 2px 2px 0 2px;
     border-style: solid;
     border-color: transparent;
+    height: 40px;
     @media(max-width : $screen-xs-max) {
       padding-top: 12px;
     }
@@ -188,6 +189,11 @@ h3 {
 h4 {
   font-size: 0.9375em;
   font-weight: 600;
+}
+
+h5 {
+  font-size: 0.8125em;
+  font-weight: 400;
 }
 
 strong, b {
@@ -308,7 +314,7 @@ p {
 .wallet {
   padding-top: 10px;
 
-  h1.botcoin, h1.ethereum {
+  h1.botc, h1.ethereum {
     font-size: 3em;
     padding-top: 0;
     margin-bottom: 2px;
@@ -329,7 +335,49 @@ p {
   }
 
   .dollar-balance {
-    margin-bottom: 30px;
     display: block;
+  }
+}
+
+.transactions {
+  margin-top: 60px;
+}
+
+.transaction-table {
+  .state-text {
+    font-weight: 500;
+    text-transform: uppercase;
+  }
+
+  .ethereum,.botc {
+    font-size: 0.8125em;
+  }
+
+  .dollar-text, .gray {
+    font-size: 0.75em;
+  }
+
+  .gray {
+    a {
+      color: $gray;
+      &:hover {
+        color: $state;
+      }
+    }
+  }
+
+  tbody {
+    tr {
+      border-bottom: 2px solid $lighter-gray;
+      &:last-child {
+        border-bottom: 0;
+      }
+
+      td {
+        padding: 8px 0 12px;
+        line-height: 1.55;
+        border-top: 0;
+      }
+    }
   }
 }
