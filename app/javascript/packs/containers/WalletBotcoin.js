@@ -80,7 +80,7 @@ class WalletBotcoinPage extends Component {
               <h5 className="gray text-left transactions">TRANSACTION HISTORY</h5>
               <TransactionList transactions={this.transactionList()}
               currency={this.props.walletData.currency}
-              usdExchangeRate={this.props.walletData.usdExchangeRate}
+              usdExchangeRate={this.props.usdExchangeRate}
               />
             </Col>
           </Row>
@@ -96,7 +96,8 @@ const mapStateToProps = state => {
   return {
     user: state.user,
     walletData: state.wallet,
-    history: state.history
+    history: state.history,
+    usdExchangeRate: state.ethereum.usdExchangeRate
   }
 }
 

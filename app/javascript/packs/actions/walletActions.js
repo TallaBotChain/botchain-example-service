@@ -92,17 +92,6 @@ const transferTxMined = (txId, status, receipt, amount) => (dispatch) => {
   dispatch(HistoryActions.addNewTransaction('botcoin', data))
 }
 
-export const getExchangeRate = () => (dispatch) => {
-  axios.get(window.app_config.coinbase_price_api_url)
-    .then(function (response) {
-      dispatch({ type: WalletActions.SET_WALLET_ATTRIBUTE, key: 'usdExchangeRate', value: response.data.data.amount });
-    })
-    .catch(function (error) {
-      dispatch({ type: WalletActions.SET_WALLET_ATTRIBUTE, key: 'usdExchangeRate', value: 0 });
-      console.log("Failed to retreive ETH - USD exchange rate." + error)
-    })
-}
-
 export const transferEstGas = (to, amount) => async (dispatch) => {
   dispatch(setInProgress(true))
   try {

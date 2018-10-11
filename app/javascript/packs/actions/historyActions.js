@@ -53,10 +53,6 @@ export const addNewTransaction = (type, data) => (dispatch) => {
   dispatch({ type: HistoryActions.ADD_TO_INDEX, key: type, value: [data.txId] });
 }
 
-export const removeTransaction = (type, txId) => (dispatch) => {
-  dispatch({ type: HistoryActions.REMOVE_FROM_INDEX, key: type, value: txId });
-}
-
 //ethereum history
 export const getEthereumHistory = () => (dispatch, getState) => {
   dispatch(setInProgress(true))
