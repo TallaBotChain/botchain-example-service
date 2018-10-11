@@ -63,19 +63,21 @@ class WalletEthereumPage extends Component {
           <h1>Ethereum Balance</h1>
           <Errors errors={this.props.user.errors} />
           <Row>
-            <Col xs={5} sm={3} lg={2} className="balance">
-              <h1 className="ethereum">
-                {round(this.props.walletData.balance)}<span>ETH</span>
-              </h1>
-              <strong className="dollar-balance gray">
-                <span>$</span>{round(this.props.walletData.balance * this.props.walletData.usdExchangeRate)}
-              </strong>
-            </Col>
-            <Col xs={7} sm={9} lg={10} className="buttons">
-              <Button onClick={this.showSendModal} bsClass="btn orange-button cta-button width-100 pull-left" disabled={!this.canTransfer() || this.props.walletData.hasPendingTx}>
-                {this.props.walletData.hasPendingTx ? "IN PROGRESS" : "SEND"}
-              </Button>
-              <Button onClick={this.showReceiveModal} bsClass="btn default-button cta-button width-100 pull-left">Receive</Button>
+            <Col xs={12} sm={11} className="balance">
+              <div className="pull-left">
+                <h1 className="ethereum">
+                  {round(this.props.walletData.balance)}<span>ETH</span>
+                </h1>
+                <strong className="dollar-balance gray">
+                  <span>$</span>{round(this.props.walletData.balance * this.props.walletData.usdExchangeRate)}
+                </strong>
+              </div>
+              <div className="buttons pull-left">
+                <Button onClick={this.showSendModal} bsClass="btn orange-button cta-button width-100 pull-left" disabled={!this.canTransfer() || this.props.walletData.hasPendingTx}>
+                  {this.props.walletData.hasPendingTx ? "IN PROGRESS" : "SEND"}
+                </Button>
+                <Button onClick={this.showReceiveModal} bsClass="btn default-button cta-button width-100 pull-left">Receive</Button>
+              </div>
             </Col>
             <Col xs={12} sm={11}>
               <h5 className="gray text-left transactions">TRANSACTION HISTORY</h5>

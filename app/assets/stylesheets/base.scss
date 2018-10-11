@@ -89,6 +89,9 @@ footer {
   background: $light-green;
   border-bottom: 2px solid $border-green;
   padding: 16px 25px 0 60px;
+  @media(max-width : $screen-xs-max) {
+    padding-left: 25px;
+  }
 
   a {
     color: $wallet-link;
@@ -318,6 +321,7 @@ p {
     font-size: 3em;
     padding-top: 0;
     margin-bottom: 2px;
+    margin-right: 35px;
 
     span {
       font-size: 0.333em;
@@ -327,10 +331,7 @@ p {
 
   .buttons {
     button {
-      margin-left: 15px;
-      @media(max-width : $screen-xs-max) {
-        float: right !important;
-      }
+      margin-right: 15px;
     }
   }
 
