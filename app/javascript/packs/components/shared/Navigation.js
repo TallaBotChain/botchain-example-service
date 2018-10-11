@@ -8,39 +8,39 @@ class Navigation extends React.Component {
 
   signedInNav() {
     return ([
-      <Nav>
-        <LinkContainer exact to="/" key={1}>
+      <ul className="nav navbar-nav" key={1}>
+        <LinkContainer exact to="/">
           <NavItem eventKey={1}>Register</NavItem>
         </LinkContainer>
-        <LinkContainer to="/wallet/ethereum" key={2}>
+        <LinkContainer to="/wallet/ethereum">
           <NavItem eventKey={2}>Wallet</NavItem>
         </LinkContainer>
-        <LinkContainer to="/settings" key={3}>
+        <LinkContainer to="/settings">
           <NavItem eventKey={3}>Settings</NavItem>
         </LinkContainer>
-        <LinkContainer to="/help" key={4}>
+        <LinkContainer to="/help">
           <NavItem eventKey={4}>Help</NavItem>
         </LinkContainer>
         <li className="visible-xs"></li>
-      </Nav>,
-      <Nav pullRight>
+      </ul>,
+      <ul className="nav navbar-nav navbar-right" key={2}>
         <LinkContainer to="/sign_out" data-method="delete">
           <NavItem >Sign Out</NavItem>
         </LinkContainer>
-      </Nav>
+      </ul>
     ])
   }
 
   signedOutNav() {
     return (
-      <Nav pullRight>
-        <LinkContainer to="/sign_up" key={1}>
+      <ul className="nav navbar-nav navbar-right" key={2}>
+        <LinkContainer to="/sign_up">
           <NavItem eventKey={1}>Sign Up</NavItem>
         </LinkContainer>
-        <LinkContainer to="/sign_in" key={2}>
+        <LinkContainer to="/sign_in">
           <NavItem eventKey={2}>Sign In</NavItem>
         </LinkContainer>
-      </Nav>
+      </ul>
     )
   }
   render() {
