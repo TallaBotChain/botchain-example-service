@@ -69,7 +69,7 @@ class WalletEthereumPage extends Component {
                   {round(this.props.walletData.balance)}<span>ETH</span>
                 </h1>
                 <strong className="dollar-balance gray">
-                  <span>$</span>{round(this.props.walletData.balance * this.props.walletData.usdExchangeRate)}
+                  <span>$</span>{round(this.props.walletData.balance * this.props.usdExchangeRate)}
                 </strong>
               </div>
               <div className="buttons pull-left">
@@ -83,7 +83,7 @@ class WalletEthereumPage extends Component {
               <h5 className="gray text-left transactions">TRANSACTION HISTORY</h5>
               <TransactionList transactions={this.transactionList()}
               currency={this.props.walletData.currency}
-              usdExchangeRate={this.props.walletData.usdExchangeRate}
+              usdExchangeRate={this.props.usdExchangeRate}
               />
             </Col>
           </Row>
@@ -99,7 +99,8 @@ const mapStateToProps = state => {
   return {
     user: state.user,
     walletData: state.ethereum,
-    history: state.history
+    history: state.history,
+    usdExchangeRate: state.ethereum.usdExchangeRate
   }
 }
 

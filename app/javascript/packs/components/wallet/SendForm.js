@@ -56,8 +56,8 @@ class SendForm extends Component {
                     <div><small><small>Gas Fee: {this.props.walletData.transferTxEstGas} <small>ETH</small></small></small></div>
                   </Col>
                   <Col xs={4} className="gray-text right-small">
-                    <div><small><small><strong>{this.props.currency==="ETH" && this.props.amount ? `$${round(this.props.amount*this.props.walletData.usdExchangeRate)}` : "$0" }</strong></small></small></div>
-                    <div><small><small><small>${round(this.props.walletData.transferTxEstGas*this.props.walletData.usdExchangeRate)}</small></small></small></div>
+                    <div><small><small><strong>{this.props.currency==="ETH" && this.props.amount ? `$${round(this.props.amount*this.props.usdExchangeRate)}` : "$0" }</strong></small></small></div>
+                    <div><small><small><small>${round(this.props.walletData.transferTxEstGas*this.props.usdExchangeRate)}</small></small></small></div>
                   </Col>
                 </Row>
               </Row>

@@ -40,7 +40,6 @@ export const getBalances = () => (dispatch) => {
   // ethers
   botCoin.getBalance().then((balance)=>{
     dispatch(setBallance(botCoin.web3.utils.fromWei(balance, 'ether')))
-    dispatch(getExchangeRate())
   }, (error) => {
     console.log(error)
     dispatch(setBallance(0))
