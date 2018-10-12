@@ -4,8 +4,7 @@ import axios from 'axios'
 export const HistoryActions = {
   SET_ATTRIBUTE: 'SET_HISTORY_ATTRIBUTE',
   ADD_TRANSACTIONS: 'HISTORY_ADD_TRANSACTIONS',
-  ADD_TO_INDEX: 'HISTORY_ADD_TO_INDEX',
-  REMOVE_FROM_INDEX: 'HISTORY_REMOVE_FROM_INDEX'
+  ADD_TO_INDEX: 'HISTORY_ADD_TO_INDEX'
 }
 
 const defaultAccountApiParams = () => {

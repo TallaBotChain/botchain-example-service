@@ -20,9 +20,6 @@ const history = (state = initialState, action) => {
       return update(state, {transactions: {$merge: action.value}});
   case HistoryActions.ADD_TO_INDEX:
       return update(state, {[action.key]: {$set: Array.from(new Set(action.value.concat(state[action.key])))} });
-  case HistoryActions.REMOVE_FROM_INDEX:
-      let new_index = state[action.key].filter(e => e !== action.value)
-      return update(state, {[action.key]: {$set: new_index} });
   case HistoryActions.RESET_STATE:
       return update(state, {$set: initialState});
   default:
