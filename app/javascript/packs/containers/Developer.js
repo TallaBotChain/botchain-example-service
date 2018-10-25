@@ -81,19 +81,16 @@ class DeveloperPage extends Component {
               balance={this.props.wallet.balance} 
               token_balance={this.props.wallet.tokenBalance} 
               tx_id={this.props.developer.allowanceTxId} 
-              show={this.showPaymentModal()} 
-              okClick={this.okClick} 
+              show={this.showPaymentModal()}
               approveClick={this.approveClick} 
               entryPrice={this.props.developer.entryPrice} 
               handleClose={this.hidePaymentModal} 
-              dialogClassName="app-modal payment-modal"
             />
             <TransactionModal 
               tx_id={this.props.developer.addDeveloperTxId} 
               show={this.showTransactionModal()}
-              okClick={this.okClick} 
               continueClick={this.continueClick} 
-              dialogClassName="app-modal payment-modal"
+              handleClose={this.hidePaymentModal}
             />
           </div>
         </div>
