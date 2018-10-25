@@ -1,5 +1,6 @@
 import artifact from './abi/DeveloperRegistryDelegate.json'
 import BaseRegistry from './BaseRegistry'
+import multihash from 'multihashes';
 
 class DeveloperRegistry extends BaseRegistry {
   constructor() {
@@ -23,21 +24,27 @@ class DeveloperRegistry extends BaseRegistry {
   }
 
   /**
-  * @param {string} url
-  * @param {string} metadata
+  * @param {string} IpfsHash
   * @returns {Promise}
   */
-  addDeveloper(url, metadata) {
-    let metadataHash = this.web3.utils.sha3(metadata); // bytes32
-    let urlBytes = this.web3.utils.utf8ToHex(url.substring(0,31)); // bytes32
-    let contract = this.contract;
-    console.log("url: ", urlBytes );
-    console.log("data:", metadataHash );
+  addDeveloper(IpfsHash) {
+    console.log("IpfsHash: ", IpfsHash);
+    const mhash = multihash.fromB58String(IpfsHash);
+    const decoded = multihash.decode(mhash);
+    const hexString = multihash.toHexString(mhash);
+
+    const ipfsDigest = `0x${hexString.substring(4)}`;
+    const ipfsFnCode = decoded.code;
+    const ipfsSize = decoded.length;
+    console.log(`ipfsDigest: ${ipfsDigest}`);
+    console.log(`ipfsFnCode: ${ipfsFnCode}`);
+    console.log(`ipfsSize: ${ipfsSize}`);
+
     return new Promise((resolve,reject) => {
-      contract.methods.addDeveloper(metadataHash, urlBytes)
+      contract.methods.addDeveloper(ipfsDigest, ipfsFnCode, ipfsSize)
         .estimateGas({from: this.account, gasPrice: this.gasPrice}).then( (gas) => {
           console.log("Add developer estimated gas: ", gas);
-          return contract.methods.addDeveloper(metadataHash, urlBytes)
+          return contract.methods.addDeveloper(ipfsDigest, ipfsFnCode, ipfsSize)
             .send({from: this.account, gasPrice: this.gasPrice, gas: gas},
               function(err,tx_id) {
                 if( err ) {
