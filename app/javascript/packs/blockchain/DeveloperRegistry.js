@@ -40,6 +40,8 @@ class DeveloperRegistry extends BaseRegistry {
     console.log(`ipfsFnCode: ${ipfsFnCode}`);
     console.log(`ipfsSize: ${ipfsSize}`);
 
+    let contract = this.contract;
+
     return new Promise((resolve,reject) => {
       contract.methods.addDeveloper(ipfsDigest, ipfsFnCode, ipfsSize)
         .estimateGas({from: this.account, gasPrice: this.gasPrice}).then( (gas) => {
