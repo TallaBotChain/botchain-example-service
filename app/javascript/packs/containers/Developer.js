@@ -42,7 +42,7 @@ class DeveloperPage extends Component {
 
   approveClick = () => {
     console.log("Starting approve request");
-    this.props.addMetadata2IPFS(this.state.values);
+    this.props.addMetadata2IPFS({...this.state.values});
     this.props.approvePayment();
   }
 
