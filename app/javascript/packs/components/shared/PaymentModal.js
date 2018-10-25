@@ -10,7 +10,6 @@ class PaymentModal extends Component {
     this.approveClick = this.approveClick.bind(this);
     this.cancelClick = this.cancelClick.bind(this);
     this.nextStep = this.nextStep.bind(this);
-    this.okClick = this.okClick.bind(this);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -39,14 +38,9 @@ class PaymentModal extends Component {
     this.props.handleClose();
   }
 
-  okClick() {
-    this.props.okClick();
-    this.resetState();
-  }
-
   render() {
     return (
-      <Modal show={this.props.show} onHide={this.props.handleClose} {...this.props}>
+      <Modal show={this.props.show} onHide={this.props.handleClose} dialogClassName="app-modal payment-modal">
         <Modal.Header className={ this.state.step == 1 ? '' : 'hidden' }>
           <Modal.Title className="text-center">FINISH REGISTRATION</Modal.Title>
         </Modal.Header>
@@ -100,7 +94,7 @@ class PaymentModal extends Component {
           <Loader visible={true} message="Processing Transaction"/>
         </Modal.Body>
       </Modal>
-      )
+    )
   }
 }
 

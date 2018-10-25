@@ -39,14 +39,14 @@ class TransactionModal extends Component {
 
   render() {
     return (
-      <Modal show={this.props.show} onHide={this.props.handleClose} {...this.props}>
+      <Modal show={this.props.show} onHide={this.props.handleClose} dialogClassName="app-modal payment-modal">
         <Modal.Header className={ this.state.step == 1 ? '' : 'hidden' }>
           <Modal.Title className="text-center">FINISH REGISTRATION</Modal.Title>
         </Modal.Header>
         <Modal.Body className={ this.state.step == 1 ? 'text-center' : 'hidden' }>
           <h3>Step 2 of 2</h3>
           <p>
-            Finalize the transaction with the button below. BOTC tokens will be transferred from your account during this last process. <a href="">Learn more</a>
+            Finalize the transaction with the button below.  BOTC tokens will be transferred from your account during this last process. <a href="">Learn more</a>
           </p>
           <div>
             <Button bsClass="btn orange-button cta-button" type="button" onClick={this.continueClick}>

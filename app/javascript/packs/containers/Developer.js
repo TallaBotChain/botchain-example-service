@@ -64,8 +64,8 @@ class DeveloperPage extends Component {
             <p className='alert-info'>Note : You have to be pre-approved to successfully complete the registration. Please <a href="https://botchain.talla.com/developers">click here</a> to request approval. Read more about the Developer Registration Process <a href="/faq#developer_registration" target="_blank">here.</a></p>
             <Errors errors={this.props.developer.errors} />
             <DeveloperForm onSubmit={this.submit} />
-            <PaymentModal balance={this.props.wallet.balance} token_balance={this.props.wallet.tokenBalance} tx_id={this.props.developer.allowanceTxId} show={this.state.show_payment_modal && (!this.props.developer.allowanceTxMined) } okClick={this.okClick} approveClick={this.approveClick} entryPrice={this.props.developer.entryPrice} handleClose={this.hidePaymentModal} dialogClassName="app-modal payment-modal"/>
-            <TransactionModal tx_id={this.props.developer.addDeveloperTxId} show={this.state.show_payment_modal && this.props.developer.allowanceTxMined && (!this.props.developer.addDeveloperTxMined) } okClick={this.okClick} continueClick={this.continueClick} dialogClassName="app-modal payment-modal"/>
+            <PaymentModal balance={this.props.wallet.balance} token_balance={this.props.wallet.tokenBalance} tx_id={this.props.developer.allowanceTxId} show={this.state.show_payment_modal && (!this.props.developer.allowanceTxMined) } approveClick={this.approveClick} entryPrice={this.props.developer.entryPrice} handleClose={this.hidePaymentModal} />
+            <TransactionModal tx_id={this.props.developer.addDeveloperTxId} show={this.state.show_payment_modal && this.props.developer.allowanceTxMined && (!this.props.developer.addDeveloperTxMined) } continueClick={this.continueClick} handleClose={this.hidePaymentModal} />
           </div>
         </div>
       </div>
