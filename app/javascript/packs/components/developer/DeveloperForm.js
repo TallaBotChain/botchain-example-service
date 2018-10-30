@@ -1,22 +1,9 @@
 import React, { Component } from 'react';
 import { Field, reduxForm } from 'redux-form';
 import {required, length, url, email} from 'redux-form-validators'
-import { MetadataValidator } from '../../validators/MetadataValidator';
-import { inputField, textareaField } from '../form/FormFields';
+import { inputField } from '../form/FormFields';
 import {connect} from 'react-redux'
-import MetadataTooltip from './MetadataTooltip';
 import { Button } from 'react-bootstrap';
-
-const REQUIRED_METADATA_ATTRIBUTES = ["name","organization","street_1","city","state/province","postal_code","country","phone","email","url"]
-
-const validateMetadata = (value) => {
-  let mv = new MetadataValidator(REQUIRED_METADATA_ATTRIBUTES)
-  return mv.validate(value)
-}
-
-const asyncValidate = (values, dispatch, props) => {
-  return MetadataValidator.fetch(values.metadata_url, props)
-}
 
 class DeveloperForm extends Component {
   render() {
@@ -70,15 +57,6 @@ class DeveloperForm extends Component {
           component={inputField} label="Organization URL" placeholder="Organization URL"
           validate={[ required(), length({ max: 132 }), url() ]}
         />
-        {/* <Field name="metadata_url" type="url"
-          component={inputField} label="Developer Metadata URL" placeholder="Developer Metadata URL"
-          validate={[ required(), length({ max: 132 }), url() ]}
-          appendComponent={<MetadataTooltip />}
-        />
-        <Field name="metadata"
-          component={textareaField} label="Metadata" placeholder="Will be autoloaded from url above" readOnly={true}
-          validate={[required(), validateMetadata]}
-        /> */}
         <Button bsClass="btn orange-button cta-button" type="submit">
           REGISTER
         </Button>
@@ -88,9 +66,7 @@ class DeveloperForm extends Component {
 }
 
 DeveloperForm = reduxForm({
-  form: 'developer', // a unique name for this form,
-  asyncValidate,
-  asyncBlurFields: ['metadata_url']
+  form: 'developer' // a unique name for this form,
 })(DeveloperForm);
 
 DeveloperForm = connect(

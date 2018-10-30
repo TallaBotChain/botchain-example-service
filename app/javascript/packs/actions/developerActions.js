@@ -93,7 +93,6 @@ export const approvePayment = () => (dispatch, getState) => {
 
 
 export const addMetadata2IPFS = (values) => (dispatch) => {
-  delete values.eth_address;
   const config = { headers: { 'content-type': 'multipart/form-data' } };
   const formData = new FormData()
   formData.append('file', JSON.stringify(values))
