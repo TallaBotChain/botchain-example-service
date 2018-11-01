@@ -4,6 +4,7 @@ import {required, length, url, email} from 'redux-form-validators'
 import { inputField } from '../form/FormFields';
 import {connect} from 'react-redux'
 import { Button } from 'react-bootstrap';
+import Loader from '../Loader';
 
 class DeveloperForm extends Component {
   render() {
@@ -57,9 +58,10 @@ class DeveloperForm extends Component {
           component={inputField} label="Organization URL" placeholder="Organization URL"
           validate={[ required(), length({ max: 132 }), url() ]}
         />
-        <Button bsClass="btn orange-button cta-button" type="submit">
+        <Button bsClass="btn orange-button cta-button" type="submit" disabled={this.props.submitDisabled}>
           REGISTER
         </Button>
+        <Loader visible={this.props.submitDisabled}/>
       </form>
     );
   }

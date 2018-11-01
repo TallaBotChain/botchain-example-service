@@ -95,8 +95,7 @@ export const approvePayment = () => (dispatch, getState) => {
   });
 }
 
-
-export const addMetadata2IPFSandApprove = (values) => (dispatch) => {
+export const addMetadata2IPFS = (values) => (dispatch) => {
   dispatch(setIpfsInProgress(true));
   const config = { headers: { 'content-type': 'multipart/form-data' } };
   const formData = new FormData()
@@ -106,7 +105,6 @@ export const addMetadata2IPFSandApprove = (values) => (dispatch) => {
   .then(function (response) {
     if (response.status == 200 && response.data['Hash']){
       dispatch({ type: DeveloperActions.SET_ATTRIBUTE, key: 'ipfsHash', value: response.data['Hash'] });
-      dispatch(approvePayment());
       dispatch(setIpfsInProgress(false));
     }
     else{
