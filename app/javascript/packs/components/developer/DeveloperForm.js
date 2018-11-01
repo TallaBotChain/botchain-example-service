@@ -61,7 +61,7 @@ class DeveloperForm extends Component {
         <Button bsClass="btn orange-button cta-button" type="submit" disabled={this.props.submitDisabled}>
           REGISTER
         </Button>
-        <Loader visible={this.props.submitDisabled}/>
+        <Loader visible={this.props.submitDisabled} message="Uploading metadata"/>
       </form>
     );
   }

@@ -96,26 +96,31 @@ export const approvePayment = () => (dispatch, getState) => {
 }
 
 export const addMetadata2IPFS = (values) => (dispatch) => {
-  dispatch(setIpfsInProgress(true));
-  const config = { headers: { 'content-type': 'multipart/form-data' } };
-  const formData = new FormData()
-  formData.append('file', JSON.stringify(values))
-  
-  axios.post('https://ipfs.infura.io:5001/api/v0/add?pin=true', formData, config)
-  .then(function (response) {
-    if (response.status == 200 && response.data['Hash']){
-      dispatch({ type: DeveloperActions.SET_ATTRIBUTE, key: 'ipfsHash', value: response.data['Hash'] });
-      dispatch(setIpfsInProgress(false));
-    }
-    else{
-      console.log("Failed to add file to Infura IPFS. Status: " + response.status)
+  return new Promise((resolve, reject) => {
+    dispatch(setIpfsInProgress(true));
+    const config = { headers: { 'content-type': 'multipart/form-data' } };
+    const formData = new FormData()
+    formData.append('file', JSON.stringify(values))
+
+    axios.post('https://ipfs.infura.io:5001/api/v0/add?pin=true', formData, config)
+    .then(function (response) {
+      if (response.status == 200 && response.data['Hash']){
+        dispatch({ type: DeveloperActions.SET_ATTRIBUTE, key: 'ipfsHash', value: response.data['Hash'] });
+        dispatch(setIpfsInProgress(false));
+        resolve(response.data['Hash'])
+      }
+      else{
+        console.log("Failed to add file to Infura IPFS. Status: " + response.status)
+        dispatch(setErrors(["Upload metadata to IPFS is failed."]));
+        dispatch(setIpfsInProgress(false));
+        reject(response.status)
+      }
+    })
+    .catch(function (error) {
+      console.log("Failed to add file to Infura IPFS" + error)
       dispatch(setErrors(["Upload metadata to IPFS is failed."]));
       dispatch(setIpfsInProgress(false));
-    }
-  })
-  .catch(function (error) {
-    console.log("Failed to add file to Infura IPFS" + error)
-    dispatch(setErrors(["Upload metadata to IPFS is failed."]));
-    dispatch(setIpfsInProgress(false));
+      reject(error)
+    })
   })
 }

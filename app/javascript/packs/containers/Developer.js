@@ -25,9 +25,6 @@ class DeveloperPage extends Component {
 
   componentWillReceiveProps(nextProps) {
     console.log("nextProps", nextProps);
-    if (nextProps.developer.ipfsHash != null && this.props.developer.ipfsHash == null){
-      this.setState({show_payment_modal: true});
-    }
     if( nextProps.developer.errors.length > 0 ) {
       console.log("hiding payment modal");
       this.setState({show_payment_modal: false});
@@ -38,7 +35,8 @@ class DeveloperPage extends Component {
     this.props.reset();
     let metadata = { ...values }
     delete metadata.eth_address;
-    this.props.addMetadata2IPFS(metadata)
+    let local = this;
+    this.props.addMetadata2IPFS(metadata).then(function () { local.setState({show_payment_modal: true}) })
   }
 
   hidePaymentModal = () => {
@@ -131,7 +129,7 @@ const mapDispatchToProps = dispatch => {
       dispatch( DeveloperActions.approvePayment() );
     },
     addMetadata2IPFS: (metadata) => {
-      dispatch(DeveloperActions.addMetadata2IPFS(metadata));
+      return(dispatch(DeveloperActions.addMetadata2IPFS(metadata)));
     },
     addDeveloper: (url, metadata) => {
       dispatch( DeveloperActions.addDeveloper(url, metadata) );
