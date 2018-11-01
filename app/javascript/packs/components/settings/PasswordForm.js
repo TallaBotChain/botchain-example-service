@@ -10,21 +10,21 @@ class PasswordForm extends Component {
     const { handleSubmit, pristine, reset, submitting } = this.props;
     return (
       <form onSubmit={handleSubmit}>
-        <Field name="current_password" type="password" component={inputField}  placeholder="Current Password" validate={[
+        <Field name="current_password" type="password" component={inputField}  placeholder="Current Password" label="Current Password" validate={[
             required(),
             length({min: 8})
           ]}/>
 
-        <Field name="password" type="password" component={inputField}  placeholder="New Password" validate={[
+        <Field name="password" type="password" component={inputField}  placeholder="New Password" label="New Password" validate={[
             required(),
             length({min: 8})
           ]}/>
 
-        <Field name="password_confirmation" type="password" component={inputField} placeholder="Confirm Password" validate={[
+        <Field name="password_confirmation" type="password" component={inputField} placeholder="Confirm New Password" label="Confirm New Password" validate={[
             required(),
             length({min: 8})
           ]}/>
-        <button className='primary' type="submit">Change</button>
+        <button className='orange-button cta-button' type="submit">CHANGE PASSWORD</button>
       </form>
     );
   }

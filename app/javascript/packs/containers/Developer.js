@@ -14,7 +14,7 @@ class DeveloperPage extends Component {
 
   constructor(props) {
     super(props);
-    this.state = { payment_modal_visible: false };
+    this.state = { show_payment_modal: false };
   }
 
   componentDidMount() {
@@ -27,17 +27,20 @@ class DeveloperPage extends Component {
     console.log("nextProps", nextProps);
     if( nextProps.developer.errors.length > 0 ) {
       console.log("hiding payment modal");
-      this.setState({payment_modal_visible: false});
+      this.setState({show_payment_modal: false});
     }
   }
 
   submit = (values) => {
     this.props.reset();
-    this.setState({payment_modal_visible: true, values: values});
+    let metadata = { ...values }
+    delete metadata.eth_address;
+    let local = this;
+    this.props.addMetadata2IPFS(metadata).then(function () { local.setState({show_payment_modal: true}) })
   }
 
-  cancelClick = () => {
-    this.setState({payment_modal_visible: false});
+  hidePaymentModal = () => {
+    this.setState({ show_payment_modal: false });
   }
 
   approveClick = () => {
@@ -47,22 +50,51 @@ class DeveloperPage extends Component {
 
   continueClick = () => {
     console.log("Sending actual addDeveloper transaction");
-    this.props.addDeveloper(this.state.values.metadata_url, this.state.values.metadata);
+    this.props.addDeveloper(this.props.developer.ipfsHash);
+  }
+
+  showPaymentModal(){
+    return (this.state.show_payment_modal && 
+            !this.props.developer.allowanceTxMined
+    );
+  }
+
+  showTransactionModal() {
+    return (this.state.show_payment_modal && 
+            this.props.developer.allowanceTxMined && 
+            (!this.props.developer.addDeveloperTxMined)
+    );
   }
 
   render() {
 
     return (
-      <div>
-        <div>
-          <h1>Botchain Developer Registration</h1>
-          <Success eth_address={this.props.developer.eth_address} visible={this.props.developer.successfullyAdded || (this.props.developer.developerId > 0)} />
+      <div className="white-container">
+        <div className='inner-container registration'>
+          <Success visible={this.props.developer.successfullyAdded || (this.props.developer.developerId > 0)} />
           <div className={(this.props.developer.successfullyAdded || (this.props.developer.developerId > 0)) ? 'hidden' : '' } >
+            <h1 className='green-text'>Register</h1>
+            <p className="botcoin-green">
+              <strong>Botchain Developer</strong>
+            </p>
             <p className='alert-info'>Note : You have to be pre-approved to successfully complete the registration. Please <a href="https://botchain.talla.com/developers">click here</a> to request approval. Read more about the Developer Registration Process <a href="/faq#developer_registration" target="_blank">here.</a></p>
             <Errors errors={this.props.developer.errors} />
-            <DeveloperForm onSubmit={this.submit} />
-            <PaymentModal balance={this.props.wallet.balance} token_balance={this.props.wallet.tokenBalance} tx_id={this.props.developer.allowanceTxId} visible={this.state.payment_modal_visible && (!this.props.developer.allowanceTxMined) } okClick={this.okClick} approveClick={this.approveClick} cancelClick={this.cancelClick} entryPrice={this.props.developer.entryPrice} />
-            <TransactionModal tx_id={this.props.developer.addDeveloperTxId} visible={this.state.payment_modal_visible && this.props.developer.allowanceTxMined && (!this.props.developer.addDeveloperTxMined) } okClick={this.okClick} continueClick={this.continueClick} cancelClick={this.cancelClick}  />
+            <DeveloperForm onSubmit={this.submit} submitDisabled={this.props.developer.ipfsInProgress}/>
+            <PaymentModal 
+              balance={this.props.wallet.balance} 
+              token_balance={this.props.wallet.tokenBalance} 
+              tx_id={this.props.developer.allowanceTxId} 
+              show={this.showPaymentModal()}
+              approveClick={this.approveClick} 
+              entryPrice={this.props.developer.entryPrice} 
+              handleClose={this.hidePaymentModal} 
+            />
+            <TransactionModal 
+              tx_id={this.props.developer.addDeveloperTxId} 
+              show={this.showTransactionModal()}
+              continueClick={this.continueClick} 
+              handleClose={this.hidePaymentModal}
+            />
           </div>
         </div>
       </div>
@@ -95,6 +127,9 @@ const mapDispatchToProps = dispatch => {
     },
     approvePayment: () => {
       dispatch( DeveloperActions.approvePayment() );
+    },
+    addMetadata2IPFS: (metadata) => {
+      return(dispatch(DeveloperActions.addMetadata2IPFS(metadata)));
     },
     addDeveloper: (url, metadata) => {
       dispatch( DeveloperActions.addDeveloper(url, metadata) );

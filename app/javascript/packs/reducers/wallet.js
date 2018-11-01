@@ -7,9 +7,11 @@ const initialState = {
   error: null,
   balance: 0,
   tokenBalance: 0,
-  transferTxId: null,
   transferTxMined: false,
-  transferSuccess: false
+  usdExchangeRate: 0,
+  transferTxEstGas: 0,
+  hasPendingTx: false,
+  currency: "BOTC"
 }
 
 const wallet = (state = initialState, action) => {

@@ -4,18 +4,25 @@
     <title>BotchainExampleService</title>
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
-
-    <%= stylesheet_link_tag    'application', media: 'all' %>
+    <%= render 'pages/favicon' %>
+    <link href="https://fonts.googleapis.com/css?family=IBM+Plex+Sans:300,400,500,600,700" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+    <%= stylesheet_link_tag 'bootstrap.min.css', media: 'all' %>
+    <%= stylesheet_link_tag 'application', media: 'all' %>
     <%= javascript_include_tag 'application' %>
+    <%= js_config %>
   </head>
 
   <body>
-    <nav>
-      <%= link_to "Botchain", root_path, class: "logo" %>
-      <%= link_to "Sign Up", sign_up_path %>
-      <%= link_to "Login", sign_in_path %>
-    </nav>
-    <%= yield %>
+    <div class="container-fluid app-container">
+      <div id="app"></div>
+      <%= yield %>
+      <div class="footer">
+      </div>
+      <footer>
+        Copyright © 2018, Talla, Inc.
+      </footer>
+    </div>
     <%= javascript_pack_tag 'application' %>
   </body>
 </html>

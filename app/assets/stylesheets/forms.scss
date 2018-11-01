@@ -1,177 +1,294 @@
-@mixin shadow {
-  -webkit-box-shadow: 0px 0px 39px 0px rgba(0,0,0,0.5);
-  -moz-box-shadow: 0px 0px 39px 0px rgba(0,0,0,0.5);
-  box-shadow: 0px 0px 39px 0px rgba(0,0,0,0.5);
+input:focus, select:focus, textarea:focus, button:focus {
+  outline: none;
 }
 
 form {
   display: block;
-  width: 630px;
-  margin: 0 auto;
-}
-form input, form select, form button, form textarea {
-  margin-bottom: 1rem;
+  max-width: 630px;
   width: 100%;
-  box-sizing: border-box;
-}
-form label {
-  display: block;
-  margin-bottom: 0.5rem;
-}
-form .validation-error {
-  margin-top: -0.8rem;
-  margin-bottom: 1rem;
-}
-input, textarea {
-  font-size: 18px;
-  border: solid 1px #cccccc;
-  border-radius: 5px;
-  padding: 15px 15px;
-  &::placeholder {
-    color: #cccccc;
-  }
-}
 
-form .checkbox {
-  input {
-    height: 25px;
-    width: 25px;
-    display: inline-block;
-    margin: 10px 10px 15px 0;
-    vertical-align: middle;
-  }
-  label {
-    display: inline-block;
-    line-height: 1.5em;
-    vertical-align: middle;
-  }
-}
+  .form-group {
+    margin-bottom: 5px;
+    min-height: 48px;
+    position: relative;
 
-button, .white-button {
-  color: #00bb90;
-  font-size: 18px;
-  font-weight: bold;
-  padding: 15px 25px;
-  max-width: 180px;
-  border: solid 1px #cccccc;
-  border-radius: 5px;
-  background-color: rgba(255,255,255,0.9);
-  cursor: pointer;
-  &:hover {
-    background-color: rgba(255,255,255,0.95);
-  }
-}
+    .tooltip1 {
+      left: 76%;
+      position: absolute;
+      top: 14px;
+      z-index: 1;
 
-.white-button {
-  margin: 0 10px 15px;
-  display: inline-block;
-  width: 100%;
-}
+      @media(max-width : $screen-sm-max) {
+        left: 77%;
+      }
 
-button.primary {
-  background-color: #0854cc;
-  border-color: #0854cc;
-  color: #fff;
-  white-space: nowrap;
-}
+      @media(max-width : $screen-xs-max) {
+        left: 80%;
+      }
 
-form .input {
-  position: relative;
-  .tooltip {
-    left: 100%;
-    position: absolute;
-    top: 30px;
-    z-index: 1;
-    > div {
-      background-image: asset_url('question.png');
-      background-position: left 15px;
-      background-repeat: no-repeat;
-      background-size: 21px 21px;
-      cursor: pointer;
-      margin-left: 15px;
-      min-height: 36px;
-      min-width: 21px;
-      .popup {
-        &:before {
-          border-color: transparent #fff transparent transparent;
-          border-style: solid;
-          border-width: 15px 15px 15px 0;
-          content: ' ';
-          height: 0;
-          left: 40px;
-          position: absolute;
-          top: 10px;
-          width: 0;
+      > div {
+        cursor: pointer;
+        margin-left: 10px;
+        min-height: 18px;
+        min-width: 18px;
+        &:hover {
+          span {
+            background-position: right center;
+          }
+          .popup {
+            display: block;
+          }
         }
-        @include shadow;
-        background-color: #fff;
-        color: #223450;
-        display: none;
-        font-size: 14px;
-        margin-left: 40px;
-        padding: 20px;
-        width: 150px;
-        a.button {
-          background-color: #00aae7;
-          border-radius: 5px;
-          border: none;
-          color: #ffffff;
+
+        span {
           display: block;
-          font-weight: bold;
-          margin: 1rem auto;
-          padding: 10px 20px;
-          text-align: center;
-          width: 50%;
+          height: 18px;
+          width: 18px;
+          background-image: asset_url('question.png');
+          background-repeat: no-repeat;
+        }
+
+        .popup {
+          background-color: $gray-gradient1;
+          color: $gray-text-hover;
+          display: none;
+          font-size: 0.875em;
+          margin-left: 35px;
+          margin-top: -45px;
+          padding: 15px;
+          width: 315px;
+          border: 2px solid $lighter-gray;
+          border-radius: 7px;
+          font-weight: 500;
+
+          &:before {
+            border-color: transparent $lighter-gray transparent transparent;
+            border-style: solid;
+            border-width: 10px 10px 10px 0;
+            content: ' ';
+            height: 0;
+            left: 35px;
+            position: absolute;
+            top: 0px;
+            width: 0;
+          }
+          &:after {
+            border-color: transparent $gray-gradient1 transparent transparent;
+            border-style: solid;
+            border-width: 9px 9px 9px 0;
+            content: ' ';
+            height: 0;
+            left: 38px;
+            position: absolute;
+            top: 1px;
+            width: 0;
+          }
+
+          @media(max-width : $screen-sm-max) {
+            width: 140px;
+          }
+
+          @media(max-width : $screen-xs-max) {
+            width: 200px;
+            margin-left: -210px;
+            margin-top: -65px;
+            &:before {
+              border-color: transparent transparent transparent $lighter-gray;
+              border-width: 10px 0 10px 10px ;
+              left: 0;
+            }
+            &:after {
+              border-color: transparent transparent transparent $gray-gradient1 ;
+              border-width: 9px 0 9px 9px;
+              left: -3px;
+            }
+          }
+
+          a {
+            color: $link-blue;
+            &:hover, &:active {
+              color: $blue-hover-link
+            }
+          }
         }
       }
-      &:hover .popup {
+    }
+  }
+
+  label {
+    font-weight: 400;
+    font-size: 0.875em;
+    display: none;
+    margin: 0;
+    color: $gray-label;
+    max-width: 100%;
+  }
+
+  input.form-control {
+    max-width: 390px;
+    background-color: $input-bg;
+    border: 2px solid $gray-input;
+    box-shadow: inset 0 0 5px $gray-input;
+    height: 48px;
+    color: $state;
+    line-height: 23px;
+    font-size: 1em;
+    border-radius: 6px;
+    font-weight: 500;
+    &:not(:placeholder-shown) {
+      padding-top: 13px;
+      &+label{
         display: block;
+        color: $placeholder;
+        font-size: 0.625em;
+        padding: 0 0 0 15px;
+        letter-spacing: 0.1em;
+        position: relative;
+        top: -42px;
+        margin-bottom: -15px;
+        text-transform: uppercase;
+      }
+    }
+
+    &[readonly] {
+      &.green-input {
+        color: $green-input-text;
+        background: $green-bg;
+        padding-top: 0;
+        max-width: 430px;
+      }
+    }
+
+    &:placeholder-shown {
+      color: $placeholder;
+      padding-top: 0;
+      font-weight: 300;
+    }
+
+    &.error {
+      color: $error;
+      border-color: $error-border;
+      background-color: $error-bg;
+      box-shadow: inset 0 0 5px $error-gray-input;
+      &:placeholder-shown {
+        color: $error-placeholder;
+      }
+
+      &:not(:placeholder-shown) {
+        &+.validation-error {
+          &+label {
+            display: block;
+            color: $error-placeholder;
+            font-size: 0.625em;
+            padding: 0 0 0 15px;
+            letter-spacing: 0.1em;
+            top: -63px;
+            position: relative;
+            margin-bottom: -15px;
+            text-transform: uppercase;
+          }
+        }
       }
     }
   }
-}
-.search-form {
-  margin-top: 90px;
-}
-a.button {
-  background-color: #00aae7;
-  border-radius: 5px;
-  border: none;
-  color: #ffffff;
-  display: inline-block;
-  font-weight: bold;
-  margin: 1rem auto;
-  padding: 10px 20px;
-  text-align: center;
-  width: auto;
-}
 
-.submit-field {
-  text-align: center;
-}
-
-.other-links {
-  text-align: center;
-  a {
-    color: rgba(255,255,255,0.9);
-    font-size: 0.875rem;
-    &:hover {
-      color: rgba(255,255,255,1);
+  .checkbox {
+    margin-bottom: 20px;
+    input[type="checkbox"] {
+      height: 16px;
+      width: 16px;
+      border: 1px solid $gray-input;
+      margin: 0 15px 0 0;
+      vertical-align: top;
+      position: absolute;
+      opacity: 0;
+      border-radius: 4px;
+      &+label {
+        cursor: pointer;
+        display: inline-block;
+      }
+      &:not(checked){
+        &+label {
+          position: relative;
+          padding: 0 0 0 25px;
+          font-weight: 400;
+          font-size: 1em;
+          text-transform: none;
+          color: $state;
+          letter-spacing: 0.01em;
+          margin-bottom: -45px;
+          margin-top: 0;
+          max-width: 300px;
+          &:before {
+            content: '';
+            position: absolute;
+            top: 4px;
+            left: 0;
+            width: 16px;
+            height: 16px;
+            border: 1px solid $gray-input;
+            box-shadow: 0 0 5px $error-gray-input;
+            background: white;
+            border-radius: 4px;
+          }
+        }
+        &:hover {
+          &+label:before {
+            background: $check-green;
+            border: 2px solid $check-green;
+          }
+        }
+      }
+      &:checked {
+        &+label:before {
+          background: $check-green asset_url('check.png') no-repeat -11px 2px;
+          border: 2px solid $check-green;
+        }
+        &:hover {
+          &+label:before {
+            background: white asset_url('check.png') no-repeat 1px 2px;
+          }
+        }
+      }
     }
+    .validation-error {
+      margin-top: 0;
+    }
+  }
+
+  button {
+    margin-top: 3px;
+  }
+
+  .validation-error {
+    font-size: 0.875em;
+    color: $error-placeholder;
+    margin: 0;
+    display: block;
   }
 }
 
-.password-reset {
-  p {
-    width: 630px;
-    margin: 0 auto;
+textarea {
+  font-family: 'Roboto', sans-serif;
+  letter-spacing: 0.05em;
+  font-size: 0.9em;
+  line-height: 1.25em;
+  border: none;
+  border-radius: 0;
+  padding: 15px 15px;
+  color: $state;
+  width: 100%;
+  max-width: 570px;
+  background-color: $gray-gradient1;
+  resize: none;
+  overflow-x: auto;
+  display: block;
+  &::placeholder {
+    color: $placeholder;
   }
 }
 
 .validation-error {
-  width: 630px;
-  margin: 0 auto;
-  color: #FFDB99;
 
   h3 {
     font-size: 1.375rem;
@@ -181,13 +298,5 @@ a.button {
   ul {
     padding-left: 0;
     margin-top: 10;
-  }
-}
-
-.sign-in, .sign-up {
-  .white-button {
-    margin: 20px auto;
-    width: 200px;
-    display: block;
   }
 }

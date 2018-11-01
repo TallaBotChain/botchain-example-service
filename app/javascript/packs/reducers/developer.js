@@ -12,6 +12,8 @@ const initialState = {
   successfullyAdded: false,
   developerId: 0,
   developerApproval: false,
+  ipfsInProgress: false,
+  ipfsHash: null,
   errors: []
 }
 

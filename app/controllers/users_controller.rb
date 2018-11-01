@@ -3,7 +3,7 @@ class UsersController < Clearance::UsersController
   before_action :require_login, only: [:update]
 
   def new
-    render html: '', layout: 'botchain'
+    render html: '', layout: 'application'
   end
 
   def create

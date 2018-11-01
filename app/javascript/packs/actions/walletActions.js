@@ -2,6 +2,8 @@ import BotCoin from '../blockchain/BotCoin';
 import { start as startTxObserver } from './txObserverActions';
 import TxStatus from '../helpers/TxStatus'
 import {reset} from 'redux-form';
+import axios from 'axios'
+import * as HistoryActions from '../actions/historyActions'
 
 export const WalletActions = {
   SET_WALLET_ATTRIBUTE: 'SET_WALLET_ATTRIBUTE',
@@ -28,11 +30,8 @@ export const resetState = () => {
   return { type: WalletActions.RESET_STATE}
 }
 
-export const resetTransferState = () => (dispatch) => {
-  dispatch({ type: WalletActions.SET_WALLET_ATTRIBUTE, key: 'transferTxMined', value: false });
-  dispatch({ type: WalletActions.SET_WALLET_ATTRIBUTE, key: 'transferTxId', value: null });
-  dispatch({ type: WalletActions.SET_WALLET_ATTRIBUTE, key: 'transferSuccess', value: false });
-  dispatch(setError(null))
+const setPendingTx = (hasPendingTx) => {
+  return { type: WalletActions.SET_WALLET_ATTRIBUTE, key: 'hasPendingTx', value: hasPendingTx }
 }
 
 export const getBalances = () => (dispatch) => {
@@ -58,31 +57,50 @@ export const getBalances = () => (dispatch) => {
   });
 }
 
-
-
 export const transferTokens = (to, amount) => async (dispatch) => {
   dispatch(setInProgress(true))
-  let botCoin = new BotCoin()
-  let amount_wei = botCoin.web3.utils.toWei(amount.toString(), 'ether');
+  dispatch(setPendingTx(true))
   try {
+    let botCoin = new BotCoin()
+    let amount_wei = botCoin.web3.utils.toWei(amount.toString(), 'ether');
     let txId = await botCoin.transferTokens(to, amount_wei);
-    dispatch( { type: WalletActions.SET_WALLET_ATTRIBUTE, key: 'transferTxId', value: txId });
-    dispatch(startTxObserver(txId, transferTxMined));
+    dispatch(startTxObserver(txId, (status, receipt) => transferTxMined(txId, status, receipt, amount)));
+    dispatch(reset('eth_transfer'));
+    dispatch(setInProgress(false))
+    //create new history row
+    let data = { value: amount, txId, input: "0x", from: window.keyTools.address}
+    dispatch(HistoryActions.addNewTransaction('botcoin', data))
   }catch(e) {
     console.log(e);
     dispatch( setError( "Failed to initiate transfer." ));
     dispatch(setInProgress(false))
+    dispatch(setPendingTx(false))
   }
 }
 
-const transferTxMined = (status) => (dispatch) => {
-  dispatch(setInProgress(false))
-  dispatch(reset('transfer'));
-  dispatch({ type: WalletActions.SET_WALLET_ATTRIBUTE, key: 'transferTxMined', value: true });
+const transferTxMined = (txId, status, receipt, amount) => (dispatch) => {
+  dispatch(setPendingTx(false));
+
   if(status == TxStatus.SUCCEED){
-    dispatch({ type: WalletActions.SET_WALLET_ATTRIBUTE, key: 'transferSuccess', value: true });
     dispatch(getBalances())
   } else {
     dispatch( setError("Transfer transaction failed." ));
+  }
+  //update history row
+  let data = { value: amount, txId, input: "0x", from: window.keyTools.address, ...receipt}
+  dispatch(HistoryActions.addNewTransaction('botcoin', data))
+}
+
+export const transferEstGas = (to, amount) => async (dispatch) => {
+  dispatch(setInProgress(true))
+  try {
+    let botCoin = new BotCoin()
+    let transferGas = await botCoin.transferTokensEstGas(to, amount);
+    let gasFee = botCoin.web3.utils.fromWei((transferGas*botCoin.gasPrice).toString())
+    dispatch( { type: WalletActions.SET_WALLET_ATTRIBUTE, key: 'transferTxEstGas', value: gasFee });
+  }catch(e) {
+    console.log(e);
+    dispatch( setError( "Failed to estimate gas." ));
+    dispatch(setInProgress(false))
   }
 }

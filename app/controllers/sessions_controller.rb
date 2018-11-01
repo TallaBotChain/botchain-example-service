@@ -1,7 +1,7 @@
 class SessionsController < Clearance::SessionsController
 
   def new
-    render html: '', layout: 'botchain'
+    render html: '', layout: 'application'
   end
 
   def create

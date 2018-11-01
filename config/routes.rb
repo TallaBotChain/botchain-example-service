@@ -11,11 +11,12 @@ Rails.application.routes.draw do
     root to: "pages#developer"
     get "/settings" => "pages#developer", as: "settings"
     get "/help" => "pages#developer", as: "help"
-    get "/wallet" => "pages#developer", as: "wallet"
+    get "/wallet/ethereum" => "pages#developer", as: "wallet/ethereum"
+    get "/wallet/botcoin" => "pages#developer", as: "wallet/botcoin"
   end
 
   constraints Clearance::Constraints::SignedOut.new do
-    root to: "pages#home"
+    root to: redirect('/sign_up')
   end
 
 end

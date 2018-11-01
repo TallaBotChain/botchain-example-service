@@ -1,0 +1,139 @@
+nav {
+  .navbar-right {
+    margin-right: -25px;
+  }
+
+  .nav {
+
+    li {
+      a {
+        color: $light-green;
+
+        &:hover, &:active, &:focus, &.active {
+          color: white;
+        }
+      }
+    }
+  }
+
+  li {
+    a:focus, a:hover {
+      color: white;
+    }
+  }
+}
+
+.navbar {
+  margin-bottom: 0;
+  min-height: 46px;
+
+  &.navbar-inverse {
+    background: transparent;
+    border: none;
+    box-shadow:none;
+    .navbar-nav {
+      li {
+        a {
+          margin: 25px 20px 0;
+          padding: 8px 0 10px;
+          color: $light-green;
+
+          &:hover, &:active, &:focus, &.active {
+            background-color: inherit;
+            color: white;
+          }
+        }
+        &.active {
+          a {
+            color: white;
+            background: inherit;
+            box-shadow: none;
+          }
+        }
+      }
+      &.navbar-right {
+        li.active {
+          display: none;
+        }
+      }
+    }
+  }
+
+  .container, .container-fluid {
+    .navbar-header {
+      .navbar-toggle {
+        padding: 26px 0 15px;
+        border: none;
+        &:hover, &:active, &:focus, &.active {
+          background-color: inherit;
+        }
+
+        .icon-bar {
+          background-color: white;
+          border-radius: 2px;
+          height: 3px;
+          margin-bottom: -1px;
+        }
+      }
+
+      .navbar-brand {
+        display: inline-block;
+        padding: 0;
+        margin: 30px 30px 23px 10px;
+        background: asset_url('logo_sm.png') no-repeat left center / 155px auto;
+        width: 155px;
+        height: 20.5px;
+      }
+    }
+  }
+}
+
+@media(max-width : $screen-xs-max) {
+  .navbar {
+    .container, .container-fluid {
+      .navbar-collapse.in, .navbar-collapse.collapsing {
+        -webkit-transition: all 300ms ease-in;
+        -moz-transition: all 300ms ease-in;
+        -o-transition: all 300ms ease-in;
+        transition: all 300ms ease-in;
+        border: none;
+        box-shadow: none;
+        padding: 0;
+        background-color: $botcoin-cover;
+        height: calc( 100vh - 74px );
+        position: absolute;
+        z-index: 100;
+        width: 100%;
+
+        .navbar-nav {
+          margin-right: 20px;
+
+          li {
+            padding: 7px 0 7px 40px;
+            &.active {
+              a {
+                text-decoration: underline;
+              }
+            }
+
+            a {
+              padding: 0;
+              font-size: 1.125em;
+              border-bottom: none;
+              margin: 0;
+              &:hover {
+                text-decoration: underline;
+              }
+            }
+          }
+        }
+      }
+
+      .navbar-header {
+        .navbar-brand {
+          margin-left: 25px;
+        }
+      }
+    }
+  }
+}

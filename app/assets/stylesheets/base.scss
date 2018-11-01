@@ -1,22 +1,163 @@
-@import url("https://use.typekit.net/fnn1wzh.css");
 body {
-  font-family: 'Soleil', sans-serif;
-  font-size: 16px;
+  font-family: 'IBM Plex Sans', sans-serif;
+  font-size: 15.5px;
+  font-weight: 300;
+  letter-spacing: 0.05em;
+  line-height: 1.42857143;
   margin: 0;
   padding: 0;
+  background-color: $botcoin-green;
+  color: $state;
+  @media(max-width : $screen-xs-max) {
+    font-size: 14px;
+  }
+}
 
-  background-color: #00bc90;
-  color: #efefef;
-  &.home {
-    background-image: asset_url('big-gear.png'), asset_url('small-gear.png'), asset_url('bg.png');
-    background-repeat: no-repeat,no-repeat,no-repeat;
-    background-position: 5px 400px, 275px 270px, center center;
+
+.alert {
+  padding: 15px 40px;
+  margin-bottom: 10px;
+  border-radius: 0;
+  color: $alert;
+  border: 1px solid $alert-border;
+  background: $alert-bg asset_url('error.png') no-repeat 13px 18px;
+  max-width: 470px;
+  text-align: left;
+  display: inline-block;
+
+  ul {
+    margin: 0;
+    padding-left: 0;
+    list-style-type: none;
+  }
+}
+
+.alert-info {
+  background-color: $alert-blue-bg;
+  border-radius: 0;
+  border: none;
+  color: $alert-blue;
+  line-height: 1.8em;
+  margin-top: 25px;
+  padding: 5px 13px 10px;
+  text-align: left;
+  font-weight: 500;
+  display: inline-block;
+}
+
+.app-container {
+  max-width: 1210px;
+  min-height: 100vh;
+  position: relative;
+}
+
+.white-container {
+  background: white;
+  border-radius: 13px;
+  min-height: calc(100vh - 165px);
+  overflow-y: auto;
+}
+
+.inner-container {
+  padding: 25px 25px 70px 80px;
+  @media(max-width : $screen-xs-max) {
+    padding-left: 25px;
+  }
+
+  p.botcoin-green {
+    margin-top: 0;
+  }
+}
+
+.footer {
+  height: 90px;
+}
+
+footer {
+  height: 90px;
+  color: $light-green;
+  font-size: 0.875em;
+  font-weight: 300;
+  padding-top: 20px;
+  padding-left: 25px;
+  position: absolute;
+  bottom: 0;
+}
+
+.wallet-navigation {
+  height: 56px;
+  background: $light-green;
+  border-bottom: 2px solid $border-green;
+  padding: 16px 25px 0 60px;
+  @media(max-width : $screen-xs-max) {
+    padding-left: 25px;
+  }
+
+  a {
+    color: $wallet-link;
+    font-size: 0.875em;
+    font-weight: 500;
+    display: inline-block;
+    padding: 10px 20px 0;
+    border-width: 2px 2px 0 2px;
+    border-style: solid;
+    border-color: transparent;
+    height: 40px;
+    @media(max-width : $screen-xs-max) {
+      padding-top: 12px;
+    }
+    &:hover {
+      color: $wallet-link-active;
+      text-decoration: none;
+    }
+    &.active {
+      color:$wallet-link-active;
+      border-color: $border-green;
+      border-radius: 7px 7px 0 0;
+      background: white;
+    }
+  }
+}
+
+.welcome {
+  background-color: $light-green;
+  min-height: 225px;
+  border-bottom: 2px solid $border-green;
+  padding: 25px 25px 20px 80px;
+  @media(max-width : $screen-xs-max) {
+    padding-left: 25px;
+  }
+
+  h1 {
+    margin-bottom: 0;
+  }
+
+  h2 {
+    max-width: 540px;
+    line-height: 1.75em;
+    font-weight: 400;
+    margin-top: 2px;
+    letter-spacing: 0.03em;
+    @media(max-width : $screen-xs-max) {
+      margin-top: 6px;
+    }
+  }
+
+  a {
+    font-size: 0.9em;
+    font-weight: 600;
+    display: inline-block;
+    border-bottom: 1px solid $gray-input;
+    line-height: 1.6em;
   }
 }
 
 a {
   text-decoration: none;
-  color: #108db8;
+  color: $link-blue;
+  &:hover, &:active {
+    color: $blue-hover-link;
+  }
 }
 
 img {
@@ -24,19 +165,47 @@ img {
 }
 
 h1 {
-  font-size: 36px;
-  text-align: center;
+  font-size: 1.5em;
+  margin-top: 0;
+  padding-top: 30px;
+  &.green-text {
+    text-transform: uppercase;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+  }
 }
 
-.logo {
-  text-indent: -1000em;
-  background-image: asset_url('logo.png');
-  background-repeat: no-repeat;
-  background-position: left center;
-  background-size: 187px 44px;
-  width: 187px;
-  height: 44px;
-  margin-left: 60px;
+h2 {
+  font-size: 1.25em;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+}
+
+h3 {
+  font-size: 1.125em;
+  letter-spacing: 0.08em;
+  &.green-text {
+    font-weight: 600;
+  }
+}
+
+h4 {
+  font-size: 0.9375em;
+  font-weight: 600;
+}
+
+h5 {
+  font-size: 0.8125em;
+  font-weight: 400;
+}
+
+strong, b {
+  font-weight: 600;
+}
+
+p {
+  font-weight: 400;
+  line-height: 1.65em;
 }
 
 .centered {
@@ -47,9 +216,177 @@ h1 {
 .wallet-nav {
   text-align: center;
   a {
-    color: white;
     &.active {
       text-decoration:underline;
+    }
+  }
+}
+
+.sign-in, .sign-up {
+  .alert {
+    max-width: 390px;
+  }
+}
+.sign-up {
+  padding-top: 0px;
+
+  h1 {
+    margin-bottom: 10px;
+  }
+
+  form{
+    margin-top: 25px;
+  }
+}
+
+.registration {
+  h1 {
+    margin-bottom: 5px;
+  }
+  form{
+    .form-group {
+      input {
+        max-width: 480px;
+        @media(max-width : $screen-xs-max) {
+          max-width: 80%;
+        }
+      }
+    }
+    .lds-css {
+      span {
+        position: relative;
+        padding-top: 0;
+        top: -40px;
+        left: 55px;
+      }
+    }
+  }
+}
+
+.settings {
+  h1 {
+    margin-bottom: 30px;
+  }
+  form {
+    margin-bottom: 40px;
+  }
+  p {
+    margin-top: 2px;
+    max-width: 570px;
+    margin-bottom: 8px;
+  }
+  h3 {
+    &:last-of-type {
+      margin-bottom: 0;
+    }
+  }
+}
+
+.help {
+  padding-right: 80px;
+  width: 67.4%;
+  float: left;
+}
+
+.sidebar{
+  width: 32.6%;
+  max-width: 385px;
+  min-width: 150px;
+  background-color: $light-green;
+  float: left;
+  height: calc(100vh - 165px);
+  min-height: 370px;
+  border-radius: 0 13px 13px 0;
+  border-left: 2px solid $border-green;
+  padding: 45px 40px 25px;
+
+  ul {
+    padding-left: 0;
+    li {
+      display: block;
+      margin-bottom: 12px;
+      a {
+        font-weight: 700;
+        letter-spacing: 0.05em;
+      }
+    }
+  }
+}
+
+.add-developer-success {
+  h1 {
+    padding-left: 36px;
+    padding-bottom: 12px;
+    margin-bottom: 0;
+    background: asset_url('fun-picture.png') no-repeat 0 30px;
+  }
+}
+
+.wallet {
+  padding-top: 10px;
+
+  h1.botc, h1.ethereum {
+    font-size: 3em;
+    padding-top: 0;
+    margin-bottom: 2px;
+    margin-right: 35px;
+
+    span {
+      font-size: 0.333em;
+      margin-left: 5px;
+    }
+  }
+
+  .buttons {
+    button {
+      margin-right: 15px;
+    }
+  }
+
+  .dollar-balance {
+    display: block;
+  }
+}
+
+.transactions {
+  margin-top: 60px;
+}
+
+.transaction-table {
+  .state-text {
+    font-weight: 500;
+    text-transform: uppercase;
+  }
+
+  .ethereum,.botc {
+    font-size: 0.8125em;
+  }
+
+  .dollar-text, .gray {
+    font-size: 0.75em;
+  }
+
+  .gray {
+    a {
+      color: $gray;
+      &:hover {
+        color: $state;
+      }
+    }
+  }
+
+  tbody {
+    tr {
+      border-bottom: 2px solid $lighter-gray;
+      &:last-child {
+        border-bottom: 0;
+      }
+
+      td {
+        padding: 8px 0 12px;
+        line-height: 1.55;
+        border-top: 0;
+      }
     }
   }
 }

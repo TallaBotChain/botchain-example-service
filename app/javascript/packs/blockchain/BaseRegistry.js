@@ -24,6 +24,10 @@ class BaseRegistry {
       return contract.methods.entryPrice().call({from: accounts[0]});
     });
   }
+
+  getMethodSignature(name) {
+    return this.contract._jsonInterface.find((f) => (f.name  == name ) ).signature;
+  }
 }
 
 export default BaseRegistry;
