@@ -44,8 +44,7 @@ class DeveloperPage extends Component {
     console.log("Starting approve request");
     let metadata = { ...this.state.values }
     delete metadata.eth_address;
-    this.props.addMetadata2IPFS(metadata);
-    this.props.approvePayment();
+    this.props.addMetadata2IPFSandApprove(metadata);
   }
 
   continueClick = () => {
@@ -82,11 +81,10 @@ class DeveloperPage extends Component {
             <PaymentModal 
               balance={this.props.wallet.balance} 
               token_balance={this.props.wallet.tokenBalance} 
-              tx_id={this.props.developer.allowanceTxId} 
               show={this.showPaymentModal()}
               approveClick={this.approveClick} 
-              entryPrice={this.props.developer.entryPrice} 
               handleClose={this.hidePaymentModal} 
+              developer = {this.props.developer}
             />
             <TransactionModal 
               tx_id={this.props.developer.addDeveloperTxId} 
@@ -124,11 +122,8 @@ const mapDispatchToProps = dispatch => {
     fetchDeveloperId: () => {
       dispatch( DeveloperActions.fetchDeveloperId() );
     },
-    approvePayment: () => {
-      dispatch( DeveloperActions.approvePayment() );
-    },
-    addMetadata2IPFS: (metadata) => {
-      dispatch(DeveloperActions.addMetadata2IPFS(metadata));
+    addMetadata2IPFSandApprove: (metadata) => {
+      dispatch(DeveloperActions.addMetadata2IPFSandApprove(metadata));
     },
     addDeveloper: (url, metadata) => {
       dispatch( DeveloperActions.addDeveloper(url, metadata) );

@@ -76,6 +76,10 @@ const setPayTxId = (tx_id) => {
   return { type: DeveloperActions.SET_ATTRIBUTE, key: 'allowanceTxId', value: tx_id }
 }
 
+const setIpfsInProgress = (status) => {
+  return { type: DeveloperActions.SET_ATTRIBUTE, key: 'ipfsInProgress', value: status }
+}
+
 export const approvePayment = () => (dispatch, getState) => {
   let botCoin = new BotCoin();
   let chargingContract = window.app_config.developer_registry_contract;
@@ -92,17 +96,28 @@ export const approvePayment = () => (dispatch, getState) => {
 }
 
 
-export const addMetadata2IPFS = (values) => (dispatch) => {
+export const addMetadata2IPFSandApprove = (values) => (dispatch) => {
+  dispatch(setIpfsInProgress(true));
   const config = { headers: { 'content-type': 'multipart/form-data' } };
   const formData = new FormData()
   formData.append('file', JSON.stringify(values))
   
   axios.post('https://ipfs.infura.io:5001/api/v0/add?pin=true', formData, config)
   .then(function (response) {
-    dispatch({ type: DeveloperActions.SET_ATTRIBUTE, key: 'ipfsHash', value: response.data['Hash'] });
+    if (response.status == 200 && response.data['Hash']){
+      dispatch({ type: DeveloperActions.SET_ATTRIBUTE, key: 'ipfsHash', value: response.data['Hash'] });
+      dispatch(approvePayment());
+      dispatch(setIpfsInProgress(false));
+    }
+    else{
+      console.log("Failed to add file to Infura IPFS. Status: " + response.status)
+      dispatch(setErrors(["Upload metadata to IPFS is failed."]));
+      dispatch(setIpfsInProgress(false));
+    }
   })
   .catch(function (error) {
     console.log("Failed to add file to Infura IPFS" + error)
     dispatch(setErrors(["Upload metadata to IPFS is failed."]));
+    dispatch(setIpfsInProgress(false));
   })
 }
