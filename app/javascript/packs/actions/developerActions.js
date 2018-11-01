@@ -2,8 +2,8 @@ import DeveloperRegistry from '../blockchain/DeveloperRegistry';
 import CurationCouncil from '../blockchain/CurationCouncil';
 import BotCoin from '../blockchain/BotCoin';
 import { start as startTxObserver } from './txObserverActions';
-import { UrlShortener } from "../helpers/UrlShortener";
 import TxStatus from '../helpers/TxStatus'
+import axios from 'axios';
 
 export const DeveloperActions = {
   RESET_STATE: "DEVELOPER_RESET_STATE",
@@ -34,17 +34,11 @@ const setErrors = (errors)  => {
 export const allowTransfer = () => {}
 export const checkTransferAllowance = () => {}
 
-export const addDeveloper = (url, metadata) => async (dispatch) => {
-  let shorten_url = url
-  if (url.length > 32) {
-    shorten_url = await UrlShortener.shorten(url);
-  }
-  //NOTE: metadata here is a json string, not an object
-  console.log("addDeveloper with url:", shorten_url, " metadata:", metadata);
+export const addDeveloper = (ipfsHash) => async (dispatch) => {
   console.log("Developer registry contract:", window.app_config.developer_registry_contract);
   let registry = new DeveloperRegistry(window.app_config.developer_registry_contract);
   try {
-    let txId = await registry.addDeveloper(shorten_url, metadata);
+    let txId = await registry.addDeveloper(ipfsHash);
     dispatch( { type: DeveloperActions.SET_ATTRIBUTE, key: 'addDeveloperTxId', value: txId });
     dispatch(startTxObserver(txId, addTxMined));
   }catch(e) {
@@ -82,6 +76,10 @@ const setPayTxId = (tx_id) => {
   return { type: DeveloperActions.SET_ATTRIBUTE, key: 'allowanceTxId', value: tx_id }
 }
 
+const setIpfsInProgress = (status) => {
+  return { type: DeveloperActions.SET_ATTRIBUTE, key: 'ipfsInProgress', value: status }
+}
+
 export const approvePayment = () => (dispatch, getState) => {
   let botCoin = new BotCoin();
   let chargingContract = window.app_config.developer_registry_contract;
@@ -95,4 +93,34 @@ export const approvePayment = () => (dispatch, getState) => {
     console.log(err);
     dispatch( setErrors( ["Not approved. Request cancelled."] ));
   });
+}
+
+export const addMetadata2IPFS = (values) => (dispatch) => {
+  return new Promise((resolve, reject) => {
+    dispatch(setIpfsInProgress(true));
+    const config = { headers: { 'content-type': 'multipart/form-data' } };
+    const formData = new FormData()
+    formData.append('file', JSON.stringify(values))
+
+    axios.post('https://ipfs.infura.io:5001/api/v0/add?pin=true', formData, config)
+    .then(function (response) {
+      if (response.status == 200 && response.data['Hash']){
+        dispatch({ type: DeveloperActions.SET_ATTRIBUTE, key: 'ipfsHash', value: response.data['Hash'] });
+        dispatch(setIpfsInProgress(false));
+        resolve(response.data['Hash'])
+      }
+      else{
+        console.log("Failed to add file to Infura IPFS. Status: " + response.status)
+        dispatch(setErrors(["Upload metadata to IPFS is failed."]));
+        dispatch(setIpfsInProgress(false));
+        reject(response.status)
+      }
+    })
+    .catch(function (error) {
+      console.log("Failed to add file to Infura IPFS" + error)
+      dispatch(setErrors(["Upload metadata to IPFS is failed."]));
+      dispatch(setIpfsInProgress(false));
+      reject(error)
+    })
+  })
 }

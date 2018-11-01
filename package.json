@@ -4,6 +4,7 @@
   "dependencies": {
     "@rails/webpacker": "3.5",
     "aes-js": "^3.1.1",
+    "axios": "^0.18.0",
     "babel-preset-react": "^6.24.1",
     "bip39": "^2.5.0",
     "create-hash": "^1.2.0",
@@ -11,25 +12,25 @@
     "immutability-helper": "^2.7.0",
     "moment": "^2.22.2",
     "moment-duration-format": "^2.2.2",
+    "multihashes": "^0.4.14",
     "prop-types": "^15.6.1",
     "qrcode.react": "^0.8.0",
     "react": "^16.4.0",
-    "react-bootstrap": "^0.32.1",
     "react-async-script": "^0.9.1",
+    "react-bootstrap": "^0.32.1",
+    "react-clipboard.js": "^2.0.1",
     "react-dom": "^16.4.0",
     "react-google-recaptcha": "^0.11.1",
     "react-redux": "^5.0.7",
     "react-router": "^4.2.0",
-    "react-router-dom": "^4.2.2",
     "react-router-bootstrap": "^0.24.4",
+    "react-router-dom": "^4.2.2",
     "redux": "^4.0.0",
     "redux-form": "^7.3.0",
     "redux-form-validators": "^2.7.0",
     "redux-logger": "^3.0.6",
     "redux-thunk": "^2.3.0",
-    "web3": "^1.0.0-beta.34",
-    "axios": "^0.18.0",
-    "react-clipboard.js": "^2.0.1"
+    "web3": "^1.0.0-beta.34"
   },
   "devDependencies": {
     "webpack-dev-server": "2.11.2"
