@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {Field, reduxForm} from 'redux-form';
-import {required, length, url, email, acceptance} from 'redux-form-validators'
+import {required, length, url, email, confirmation} from 'redux-form-validators'
 import {inputField, checkboxField, captchaField} from '../form/FormFields'
 import Loader from '../Loader'
 
@@ -32,9 +32,12 @@ class SignUpForm extends Component {
 
       <Field name="password_confirmation" type="password" component={inputField} label="Confirm password" placeholder="Confirm password" validate={[
           required(),
-          length({min: 8})
+          length({min: 8}),
+          confirmation({ field: 'password', fieldLabel: 'Password', message: 'Passwords do not match' })
         ]}/>
-      <Field name='g-recaptcha-response' component={captchaField}/>
+      <Field name='g-recaptcha-response' component={captchaField} validate={[
+          required(),
+        ]}/>
 
       <button className='orange-button big-button' type="submit">Sign Up</button>
       <Loader visible={this.props.user.inProgress}/>
