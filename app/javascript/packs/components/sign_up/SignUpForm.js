@@ -35,7 +35,6 @@ class SignUpForm extends Component {
           length({min: 8})
         ]}/>
       <Field name='g-recaptcha-response' component={captchaField}/>
-      <Field name="age" type="checkbox" component={checkboxField} label="I confirm that I am 18 years or older" validate={acceptance({message: "Must be at least 18 years old"})}/>
 
       <button className='orange-button big-button' type="submit">Sign Up</button>
       <Loader visible={this.props.user.inProgress}/>
