@@ -149,13 +149,17 @@ footer {
     display: inline-block;
     border-bottom: 1px solid $gray-input;
     line-height: 1.6em;
+    &:hover, &:active, &:visited {
+      border-bottom-color: $blue-hover-link;
+      text-decoration: none;
+    }
   }
 }
 
 a {
   text-decoration: none;
   color: $link-blue;
-  &:hover, &:active {
+  &:hover, &:active, &:visited {
     color: $blue-hover-link;
   }
 }
