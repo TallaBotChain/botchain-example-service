@@ -46,7 +46,7 @@ class PaymentModal extends Component {
         </Modal.Header>
         <Modal.Body className={ this.state.step == 1 ? 'text-center' : 'hidden' }>
           <h3>Step 1 of 2</h3>
-          {this.props.token_balance == 0 && (
+          {this.props.balance == 0 && (
             <div>
               <p className="alert">
                 Warning: not enough Ether to pay for gas.
