@@ -9,7 +9,7 @@ import TxStatus from '../helpers/TxStatus'
 import * as DeveloperActions from '../actions/developerActions';
 import * as WalletActions from '../actions/walletActions.js'
 import Success from '../components/developer/Success';
-
+import Loader from '../components/Loader';
 class DeveloperPage extends Component {
 
   constructor(props) {
@@ -18,6 +18,7 @@ class DeveloperPage extends Component {
   }
 
   componentDidMount() {
+    this.props.reset();
     this.props.getBalances();
     this.props.fetchEntryPrice();
     this.props.fetchDeveloperId();
@@ -66,6 +67,13 @@ class DeveloperPage extends Component {
     );
   }
 
+  formSubmitDisabled() {
+    return (this.props.wallet.registrationFee == 0 ||
+            this.props.wallet.registrationFee > this.props.wallet.balance ||
+            this.props.developer.ipfsInProgress
+    );
+  }
+
   render() {
 
     return (
@@ -77,8 +85,9 @@ class DeveloperPage extends Component {
             <p className="botcoin-green">
               <strong>Botchain Developer</strong>
             </p>
+            <Loader visible={this.props.wallet.registrationFee == 0} message="Checking balance"/>
             <Errors errors={this.props.developer.errors} />
-            <DeveloperForm onSubmit={this.submit} submitDisabled={this.props.developer.ipfsInProgress}/>
+            <DeveloperForm onSubmit={this.submit} submitDisabled={this.formSubmitDisabled()} ipfsInProgress={this.props.developer.ipfsInProgress}/>
             <PaymentModal 
               balance={this.props.wallet.balance} 
               token_balance={this.props.wallet.tokenBalance} 

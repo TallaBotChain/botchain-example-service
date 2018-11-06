@@ -30,6 +30,10 @@ export const resetState = () => {
   return { type: WalletActions.RESET_STATE}
 }
 
+export const setRegistrationFee = (value) => {
+  return { type: WalletActions.SET_WALLET_ATTRIBUTE, key: 'registrationFee', value: value }
+}
+
 const setPendingTx = (hasPendingTx) => {
   return { type: WalletActions.SET_WALLET_ATTRIBUTE, key: 'hasPendingTx', value: hasPendingTx }
 }

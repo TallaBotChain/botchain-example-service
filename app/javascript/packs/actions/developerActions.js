@@ -4,6 +4,7 @@ import BotCoin from '../blockchain/BotCoin';
 import { start as startTxObserver } from './txObserverActions';
 import TxStatus from '../helpers/TxStatus'
 import axios from 'axios';
+import * as WalletActions from './walletActions';
 
 export const DeveloperActions = {
   RESET_STATE: "DEVELOPER_RESET_STATE",
@@ -17,6 +18,9 @@ export const fetchDeveloperId = () => async (dispatch, getState) => {
   if( developerId > 0 ) {
     let approved = await registry.getDeveloperApproval(developerId);
     dispatch({ type: DeveloperActions.SET_ATTRIBUTE, key: 'developerApproval', value: approved });
+  }
+  else{
+    dispatch(fetchRegistrationProcessEstGas());
   }
 }
 
@@ -123,4 +127,25 @@ export const addMetadata2IPFS = (values) => (dispatch) => {
       reject(error)
     })
   })
+}
+
+export const fetchRegistrationProcessEstGas = () => async (dispatch, getState) => {
+  let botCoin = new BotCoin();
+  let chargingContract = window.app_config.developer_registry_contract;
+  let amount = getState().developer.entryPrice;
+  let approveEstGas = await botCoin.approveEstGas(amount, chargingContract);
+  console.log(`approveEstGas: ${approveEstGas}`);
+
+  let registry = new DeveloperRegistry(window.app_config.developer_registry_contract);
+  let addDeveloperEstGas = await registry.addDeveloperEstGas('QmXjFZZ3YJDkFvhhsRkTA5Y5MrtDfAMGHPFdfFbZZR9ivX'); // ipfshash just for calc price
+  console.log(`addDeveloperEstGas: ${addDeveloperEstGas}`);
+
+  let gas = approveEstGas + addDeveloperEstGas;
+  console.log(`gas: ${gas}`);
+  let registrationFee = botCoin.web3.utils.fromWei(`${gas * window.app_config.gas_price }`, 'ether');
+  console.log(`registrationFee: ${registrationFee}`);
+  dispatch(WalletActions.setRegistrationFee(registrationFee));
+
+  let ethBalance = getState().wallet.balance;
+  if (ethBalance < registrationFee) dispatch(setErrors(["The wallet does not have enough ETH to pay for transactions."]));
 }
