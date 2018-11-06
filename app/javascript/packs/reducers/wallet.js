@@ -10,6 +10,7 @@ const initialState = {
   transferTxMined: false,
   usdExchangeRate: 0,
   transferTxEstGas: 0,
+  registrationFee: 0,
   hasPendingTx: false,
   currency: "BOTC"
 }
