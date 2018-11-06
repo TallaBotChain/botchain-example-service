@@ -1,5 +1,6 @@
 
 import BotCoin from '../../blockchain/BotCoin';
+import DeveloperRegistry from '../../blockchain/DeveloperRegistry';
 import React, { Component } from 'react';
 import { Table } from 'react-bootstrap';
 import moment from "moment";
@@ -10,9 +11,11 @@ export default class TransactionList extends Component {
   constructor(props) {
     super(props);
     let botCoin = new BotCoin()
+    let registry = new DeveloperRegistry(window.app_config.developer_registry_contract);
     this.methods = {
       "0x": "TRANSFER",
-      [botCoin.getMethodSignature("transfer")]: "TRANSFER"
+      [botCoin.getMethodSignature("transfer")]: "TRANSFER",
+      [registry.getMethodSignature("addDeveloper")]: "DEVELOPER_REGISTRATION"
      };
   }
 
