@@ -20,7 +20,7 @@ class SignUpPage extends Component {
           <div className="white-container">
             <div className='welcome'>
               <h1>Botchain Developer Registration</h1>
-              <h2>BotChain is the decentralized identity and audit ledger for autonomous AI agents. <a href="">Learn more</a></h2>
+              <h2>BotChain is the decentralized identity and audit ledger for autonomous AI agents. <a href="https://botchain.network">Learn more</a></h2>
             </div>
             <div className='inner-container sign-up'>
               <h1 className='green-text'>Sign up</h1>

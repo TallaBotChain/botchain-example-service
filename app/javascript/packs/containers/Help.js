@@ -10,25 +10,72 @@ class HelpPage extends Component {
       <div className="white-container">
         <div className='inner-container help'>
           <h1>Help</h1>
-          <h3 className="green-text">
-            Subhead
-          </h3>
+          <h3 className="green-text" id="how_to_register">How to Register</h3>
+          <p>The BotChain Registration service provides an simple way for developers to register on BotChain.</p>
+          
+          <h3 className="green-text" id="register_steps">What are the steps to Register</h3>
           <p>
-            The main help content and documentation will go here.
-            More content that is part of the help etc. will go here. Some latin text to fill it: Pharetra lorem at laoreet commodo. Proin non neque ac risus accumsan porttitor nec non metus. Aenean accumsan viverra hendrerit. Nullam porta, nunc porta ultricies pellentesque, ante leo bibendum leo, eu mollis purus sapien vel nulla.
+            BotChain Registration process consists of 3 simple steps for an AI developer:<br/>
+            <ul>
+              <li>Use BotChain Registration Service to enter developer information</li>
+              <li>Developer information is then submitted to the BotChain curators for Approval</li>
+              <li>BotChain Curators review developer information and choose to appove or reject the developer registration</li>
+            </ul>
           </p>
+
+          <h3 className="green-text" id="register_process">How does the Registration process work</h3>
+          <p>
+            Once the developer enter their information. There are two things that happen in the background.<br/>
+            A JSON file with metadata will be constructed and sent to IPFS.
+            BotChain smartcontracts running on the Ethereum blockchain will be invoked with the developer ETH address and the JSON file stored on IPFS
+            The ETH address along with JSON metadata will serve as the developer identity information and will be submitted to the BotChain Curation Council for Approval.
+          </p>
+
+          <h3 className="green-text" id="register_approvals">How does the Registration Approvals work</h3>
+          <p>
+            Once the developer information is submitted, the members of the BotChain Curation Council review the developer information submitted and makes a decision to approve or reject the developer registration.
+          </p>
+
+          <h3 className="green-text" id="once_register">What do I do once I Register</h3>
+          <p>
+            Once a developer is registered in BotChain, they can now register their AI software, product, bot offering in BotChain.
+          </p>
+
+          <h3 className="green-text" id="what_is_eth">What is ETH?</h3>
+          <p>
+            BotChain runs on the Ethereum BlockChain. ETH is the currency of the Ethereum blockchain.
+          </p>
+
+          <h3 className="green-text" id="what_is_gas_cost">What is Gas Cost?</h3>
+          <p>
+            Operations in Ethereum blockchain costs Gas which is paid in ETH. The cost per transaction is calculated based on the current unit gas price and the volume of gas used.
+          </p>
+          <br/>
+          <br/>
+          <br/>
         </div>
         <div className="sidebar">
-          <h3>Sidebar</h3>
           <ul>
             <li>
-              <a href="">How to Register</a>
+              <a href="#how_to_register">How to Register</a>
             </li>
             <li>
-              <a href="">How to Submit Bot</a>
+              <a href="#register_steps">What are the steps to Register</a>
             </li>
             <li>
-              <a href="">Developer Metadata</a>
+              <a href="#register_process">How does the Registration process work</a>
+            </li>
+            <li>
+              <a href="#register_approvals">How does the Registration Approvals work</a>
+            </li>
+            <li>
+              <a href="#once_register">What do I do once I Register</a>
+            </li>
+            <li>
+              <a href="#what_is_eth">What is ETH?</a>
+            </li>
+            <li>
+              <a href="#what_is_gas_cost">What is Gas Cost?</a>
             </li>
           </ul>
         </div>
