@@ -8,6 +8,10 @@ const setErrors = (errors)  => {
     return { type: UserActions.SET_ATTRIBUTE, key: 'errors', value: errors }
 }
 
+const setAlerts = (alerts) => {
+    return { type: UserActions.SET_ATTRIBUTE, key: 'alerts', value: alerts }
+}
+
 const setInProgress = (value) => {
     return { type: UserActions.SET_ATTRIBUTE, key: 'inProgress', value: value }
 }
@@ -54,7 +58,7 @@ export const signUpUser = (payload) => (dispatch) => {
         })
         .fail( (error) => {
             console.log( "error: ", error );
-            alert(`An error has occured ${error}`);
+            dispatch(setErrors([`An error has occured ${error}`]));
         });
 }
 
@@ -83,15 +87,17 @@ export const signInUser = (payload) => (dispatch) => {
         .fail( (error) => {
             dispatch( setInProgress(false) );
             console.log( "error: ", error );
-            alert(`An error has occured ${error}`);
+            dispatch(setErrors([`An error has occured ${error}`]));
         });
 }
 
 export const updatePassword = (current_password, password, password_confirmation) => (dispatch, getState) => {
+    dispatch(setErrors([]));
+    dispatch(setAlerts([]));
     let encryptedMnemonic = getState().user.encryptedMnemonic
     let decryptedMnemonic = window.keyTools.decryptMnemonic(encryptedMnemonic, current_password)
     if (!decryptedMnemonic) {
-      return dispatch( setErrors(['password is invalid']) );
+      return dispatch( setErrors(['Current Password is Invalid']) );
     }
     let newMnemonic = window.keyTools.encryptMnemonic(decryptedMnemonic, password)
     dispatch( setInProgress(true) );
@@ -109,19 +115,18 @@ export const updatePassword = (current_password, password, password_confirmation
             if( response.errors !== undefined ) {
                 dispatch( setErrors(response.errors) );
             } else {
-                dispatch( setErrors([]) );
                 dispatch( setEncryptedMnemonic(response.encrypted_mnemonic) );
                 window.keyTools.applyEncryptedMnemonic(response.encrypted_mnemonic,
                                                        password);
                 dispatch(reset('password'));
-                alert("Password was successfully changed!");
+                dispatch(setAlerts(['Password was successfully changed!']));
             }
             dispatch( setInProgress(false) );
         })
         .fail( (error) => {
             dispatch( setInProgress(false) );
             console.log( "error: ", error );
-            alert(`An error has occured ${error}`);
+            dispatch(setErrors([`An error has occured ${error}`]));
         });
 }
 

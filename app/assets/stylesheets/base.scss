@@ -284,6 +284,12 @@ p {
       margin-bottom: 0;
     }
   }
+  .alert-info{
+    padding: 10px 13px 10px;
+    >p {
+      margin-bottom: 2px;
+    }
+  }
 }
 
 .help {
