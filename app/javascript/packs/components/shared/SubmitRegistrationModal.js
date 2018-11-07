@@ -2,34 +2,29 @@ import React, { Component } from 'react';
 import { Modal, Button } from 'react-bootstrap';
 import Loader from '../Loader';
 
-class TransactionModal extends Component {
+class SubmitRegistrationModal extends Component {
 
   constructor(props) {
     super(props);
-    this.state = {step: 1};
-    this.continueClick = this.continueClick.bind(this);
+    this.state = { step: 1 };
+    this.submitRegistrationClick = this.submitRegistrationClick.bind(this);
     this.cancelClick = this.cancelClick.bind(this);
   }
 
   componentWillReceiveProps(nextProps) {
-    if( nextProps.tx_id ) {
-      this.setState({step: 2});
+    if (nextProps.tx_id) {
+      this.setState({ step: 2 });
     } else {
-      this.setState({step: 1});
+      this.setState({ step: 1 });
     }
   }
 
   resetState() {
-    this.setState({step: 1});
+    this.setState({ step: 1 });
   }
 
-  nextStep() {
-    let step = (this.state.step + 1)
-    this.setState({step: step });
-  }
-
-  continueClick() {
-    this.props.continueClick();
+  submitRegistrationClick() {
+    this.props.submitRegistrationClick();
   }
 
   cancelClick() {
@@ -43,14 +38,14 @@ class TransactionModal extends Component {
         <Modal.Header>
           <Modal.Title className="text-center">DEVELOPER REGISTRATION</Modal.Title>
         </Modal.Header>
-        <Modal.Body className={ this.state.step == 1 ? 'text-center' : 'hidden' }>
-          <h3>Step {this.props.entryPrice == 0 ? '1' : '2'}: Create Registration</h3>
+        <Modal.Body className={this.state.step == 1 ? 'text-center' : 'hidden'}>
+          <h3>Step {this.props.entryPrice == 0 ? '2' : '3'}: Submit Registration for Approval</h3>
           <p>
-            Submitting your registration information to BotChain smart contracts running on Ethereum Blockchain. The fee for this transaction is {this.props.entryPrice} BOTC and the gas fee will be approx. {this.props.txFee} ETH.
+            Submitting your registration information to BotChain Curation Council for Approval. The fee for this transaction is 0 BOTC and the gas fee will be approx. {this.props.txFee} ETH.
           </p>
           <div>
-            <Button bsClass="btn orange-button cta-button" type="button" onClick={this.continueClick}>
-              CREATE REGISTRATION
+            <Button bsClass="btn orange-button cta-button" type="button" onClick={this.submitRegistrationClick}>
+              SUBMIT REGISTRATION
             </Button>
           </div>
           <div>
@@ -59,10 +54,10 @@ class TransactionModal extends Component {
             </Button>
           </div>
         </Modal.Body>
-        <Modal.Body className={ this.state.step == 2 ? 'text-center' : 'hidden' }>
+        <Modal.Body className={this.state.step == 2 ? 'text-center' : 'hidden'}>
           <h3 className="text-center gold">REGISTRATION PENDING</h3>
           <p className="large-p">
-            <b>This transaction has been successfully submitted</b><br/>  and is now awaiting confirmation. You can check the status of this transaction on <a href={`${"https://kovan.etherscan.io"}/tx/${this.props.tx_id}`} target='_blank'>Etherscan here</a>.
+            <b>This transaction has been successfully submitted</b><br />  and is now awaiting confirmation. You can check the status of this transaction on <a href={`${"https://kovan.etherscan.io"}/tx/${this.props.tx_id}`} target='_blank'>Etherscan here</a>.
           </p>
           <div className='warning'>
             <h4>Do not close this browser window!</h4>
@@ -70,9 +65,9 @@ class TransactionModal extends Component {
           </div>
           <Loader visible={true} message="Processing Transaction"/>
         </Modal.Body>
-      </Modal>
-      )
+      </Modal> 
+    )
   }
 }
 
-export default TransactionModal;
+export default SubmitRegistrationModal;

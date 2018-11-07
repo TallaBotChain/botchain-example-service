@@ -9,6 +9,8 @@ const initialState = {
   allowanceTxMined: false,
   addDeveloperTxId: null,
   addDeveloperTxMined: false,
+  registrationVoteTxId: null,
+  registrationVoteTxMined: false,
   successfullyAdded: false,
   developerId: 0,
   developerApproval: false,

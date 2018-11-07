@@ -44,7 +44,7 @@ export const addDeveloper = (ipfsHash) => async (dispatch) => {
   try {
     let txId = await registry.addDeveloper(ipfsHash);
     dispatch( { type: DeveloperActions.SET_ATTRIBUTE, key: 'addDeveloperTxId', value: txId });
-    dispatch(startTxObserver(txId, addTxMined));
+    dispatch(startTxObserver(txId, addDeveloperTxMined));
   }catch(e) {
     console.log(e);
     dispatch( setErrors( ["Not signed. Request cancelled."] ));
@@ -55,18 +55,36 @@ export const resetTxs = () => (dispatch) => {
   dispatch({ type: DeveloperActions.RESET_STATE });
 }
 
-const addTxMined = (status) => async (dispatch) => {
-  dispatch({ type: DeveloperActions.SET_ATTRIBUTE, key: 'addDeveloperTxMined', value: true });
-  if(status == TxStatus.SUCCEED){
-    // call CurationCouncil ( this is temporary )
-    let council = new CurationCouncil(window.app_config.curation_council_contract);
-    let voteTxId = await council.createRegistrationVote();
-    console.log("create vote tx id:", voteTxId);
-    //
-    dispatch({ type: DeveloperActions.SET_ATTRIBUTE, key: 'successfullyAdded', value: true });
-  } else {
-    dispatch( setErrors( ["Add developer transaction failed."] ));
+const addDeveloperTxMined = (status) => (dispatch) => {
+  if (status == TxStatus.SUCCEED) {
+    console.log("Mined addDeveloper transaction");
+    dispatch({ type: DeveloperActions.SET_ATTRIBUTE, key: 'addDeveloperTxMined', value: true });
   }
+}
+
+export const createRegistrationVote = () => (dispatch) => {
+  let council = new CurationCouncil(window.app_config.curation_council_contract);
+  console.log('Registering Vote');
+  council.createRegistrationVote()
+    .then((tx_id) => {
+      dispatch(startTxObserver(tx_id, registrationVoteTxMined))
+      return dispatch(setRegistrationVoteTxId(tx_id));
+    }).catch((err) => {
+      console.log(err);
+      dispatch(setErrors(["Not submitted. Request cancelled."]));
+    });
+}
+
+const registrationVoteTxMined = (status) => (dispatch) => {
+  if (status == TxStatus.SUCCEED) {
+    console.log("Mined registrationVote transaction");
+    dispatch({ type: DeveloperActions.SET_ATTRIBUTE, key: 'registrationVoteTxMined', value: true });
+    dispatch({ type: DeveloperActions.SET_ATTRIBUTE, key: 'successfullyAdded', value: true });
+  }
+}
+
+const setRegistrationVoteTxId = (tx_id) => {
+  return { type: DeveloperActions.SET_ATTRIBUTE, key: 'registrationVoteTxId', value: tx_id }
 }
 
 const payTxMined = (status) => (dispatch) => {
@@ -134,15 +152,17 @@ export const fetchRegistrationProcessEstGas = () => async (dispatch, getState) =
   let chargingContract = window.app_config.developer_registry_contract;
   let amount = getState().developer.entryPrice;
   let approveEstGas = await botCoin.approveEstGas(amount, chargingContract);
-  console.log(`approveEstGas: ${approveEstGas}`);
+  let approveFee = parseFloat(botCoin.web3.utils.fromWei(`${approveEstGas * window.app_config.gas_price}`, 'ether'));
+  dispatch(WalletActions.setApproveFee(approveFee));
 
   let registry = new DeveloperRegistry(window.app_config.developer_registry_contract);
   let addDeveloperEstGas = await registry.addDeveloperEstGas('QmXjFZZ3YJDkFvhhsRkTA5Y5MrtDfAMGHPFdfFbZZR9ivX'); // ipfshash just for calc price
-  console.log(`addDeveloperEstGas: ${addDeveloperEstGas}`);
+  let addDeveloperFee = parseFloat(botCoin.web3.utils.fromWei(`${addDeveloperEstGas * window.app_config.gas_price}`, 'ether'));
+  dispatch(WalletActions.setAddDeveloperFee(addDeveloperFee));
 
-  let gas = approveEstGas + addDeveloperEstGas;
-  console.log(`gas: ${gas}`);
-  let registrationFee = botCoin.web3.utils.fromWei(`${gas * window.app_config.gas_price }`, 'ether');
+  let createRegistrationVoteFee = getState().wallet.createRegistrationVoteFee;
+
+  let registrationFee = approveFee + addDeveloperFee + createRegistrationVoteFee
   console.log(`registrationFee: ${registrationFee}`);
   dispatch(WalletActions.setRegistrationFee(registrationFee));
 

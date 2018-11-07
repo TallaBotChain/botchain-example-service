@@ -11,6 +11,9 @@ const initialState = {
   usdExchangeRate: 0,
   transferTxEstGas: 0,
   registrationFee: 0,
+  approveFee: 0,
+  addDeveloperFee: 0,
+  createRegistrationVoteFee: 0.000724628,
   hasPendingTx: false,
   currency: "BOTC"
 }

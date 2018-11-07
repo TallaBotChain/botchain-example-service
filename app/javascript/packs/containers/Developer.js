@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
 import {connect} from 'react-redux'
-import { Redirect } from 'react-router-dom'
 import DeveloperForm from '../components/developer/DeveloperForm';
 import Errors from '../components/Errors';
 import PaymentModal from '../components/shared/PaymentModal';
 import TransactionModal from '../components/shared/TransactionModal';
-import TxStatus from '../helpers/TxStatus'
+import SubmitRegistrationModal from '../components/shared/SubmitRegistrationModal'
 import * as DeveloperActions from '../actions/developerActions';
 import * as WalletActions from '../actions/walletActions.js'
 import Success from '../components/developer/Success';
@@ -54,16 +53,32 @@ class DeveloperPage extends Component {
     this.props.addDeveloper(this.props.developer.ipfsHash);
   }
 
+  submitRegistrationClick = () => {
+    console.log("Sending CurationCouncil createRegistrationVote transaction");
+    this.props.createRegistrationVote();
+  }
+
   showPaymentModal(){
-    return (this.state.show_payment_modal && 
-            !this.props.developer.allowanceTxMined
+    return (
+      this.state.show_payment_modal && 
+      !this.props.developer.allowanceTxMined &&
+      this.props.developer.entryPrice != 0
     );
   }
 
   showTransactionModal() {
-    return (this.state.show_payment_modal && 
-            this.props.developer.allowanceTxMined && 
-            (!this.props.developer.addDeveloperTxMined)
+    return (
+      this.state.show_payment_modal && 
+      (this.props.developer.allowanceTxMined || this.props.developer.entryPrice == 0) && 
+      !this.props.developer.addDeveloperTxMined
+    );
+  }
+
+  showSubmitRegistrationModal() {
+    return (
+      this.state.show_payment_modal &&
+      this.props.developer.addDeveloperTxMined &&
+      !this.props.developer.registrationVoteTxMined
     );
   }
 
@@ -98,10 +113,20 @@ class DeveloperPage extends Component {
               handleClose={this.hidePaymentModal} 
             />
             <TransactionModal 
-              tx_id={this.props.developer.addDeveloperTxId} 
+              tx_id={this.props.developer.addDeveloperTxId}
               show={this.showTransactionModal()}
               continueClick={this.continueClick} 
               handleClose={this.hidePaymentModal}
+              entryPrice={this.props.developer.entryPrice}
+              txFee={this.props.wallet.addDeveloperFee}
+          />
+            <SubmitRegistrationModal
+              tx_id={this.props.developer.registrationVoteTxId}
+              show={this.showSubmitRegistrationModal()}
+              submitRegistrationClick={this.submitRegistrationClick}
+              handleClose={this.hidePaymentModal}
+              entryPrice={this.props.developer.entryPrice}
+              txFee={this.props.wallet.createRegistrationVoteFee}
             />
           </div>
         </div>
@@ -139,8 +164,11 @@ const mapDispatchToProps = dispatch => {
     addMetadata2IPFS: (metadata) => {
       return(dispatch(DeveloperActions.addMetadata2IPFS(metadata)));
     },
-    addDeveloper: (url, metadata) => {
-      dispatch( DeveloperActions.addDeveloper(url, metadata) );
+    addDeveloper: (ipfsHash) => {
+      dispatch(DeveloperActions.addDeveloper(ipfsHash) );
+    },
+    createRegistrationVote: () => {
+      dispatch(DeveloperActions.createRegistrationVote());
     }
   }
 }

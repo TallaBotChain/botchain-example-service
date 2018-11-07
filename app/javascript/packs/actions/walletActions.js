@@ -34,6 +34,18 @@ export const setRegistrationFee = (value) => {
   return { type: WalletActions.SET_WALLET_ATTRIBUTE, key: 'registrationFee', value: value }
 }
 
+export const setApproveFee = (value) => {
+  return { type: WalletActions.SET_WALLET_ATTRIBUTE, key: 'approveFee', value: value }
+}
+
+export const setAddDeveloperFee = (value) => {
+  return { type: WalletActions.SET_WALLET_ATTRIBUTE, key: 'addDeveloperFee', value: value }
+}
+
+export const setCreateRegistrationVoteFee = (value) => {
+  return { type: WalletActions.SET_WALLET_ATTRIBUTE, key: 'createRegistrationVoteFee', value: value }
+}
+
 const setPendingTx = (hasPendingTx) => {
   return { type: WalletActions.SET_WALLET_ATTRIBUTE, key: 'hasPendingTx', value: hasPendingTx }
 }
