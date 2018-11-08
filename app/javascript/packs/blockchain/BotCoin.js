@@ -20,6 +20,10 @@ class BotCoin extends BaseRegistry {
     return bigNumber / (10**this.decimals);
   }
 
+  approveEstGas(amount,to) {
+    return this.contract.methods.approve(to,amount*10**this.decimals).estimateGas({from: this.account,gasPrice: this.gasPrice});
+  }
+
   approve(amount,to) {
     return new Promise((resolve,reject) => {
       this.contract.methods.approve(to,amount*10**this.decimals)

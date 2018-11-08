@@ -7,6 +7,7 @@ const initialState = {
     signedIn: false,
     inProgress: false,
     errors: [],
+    alerts: [],
     encryptedMnemonic: null,
     ethAddress: null
 }

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import {connect} from 'react-redux'
-import { Redirect } from 'react-router-dom'
 import Errors from '../components/Errors';
+import Alerts from '../components/Alerts';
 import PasswordForm from '../components/settings/PasswordForm';
 import ViewMnemonicForm from '../components/settings/ViewMnemonicForm';
 import * as UserActions from '../actions/userActions';
@@ -34,6 +34,7 @@ class SettingsPage extends Component {
         <div className='inner-container settings'>
           <h1>Settings</h1>
           <Errors errors={this.props.user.errors} />
+          <Alerts alerts={this.props.user.alerts} />
           <h3 className="green-text">Change Password</h3>
           <PasswordForm onSubmit={this.updatePassword} {...this.props}/>
           <h3 className="green-text">Backup</h3>

@@ -23,30 +23,37 @@ class DeveloperRegistry extends BaseRegistry {
     return contract.methods.approvalStatus(developerId).call({from: this.account});
   }
 
+  parseIpfsHash(IpfsHash){
+    const mhash = multihash.fromB58String(IpfsHash);
+    const decoded = multihash.decode(mhash);
+    const hexString = multihash.toHexString(mhash);
+    return {
+      digest: `0x${hexString.substring(4)}`,
+      fnCode: decoded.code,
+      size: decoded.length
+    };
+  }
+
+  addDeveloperEstGas(IpfsHash) {
+    const ipfsParsed = this.parseIpfsHash(IpfsHash);
+    return this.contract.methods.addDeveloper(ipfsParsed.digest, ipfsParsed.fnCode, ipfsParsed.size).estimateGas({from: this.account, gasPrice: this.gasPrice});
+  }
+
   /**
   * @param {string} IpfsHash
   * @returns {Promise}
   */
   addDeveloper(IpfsHash) {
     console.log("IpfsHash: ", IpfsHash);
-    const mhash = multihash.fromB58String(IpfsHash);
-    const decoded = multihash.decode(mhash);
-    const hexString = multihash.toHexString(mhash);
-
-    const ipfsDigest = `0x${hexString.substring(4)}`;
-    const ipfsFnCode = decoded.code;
-    const ipfsSize = decoded.length;
-    console.log(`ipfsDigest: ${ipfsDigest}`);
-    console.log(`ipfsFnCode: ${ipfsFnCode}`);
-    console.log(`ipfsSize: ${ipfsSize}`);
+    const ipfsParsed = this.parseIpfsHash(IpfsHash);
 
     let contract = this.contract;
 
     return new Promise((resolve,reject) => {
-      contract.methods.addDeveloper(ipfsDigest, ipfsFnCode, ipfsSize)
+      contract.methods.addDeveloper(ipfsParsed.digest, ipfsParsed.fnCode, ipfsParsed.size)
         .estimateGas({from: this.account, gasPrice: this.gasPrice}).then( (gas) => {
           console.log("Add developer estimated gas: ", gas);
-          return contract.methods.addDeveloper(ipfsDigest, ipfsFnCode, ipfsSize)
+          return contract.methods.addDeveloper(ipfsParsed.digest, ipfsParsed.fnCode, ipfsParsed.size)
             .send({from: this.account, gasPrice: this.gasPrice, gas: gas},
               function(err,tx_id) {
                 if( err ) {
