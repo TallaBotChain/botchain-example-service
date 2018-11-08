@@ -2,23 +2,35 @@ import React, { Component } from 'react';
 
 class HelpPage extends Component {
 
+  constructor(props) {
+    super(props);
+    this.helpContainerRef = React.createRef();
+    this.whereGetEthRef = React.createRef();
+  }
+
+  componentDidMount() {
+    if (this.props.history.location && this.props.history.location.hash == '#where_get_eth'){
+      this.helpContainerRef.current.scrollTo(0, this.whereGetEthRef.current.offsetTop);
+    }
+  }
+
   render() {
     return (
       <div className="white-container">
-        <div className='inner-container help'>
+        <div className='inner-container help' ref={this.helpContainerRef}>
           <h1>Developer Registration FAQ/Help</h1>
           <h3 className="green-text" id="how_to_register">How to Register</h3>
           <p>The BotChain Registration service provides a simple way for developers to register on BotChain.</p>
           
           <h3 className="green-text" id="register_steps">What are the steps to Register</h3>
           <p>
-            BotChain Registration process consists of 3 simple steps for an AI developer:<br/>
-            <ul>
-              <li>Use BotChain Registration Service to enter developer information</li>
-              <li>Developer information is then submitted to the BotChain curators for Approval</li>
-              <li>BotChain Curators review developer information and choose to approve or reject the developer registration</li>
-            </ul>
+            BotChain Registration process consists of 3 simple steps for an AI developer:
           </p>
+          <ul>
+            <li>Use BotChain Registration Service to enter developer information</li>
+            <li>Developer information is then submitted to the BotChain curators for Approval</li>
+            <li>BotChain Curators review developer information and choose to approve or reject the developer registration</li>
+          </ul>
 
           <h3 className="green-text" id="register_process">How does the Registration process work</h3>
           <p>
@@ -48,7 +60,7 @@ class HelpPage extends Component {
             Operations in Ethereum blockchain costs Gas which is paid in ETH. The cost per transaction is calculated based on the current unit gas price and the volume of gas used.
           </p>
 
-          <h3 className="green-text" id="where_get_eth">Where do I get ETH to pay for gas?</h3>
+          <h3 className="green-text" id="where_get_eth" ref={this.whereGetEthRef}>Where do I get ETH to pay for gas?</h3>
           <p>
             For the test network, you can get ETH here:  <a href="https://github.com/kovan-testnet/faucet" target="_blank" rel="noopener noreferrer">https://github.com/kovan-testnet/faucet</a>
           </p>

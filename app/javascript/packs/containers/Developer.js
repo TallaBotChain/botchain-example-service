@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import {connect} from 'react-redux'
 import DeveloperForm from '../components/developer/DeveloperForm';
+import NotEnoughEth from '../components/developer/NotEnoughEth';
 import Errors from '../components/Errors';
 import PaymentModal from '../components/shared/PaymentModal';
 import TransactionModal from '../components/shared/TransactionModal';
@@ -102,6 +103,7 @@ class DeveloperPage extends Component {
             </p>
             <Loader visible={this.props.wallet.registrationFee == 0} message="Checking balance"/>
             <Errors errors={this.props.developer.errors} />
+            <NotEnoughEth balance={this.props.wallet.balance} registrationFee={this.props.wallet.registrationFee} />
             <DeveloperForm onSubmit={this.submit} submitDisabled={this.formSubmitDisabled()} ipfsInProgress={this.props.developer.ipfsInProgress}/>
             <PaymentModal 
               balance={this.props.wallet.balance} 

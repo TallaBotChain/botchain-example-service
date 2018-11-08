@@ -165,7 +165,4 @@ export const fetchRegistrationProcessEstGas = () => async (dispatch, getState) =
   let registrationFee = approveFee + addDeveloperFee + createRegistrationVoteFee
   console.log(`registrationFee: ${registrationFee}`);
   dispatch(WalletActions.setRegistrationFee(registrationFee));
-
-  let ethBalance = getState().wallet.balance;
-  if (ethBalance < registrationFee) dispatch(setErrors(["The wallet does not have enough ETH to pay for transactions."]));
 }
