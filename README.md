@@ -67,8 +67,8 @@ You can get some Kovan Ether for free using [this faucet](https://gitter.im/kova
 ### Wallet
 
 This example provides following wallet features:
-* Balance of ETH and BOTC tokens
-* Transfer of BOTC tokens
+* Balance of ETH and BOT tokens
+* Transfer of ETH and BOT tokens
 
 ### Security considerations
 
