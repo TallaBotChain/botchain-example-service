@@ -18,10 +18,28 @@ export const fetchDeveloperId = () => async (dispatch, getState) => {
   if( developerId > 0 ) {
     let approved = await registry.getDeveloperApproval(developerId);
     dispatch({ type: DeveloperActions.SET_ATTRIBUTE, key: 'developerApproval', value: approved });
+    if (!approved){
+      dispatch(fetchVoteFinalBlock());
+      dispatch(fetchCurrentBlock());
+    }
   }
   else{
     dispatch(fetchRegistrationProcessEstGas());
   }
+}
+
+const fetchVoteFinalBlock = () => async (dispatch) => {
+  let council = new CurationCouncil(window.app_config.curation_council_contract);
+  let voteId = await council.getRegistrationVoteId();
+  dispatch({ type: DeveloperActions.SET_ATTRIBUTE, key: 'registrationVoteId', value: voteId });
+  let voteFinalBlock = await council.getVoteFinalBlock(voteId);
+  dispatch({ type: DeveloperActions.SET_ATTRIBUTE, key: 'voteFinalBlock', value: voteFinalBlock });
+}
+
+const fetchCurrentBlock = () => async (dispatch) => {
+  let council = new CurationCouncil(window.app_config.curation_council_contract);
+  let currentBlock = await council.getCurrentBlock();
+  dispatch({ type: DeveloperActions.SET_ATTRIBUTE, key: 'currentBlock', value: currentBlock });
 }
 
 export const fetchEntryPrice = () => async (dispatch) => {

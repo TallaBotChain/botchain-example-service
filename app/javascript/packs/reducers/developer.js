@@ -14,6 +14,9 @@ const initialState = {
   successfullyAdded: false,
   developerId: 0,
   developerApproval: false,
+  registrationVoteId: null,
+  voteFinalBlock: null,
+  currentBlock: null,
   ipfsInProgress: false,
   ipfsHash: null,
   errors: []
