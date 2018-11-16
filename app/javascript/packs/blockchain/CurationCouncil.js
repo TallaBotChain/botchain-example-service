@@ -9,10 +9,12 @@ class CurationCouncil extends BaseRegistry {
     this.gasPrice = window.app_config.gas_price;
   }
 
+  /** Returns user address */
   get account() {
     return this.web3.eth.accounts.wallet[0].address;
   }
 
+  /** Sends createRegistrationVote transaction for current address */
   createRegistrationVote() {
     let contract = this.contract;
     return new Promise((resolve,reject) => {
