@@ -53,12 +53,14 @@ The private key creation and storage are hidden from end-user. There is no way t
 
 This example uses [Kovan testnet](https://kovan-testnet.github.io/website/).
 
-Developer registration workflow consists of 2 transactions:
-
-1. Approval of future withdrawal of BOT ERC20 token from user's account.
-2. Add developer transaction which saves information into [BotChain Developer Registry](https://github.com/TallaBotChain/botchain).
-
-Second transaction can be performed only when first transaction successfully processed by blockchain. We provide UI to guide a user through this process.
+Developer registration workflow consists of several steps:
+1. BotChain registration service checks developer's balance and shows alert message
+in case wallet does not have enough ETH or BOT token to pay for registration transactions
+2. Developer enters relevant information that is externally verifiable in to the BotChain Registration Service
+3. BotChain Registration service constructs the JSON file and stores the file in IPFS
+4. In case registration price is more than 0 BOT, service gets approval of future withdrawal of BOT ERC20 token from user's account. If registration price is 0 BOT, this step will be skipped in UI.
+5. Add developer transaction which saves information into [BotChain Developer Registry](https://github.com/TallaBotChain/botchain).
+6. Create Registration Vote in Curation Council smart contract to approve developer registration by Curation Council.
 
 Since any transaction on Ethereum network consumes a certain amount of gas, the user should have both BOT tokens and ETH.
 
