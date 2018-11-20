@@ -41,7 +41,7 @@ class SubmitRegistrationModal extends Component {
         <Modal.Body className={this.state.step == 1 ? 'text-center' : 'hidden'}>
           <h3>Step {this.props.entryPrice == 0 ? '2' : '3'}: Submit Registration for Approval</h3>
           <p>
-            Submitting your registration information to BotChain Curation Council for Approval. The fee for this transaction is 0 BOTC and the gas fee will be approx. {this.props.txFee} ETH.
+            <strong>Submitting your registration information to BotChain Curation Council for Approval.</strong> The fee for this transaction is 0 BOTC and the gas fee will be approx. {this.props.txFee} ETH.
           </p>
           <div>
             <Button bsClass="btn orange-button cta-button" type="button" onClick={this.submitRegistrationClick}>
