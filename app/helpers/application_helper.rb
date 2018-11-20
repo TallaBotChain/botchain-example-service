@@ -10,7 +10,6 @@ module ApplicationHelper
       botcoin_contract: Rails.application.config.x.botcoin_contract,
       developer_registry_contract: Rails.application.config.x.developer_registry_contract,
       curation_council_contract: Rails.application.config.x.curation_council_contract,
-	    urlshortener_api_key: Rails.application.config.x.urlshortener_api_key,
       gas_price: Rails.application.config.x.gas_price,
       coinbase_price_api_url: Rails.application.config.x.coinbase_price_api_url,
       etherscan_api_key: Rails.application.config.x.etherscan_api_key,

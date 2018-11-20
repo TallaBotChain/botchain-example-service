@@ -11,7 +11,7 @@ const setErrors = (errors)  => {
   return { type: UserActions.SET_ATTRIBUTE, key: 'errors', value: errors }
 }
 
-/** setErrors
+/** setAlerts
  * @param alerts - array of alerts
  **/
 const setAlerts = (alerts) => {

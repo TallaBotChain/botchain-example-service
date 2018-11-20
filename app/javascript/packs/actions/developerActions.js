@@ -171,7 +171,7 @@ export const addMetadata2IPFS = (values) => (dispatch) => {
   })
 }
 
-/** Fetch Estimation Gas for whole registration process */
+/** Fetch Estimate Gas for whole registration process */
 export const fetchRegistrationProcessEstGas = () => async (dispatch, getState) => {
   let botCoin = new BotCoin();
   let chargingContract = window.app_config.developer_registry_contract;
@@ -181,7 +181,7 @@ export const fetchRegistrationProcessEstGas = () => async (dispatch, getState) =
   dispatch(WalletActions.setApproveFee(approveFee));
 
   let registry = new DeveloperRegistry(window.app_config.developer_registry_contract);
-  let addDeveloperEstGas = await registry.addDeveloperEstGas('QmXjFZZ3YJDkFvhhsRkTA5Y5MrtDfAMGHPFdfFbZZR9ivX'); // ipfs hash just for calc price
+  let addDeveloperEstGas = await registry.addDeveloperEstGas('QmXjFZZ3YJDkFvhhsRkTA5Y5MrtDfAMGHPFdfFbZZR9ivX'); // fake ipfs hash used only for gas estimation!
   let addDeveloperFee = parseFloat(botCoin.web3.utils.fromWei(`${addDeveloperEstGas * window.app_config.gas_price}`, 'ether'));
   dispatch(WalletActions.setAddDeveloperFee(addDeveloperFee));
 

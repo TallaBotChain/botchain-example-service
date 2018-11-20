@@ -31,7 +31,7 @@ class BotCoin extends BaseRegistry {
     return this.contract.methods.approve(to,amount*10**this.decimals).estimateGas({from: this.account,gasPrice: this.gasPrice});
   }
 
-  /** Sends approve method call to blockchain
+  /** Erc20 approve call
    * @param amount - amount of tokens to transfer (float)
    * @param to - address to send tokens to
    **/
@@ -55,7 +55,7 @@ class BotCoin extends BaseRegistry {
     });
   }
 
-  /** Sends transfer method call to blockchain
+  /** Erc20 transfer call
    * @param amount - amount of tokens to transfer (float)
    * @param to - address to send tokens to
    **/
@@ -93,7 +93,7 @@ class BotCoin extends BaseRegistry {
     });
   }
 
-  /** Checks if transaction is was successful
+  /** Checks if transaction is successful
    * @param tx_id - transaction hash
    * @returns {Promise}
    **/
