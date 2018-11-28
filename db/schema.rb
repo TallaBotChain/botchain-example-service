@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_06_11_160134) do
+ActiveRecord::Schema.define(version: 2018_11_26_085611) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -25,6 +25,10 @@ ActiveRecord::Schema.define(version: 2018_06_11_160134) do
     t.string "name"
     t.text "encrypted_mnemonic"
     t.string "eth_address"
+    t.integer "developer_entry_id"
+    t.integer "registration_vote_final_block"
+    t.boolean "registration_status", default: false
+    t.boolean "registration_status_was_sent", default: false
     t.index ["email"], name: "index_users_on_email"
     t.index ["remember_token"], name: "index_users_on_remember_token"
   end
