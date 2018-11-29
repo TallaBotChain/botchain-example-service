@@ -6,7 +6,7 @@ module ApplicationHelper
       eth_address: current_user ? current_user.eth_address : nil,
       encrypted_mnemonic: current_user ? current_user.encrypted_mnemonic : nil,
       geth_rpc: Rails.application.config.x.geth_rpc,
-      recaptcha_key: Rails.application.credentials.recaptcha_key,
+      recaptcha_key: Rails.application.config.x.recaptcha_key,
       botcoin_contract: Rails.application.config.x.botcoin_contract,
       developer_registry_contract: Rails.application.config.x.developer_registry_contract,
       curation_council_contract: Rails.application.config.x.curation_council_contract,

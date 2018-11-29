@@ -22,6 +22,8 @@ $ git clone https://github.com/TallaBotChain/botchain-example-service.git
 $ cd botchain-example-service
 $ bundle install
 $ yarn install
+$ rm config/credentials.yml.enc
+$ bin/rails credentials:edit
 $ bin/rails db:create
 $ bin/rails db:migrate
 $ bin/webpack-dev-server
@@ -71,6 +73,19 @@ You can get some Kovan Ether for free using [this faucet](https://gitter.im/kova
 This example provides following wallet features:
 * Balance of ETH and BOT tokens
 * Transfer of ETH and BOT tokens
+
+### External services and APIs
+In this example we use few external services:
+- reCAPTCHA for new user registration;
+- Etherscan to show transaction in wallet fast;
+
+For your useability we've added credentials for these services in `config/environments/development.rb` & `config/environments/production.rb`
+
+**IMPORTANT WARNING!** You must not use these credentials in production for real app! Also, you shouldn't put credentials in these files in real app, and they shouldn't get into your VCS in plane text. Use file `credentials.yml.enc` instead. You can read more in [Rails 5.2 credentials](https://medium.com/cedarcode/rails-5-2-credentials-9b3324851336)
+
+You can get your personal keys here:
+- [reCAPTCHA](https://www.google.com/recaptcha/)
+- [Etherscan](https://etherscan.io/myapikey)
 
 ### Security considerations
 
