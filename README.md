@@ -22,6 +22,8 @@ $ git clone https://github.com/TallaBotChain/botchain-example-service.git
 $ cd botchain-example-service
 $ bundle install
 $ yarn install
+$ rm config/credentials.yml.enc
+$ bin/rails credentials:edit
 $ bin/rails db:create
 $ bin/rails db:migrate
 $ bin/webpack-dev-server
@@ -53,12 +55,14 @@ The private key creation and storage are hidden from end-user. There is no way t
 
 This example uses [Kovan testnet](https://kovan-testnet.github.io/website/).
 
-Developer registration workflow consists of 2 transactions:
-
-1. Approval of future withdrawal of BOT ERC20 token from user's account.
-2. Add developer transaction which saves information into [BotChain Developer Registry](https://github.com/TallaBotChain/botchain).
-
-Second transaction can be performed only when first transaction successfully processed by blockchain. We provide UI to guide a user through this process.
+Developer registration workflow consists of several steps:
+1. BotChain registration service checks developer's balance and shows alert message
+in case wallet does not have enough ETH or BOT token to pay for registration transactions
+2. Developer enters relevant information that is externally verifiable in to the BotChain Registration Service
+3. BotChain Registration service constructs the JSON file and stores the file in IPFS
+4. In case registration price is more than 0 BOT, service gets approval of future withdrawal of BOT ERC20 token from user's account. If registration price is 0 BOT, this step will be skipped in UI.
+5. Add developer transaction which saves information into [BotChain Developer Registry](https://github.com/TallaBotChain/botchain).
+6. Create Registration Vote in Curation Council smart contract to approve developer registration by Curation Council.
 
 Since any transaction on Ethereum network consumes a certain amount of gas, the user should have both BOT tokens and ETH.
 
@@ -67,8 +71,21 @@ You can get some Kovan Ether for free using [this faucet](https://gitter.im/kova
 ### Wallet
 
 This example provides following wallet features:
-* Balance of ETH and BOTC tokens
-* Transfer of BOTC tokens
+* Balance of ETH and BOT tokens
+* Transfer of ETH and BOT tokens
+
+### External services and APIs
+In this example we use few external services:
+- reCAPTCHA for new user registration;
+- Etherscan to show transaction in wallet fast;
+
+For your useability we've added credentials for these services in `config/environments/development.rb`
+
+**IMPORTANT WARNING!** You must not use these credentials in production for real app! Also, you shouldn't put credentials in these files in real app, and they shouldn't get into your VCS in plane text. Use file `credentials.yml.enc` instead. You can read more in [Rails 5.2 credentials](https://medium.com/cedarcode/rails-5-2-credentials-9b3324851336)
+
+You can get your personal keys here:
+- [reCAPTCHA](https://www.google.com/recaptcha/)
+- [Etherscan](https://etherscan.io/myapikey)
 
 ### Security considerations
 

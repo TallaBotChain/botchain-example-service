@@ -9,10 +9,12 @@ class CurationCouncil extends BaseRegistry {
     this.gasPrice = window.app_config.gas_price;
   }
 
+  /** Returns user address */
   get account() {
     return this.web3.eth.accounts.wallet[0].address;
   }
 
+  /** Sends createRegistrationVote transaction for current address */
   createRegistrationVote() {
     let contract = this.contract;
     return new Promise((resolve,reject) => {
@@ -34,16 +36,22 @@ class CurationCouncil extends BaseRegistry {
     });
   }
 
+  /** Gets registration vote ID for current address */
   getRegistrationVoteId() {
     let contract = this.contract;
     return contract.methods.getRegistrationVoteIdByAddress(this.account).call({ from: this.account });
   }
   
+  /**
+   * Gets final block for vote
+   * @param vote_id - registration vote ID
+   */
   getVoteFinalBlock(vote_id){
     let contract = this.contract;
     return contract.methods.getVoteFinalBlock(vote_id).call({ from: this.account });
   }
 
+  /** Gets current block */
   getCurrentBlock(){
     return this.web3.eth.getBlockNumber();
   }
