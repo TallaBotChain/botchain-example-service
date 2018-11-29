@@ -79,7 +79,7 @@ In this example we use few external services:
 - reCAPTCHA for new user registration;
 - Etherscan to show transaction in wallet fast;
 
-For your useability we've added credentials for these services in `config/environments/development.rb` & `config/environments/production.rb`
+For your useability we've added credentials for these services in `config/environments/development.rb`
 
 **IMPORTANT WARNING!** You must not use these credentials in production for real app! Also, you shouldn't put credentials in these files in real app, and they shouldn't get into your VCS in plane text. Use file `credentials.yml.enc` instead. You can read more in [Rails 5.2 credentials](https://medium.com/cedarcode/rails-5-2-credentials-9b3324851336)
 

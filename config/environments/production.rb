@@ -99,10 +99,8 @@ Rails.application.configure do
   config.x.curation_council_contract = "0x5ce5bc32909660100b0a1ec998c1eca9f59946ec"
   config.x.gas_price = 4000000000
   config.x.coinbase_price_api_url = "https://api.coinbase.com/v2/prices/ETH-USD/spot"
-  config.x.etherscan_api_key = "UI5FHY91GIQ94U6IUDKRGDYS4JWSGGXD24"
+  config.x.etherscan_api_key = ENV['ETHERSCAN_API_KEY']
   config.x.etherscan_api_url = "https://api-kovan.etherscan.io/api"
-  # You mustn't use unencrypted secrets in VCS. It's used here only for quick launch demo app. 
-  # Please read more about Rails credentials, for example here https://medium.com/cedarcode/rails-5-2-credentials-9b3324851336
-  config.x.recaptcha_key = "6LeJjV0UAAAAAPIJAPaVa4B18NkFGJm-b5f-pKl2"
-  config.x.recaptcha_secret = "6LeJjV0UAAAAACMqLMzypPUcP1FGDX_NLATkJVLn"
+  config.x.recaptcha_key = ENV['RECAPTCHA_KEY']
+  config.x.recaptcha_secret = ENV['RECAPTCHA_SECRET']
 end
