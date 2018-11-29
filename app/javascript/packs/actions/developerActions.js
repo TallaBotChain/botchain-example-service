@@ -11,6 +11,7 @@ export const DeveloperActions = {
   SET_ATTRIBUTE: "DEVELOPER_SET_ATTRIBUTE"
 }
 
+/** Fetch developerId for currentAccount from DeveloperRegistry */
 export const fetchDeveloperId = () => async (dispatch, getState) => {
   let registry = new DeveloperRegistry(window.app_config.developer_registry_contract);
   let developerId = await registry.getDeveloperId();
@@ -28,6 +29,7 @@ export const fetchDeveloperId = () => async (dispatch, getState) => {
   }
 }
 
+/** Fetch voteFinalBlock from CurationCouncil */
 const fetchVoteFinalBlock = () => async (dispatch) => {
   let council = new CurationCouncil(window.app_config.curation_council_contract);
   let voteId = await council.getRegistrationVoteId();
@@ -36,12 +38,14 @@ const fetchVoteFinalBlock = () => async (dispatch) => {
   dispatch({ type: DeveloperActions.SET_ATTRIBUTE, key: 'voteFinalBlock', value: voteFinalBlock });
 }
 
+/** Fetch current block from CurationCouncil */
 const fetchCurrentBlock = () => async (dispatch) => {
   let council = new CurationCouncil(window.app_config.curation_council_contract);
   let currentBlock = await council.getCurrentBlock();
   dispatch({ type: DeveloperActions.SET_ATTRIBUTE, key: 'currentBlock', value: currentBlock });
 }
 
+/** Fetch entryPrice from DeveloperRegistry */
 export const fetchEntryPrice = () => async (dispatch) => {
   let registry = new DeveloperRegistry(window.app_config.developer_registry_contract);
   let price = await registry.getEntryPrice();
@@ -49,13 +53,16 @@ export const fetchEntryPrice = () => async (dispatch) => {
   dispatch({ type: DeveloperActions.SET_ATTRIBUTE, key: 'entryPrice', value: botCoin.convertToHuman(price) });
 }
 
+/** setErrors
+ * @param errors - array of errors
+ **/
 const setErrors = (errors)  => {
   return { type: DeveloperActions.SET_ATTRIBUTE, key: 'errors', value: errors }
 }
 
-export const allowTransfer = () => {}
-export const checkTransferAllowance = () => {}
-
+/** Add developer in DeveloperRegistry
+ * @param ipfsHash - IPFS hash string
+ **/
 export const addDeveloper = (ipfsHash) => async (dispatch) => {
   console.log("Developer registry contract:", window.app_config.developer_registry_contract);
   let registry = new DeveloperRegistry(window.app_config.developer_registry_contract);
@@ -69,10 +76,12 @@ export const addDeveloper = (ipfsHash) => async (dispatch) => {
   }
 }
 
+/** Resets redux state for developer */
 export const resetTxs = () => (dispatch) => {
   dispatch({ type: DeveloperActions.RESET_STATE });
 }
 
+/** Process mined addDeveloper transaction */
 const addDeveloperTxMined = (status) => (dispatch) => {
   if (status == TxStatus.SUCCEED) {
     console.log("Mined addDeveloper transaction");
@@ -80,6 +89,7 @@ const addDeveloperTxMined = (status) => (dispatch) => {
   }
 }
 
+/** create RegistrationVote in CurationCouncilRegistry */
 export const createRegistrationVote = () => (dispatch) => {
   let council = new CurationCouncil(window.app_config.curation_council_contract);
   console.log('Registering Vote');
@@ -93,6 +103,7 @@ export const createRegistrationVote = () => (dispatch) => {
     });
 }
 
+/** Process mined RegistrationVote transaction */
 const registrationVoteTxMined = (status) => (dispatch) => {
   if (status == TxStatus.SUCCEED) {
     console.log("Mined registrationVote transaction");
@@ -101,10 +112,14 @@ const registrationVoteTxMined = (status) => (dispatch) => {
   }
 }
 
+/** Sets RegistrationVote transaction id
+ * @param tx_id - transaction hash
+ **/
 const setRegistrationVoteTxId = (tx_id) => {
   return { type: DeveloperActions.SET_ATTRIBUTE, key: 'registrationVoteTxId', value: tx_id }
 }
 
+/** Process mined BotCoin.Approve transaction */
 const payTxMined = (status) => (dispatch) => {
   if(status == TxStatus.SUCCEED){
     console.log("Mined approval transaction");
@@ -112,14 +127,22 @@ const payTxMined = (status) => (dispatch) => {
   }
 }
 
+/** Sets BotCoin.Approve transaction id
+ * @param tx_id - transaction hash
+ **/
 const setPayTxId = (tx_id) => {
   return { type: DeveloperActions.SET_ATTRIBUTE, key: 'allowanceTxId', value: tx_id }
 }
 
+
+/** Sets in progress flag used to display in progress message or animation
+ * @param status - boolean value, true if request is in progress
+ **/
 const setIpfsInProgress = (status) => {
   return { type: DeveloperActions.SET_ATTRIBUTE, key: 'ipfsInProgress', value: status }
 }
 
+/** Calls approve method of ERC20 contract to let DeveloperRegistry smart contract withdraw funds */
 export const approvePayment = () => (dispatch, getState) => {
   let botCoin = new BotCoin();
   let chargingContract = window.app_config.developer_registry_contract;
@@ -135,6 +158,9 @@ export const approvePayment = () => (dispatch, getState) => {
   });
 }
 
+/** Upload developer metadata to IPFS 
+ * @param values - developer metadata as JS object
+**/
 export const addMetadata2IPFS = (values) => (dispatch) => {
   return new Promise((resolve, reject) => {
     dispatch(setIpfsInProgress(true));
@@ -165,6 +191,7 @@ export const addMetadata2IPFS = (values) => (dispatch) => {
   })
 }
 
+/** Fetch Estimate Gas for whole registration process */
 export const fetchRegistrationProcessEstGas = () => async (dispatch, getState) => {
   let botCoin = new BotCoin();
   let chargingContract = window.app_config.developer_registry_contract;
@@ -174,7 +201,7 @@ export const fetchRegistrationProcessEstGas = () => async (dispatch, getState) =
   dispatch(WalletActions.setApproveFee(approveFee));
 
   let registry = new DeveloperRegistry(window.app_config.developer_registry_contract);
-  let addDeveloperEstGas = await registry.addDeveloperEstGas('QmXjFZZ3YJDkFvhhsRkTA5Y5MrtDfAMGHPFdfFbZZR9ivX'); // ipfshash just for calc price
+  let addDeveloperEstGas = await registry.addDeveloperEstGas('QmXjFZZ3YJDkFvhhsRkTA5Y5MrtDfAMGHPFdfFbZZR9ivX'); // fake ipfs hash used only for gas estimation!
   let addDeveloperFee = parseFloat(botCoin.web3.utils.fromWei(`${addDeveloperEstGas * window.app_config.gas_price}`, 'ether'));
   dispatch(WalletActions.setAddDeveloperFee(addDeveloperFee));
 

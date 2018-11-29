@@ -9,20 +9,26 @@ class DeveloperRegistry extends BaseRegistry {
     this.gasPrice = window.app_config.gas_price;
   }
 
+  /** Returns user address */
   get account() {
     return this.web3.eth.accounts.wallet[0].address;
   }
 
+  /** Gets developer ID for current address */
   getDeveloperId() {
     let contract = this.contract;
     return contract.methods.owns(this.account).call({from: this.account});
   }
 
+  /** Gets developer approval status */
   getDeveloperApproval(developerId) {
     let contract = this.contract;
     return contract.methods.approvalStatus(developerId).call({from: this.account});
   }
 
+  /** Parse IPFS hash
+   * @param {string} IpfsHash - IPFS hash
+   **/
   parseIpfsHash(IpfsHash){
     const mhash = multihash.fromB58String(IpfsHash);
     const decoded = multihash.decode(mhash);
@@ -34,6 +40,10 @@ class DeveloperRegistry extends BaseRegistry {
     };
   }
 
+  /** Estimates addDeveloper gas
+   * @param {string} IpfsHash - IPFS hash
+   * @returns {Promise}
+   **/
   addDeveloperEstGas(IpfsHash) {
     const ipfsParsed = this.parseIpfsHash(IpfsHash);
     return this.contract.methods.addDeveloper(ipfsParsed.digest, ipfsParsed.fnCode, ipfsParsed.size).estimateGas({from: this.account, gasPrice: this.gasPrice});
@@ -44,7 +54,6 @@ class DeveloperRegistry extends BaseRegistry {
   * @returns {Promise}
   */
   addDeveloper(IpfsHash) {
-    console.log("IpfsHash: ", IpfsHash);
     const ipfsParsed = this.parseIpfsHash(IpfsHash);
 
     let contract = this.contract;

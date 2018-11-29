@@ -9,21 +9,32 @@ class BotCoin extends BaseRegistry {
     this.contract = new this.web3.eth.Contract(artifact.abi, window.app_config.botcoin_contract);
     this.decimals = 18;
     this.gasPrice = window.app_config.gas_price;
-    console.log("New instance of BotCoin connector with address ", window.app_config.botcoin_contract);
   }
 
+  /** Returns user address */
   get account() {
     return this.web3.eth.accounts.wallet[0].address;
   }
 
+  /** Converts from wei to float point amount of ETH or ERC20 tokens
+   * @param bigNumber - value in Wei
+   **/
   convertToHuman(bigNumber) {
     return bigNumber / (10**this.decimals);
   }
 
+  /** Estimates gas to ERC20 approve call
+   * @param amount - amount of tokens to transfer (float)
+   * @param to - address to send tokens to
+   **/
   approveEstGas(amount,to) {
     return this.contract.methods.approve(to,amount*10**this.decimals).estimateGas({from: this.account,gasPrice: this.gasPrice});
   }
 
+  /** Erc20 approve call
+   * @param amount - amount of tokens to transfer (float)
+   * @param to - address to send tokens to
+   **/
   approve(amount,to) {
     return new Promise((resolve,reject) => {
       this.contract.methods.approve(to,amount*10**this.decimals)
@@ -44,6 +55,10 @@ class BotCoin extends BaseRegistry {
     });
   }
 
+  /** Erc20 transfer call
+   * @param amount - amount of tokens to transfer (float)
+   * @param to - address to send tokens to
+   **/
   pay(amount,to) {
     let self = this;
     return this.web3.eth.getAccounts().then( (accounts) => {
@@ -63,6 +78,10 @@ class BotCoin extends BaseRegistry {
     });
   }
 
+  /** Checks if transaction is mined
+   * @param tx_id - transaction hash
+   * @returns {Promise}
+   **/
   isTxMined(tx_id){
     return this.web3.eth.getTransaction(tx_id).then( (transaction) => {
       console.log("transaction: ",transaction)
@@ -74,6 +93,10 @@ class BotCoin extends BaseRegistry {
     });
   }
 
+  /** Checks if transaction is successful
+   * @param tx_id - transaction hash
+   * @returns {Promise}
+   **/
   isTxSucceed(tx_id){
     return this.web3.eth.getTransactionReceipt(tx_id).then( (receipt) => {
       console.log("receipt: ",receipt)
@@ -83,27 +106,42 @@ class BotCoin extends BaseRegistry {
     });
   }
 
+  /** Gets transaction receipt from blockchain
+   * @param tx_id - transaction hash
+   **/
   getTxReceipt(tx_id){
     return this.web3.eth.getTransactionReceipt(tx_id)
   }
 
-  // @return Promise
+  /** Gets token balance for current account
+   * @return Promise
+   **/
   getTokenBalance() {
     let contract = this.contract;
     let address = this.web3.eth.accounts.wallet[0].address
     return contract.methods.balanceOf(address).call();
   }
 
-  // @return Promise
+  /** Gets Ether balance for current account
+   * @return Promise
+   **/
   getBalance() {
     let address = this.web3.eth.accounts.wallet[0].address
     return this.web3.eth.getBalance(address)
   }
 
+  /** Estimates token transfer gas
+   * @param to - address to send tokens to
+   * @param amount - amount of tokens to transfer (float)
+   **/
   transferTokensEstGas(to, amount) {
     return this.contract.methods.transfer(to, this.web3.utils.toWei(amount.toString(), "ether")).estimateGas({from: this.account})
   }
 
+  /** Transfers ERC20 tokens
+   * @param to - address to send tokens to
+   * @param amount - amount of tokens to transfer (float)
+   **/
   transferTokens(to, amount) {
     let self = this;
     let fromAddress = this.web3.eth.accounts.wallet[0].address
@@ -124,10 +162,18 @@ class BotCoin extends BaseRegistry {
     })
   }
 
+  /** Estimates Ether transfer gas
+   * @param to - address to send ETH to
+   * @param amount - amount of Ether to transfer (float)
+   **/
   transferEtherEstGas(to, amount) {
     return this.web3.eth.estimateGas({from: this.account, to: to, value: this.web3.utils.toWei(amount.toString(), "ether")})
   }
 
+  /** Performs Ether transfer
+   * @param to - address to send ETH to
+   * @param amount - amount of Ether to transfer (float)
+   **/
   transferEther(to, amount) {
     return this.web3.eth.estimateGas({from: this.account, to: to, value: this.web3.utils.toWei(amount.toString(), "ether")}).then((gas) => {
       return new Promise((resolve, reject) => {

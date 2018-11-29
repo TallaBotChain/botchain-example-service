@@ -10,69 +10,102 @@ export const WalletActions = {
   RESET_STATE: 'WALLET_RESET_STATE'
 }
 
+/** Sets error
+ * @param error - error string
+ **/
 export const setError = (error) => {
     return { type: WalletActions.SET_WALLET_ATTRIBUTE, key: 'error', value: error };
 }
 
+/** Sets in progress flag used to display in progress message or animation
+ * @param inProgress - boolean value, true if request is in progress
+ **/
 const setInProgress = (inProgress) => {
   return { type: WalletActions.SET_WALLET_ATTRIBUTE, key: 'inProgress', value: inProgress }
 }
 
-const setBallance = (ballance) => {
-  return { type: WalletActions.SET_WALLET_ATTRIBUTE, key: 'balance', value: ballance }
+/** Sets current account balance in Ether
+ * @param balance - amount of Ether
+ **/
+const setBalance = (balance) => {
+  return { type: WalletActions.SET_WALLET_ATTRIBUTE, key: 'balance', value: balance }
 }
 
-const setTokenBallance = (tokenBalance) => {
+/** Sets current account balance in BOT token
+ * @param tokenBalance - amount of BOT token
+ **/
+const setTokenBalance = (tokenBalance) => {
   return { type: WalletActions.SET_WALLET_ATTRIBUTE, key: 'tokenBalance', value: tokenBalance }
 }
 
+/** Resets redux state for wallet storage */
 export const resetState = () => {
   return { type: WalletActions.RESET_STATE}
 }
 
+/** Sets estimate gas fee for CurationCouncil.createRegistrationVote method
+ * @param value - amount of estimate gas fee (in ETH)
+ **/
 export const setRegistrationFee = (value) => {
   return { type: WalletActions.SET_WALLET_ATTRIBUTE, key: 'registrationFee', value: value }
 }
 
+/** Sets estimate gas fee for BotCoin.approve method
+ * @param value - amount of estimate gas fee (in ETH)
+ **/
 export const setApproveFee = (value) => {
   return { type: WalletActions.SET_WALLET_ATTRIBUTE, key: 'approveFee', value: value }
 }
 
+/** Sets estimate gas fee for DeveloperRegistry.addDeveloper method
+ * @param value - amount of estimate gas fee (in ETH)
+ **/
 export const setAddDeveloperFee = (value) => {
   return { type: WalletActions.SET_WALLET_ATTRIBUTE, key: 'addDeveloperFee', value: value }
 }
 
+/** Sets estimate gas fee for whole registration process
+ * @param value - amount of estimate gas fee (in ETH)
+ **/
 export const setCreateRegistrationVoteFee = (value) => {
   return { type: WalletActions.SET_WALLET_ATTRIBUTE, key: 'createRegistrationVoteFee', value: value }
 }
 
+/** Sets boolean flag if there is a pending transaction
+ * @param hasPendingTx - true if pending transaction is present
+ **/
 const setPendingTx = (hasPendingTx) => {
   return { type: WalletActions.SET_WALLET_ATTRIBUTE, key: 'hasPendingTx', value: hasPendingTx }
 }
 
+/** Retrieves Ether and BOT token balance from blockchain and converts from Wei to ETH */
 export const getBalances = () => (dispatch) => {
   dispatch(setInProgress(true))
   let botCoin = new BotCoin()
   // ethers
   botCoin.getBalance().then((balance)=>{
-    dispatch(setBallance(botCoin.web3.utils.fromWei(balance, 'ether')))
+    dispatch(setBalance(botCoin.web3.utils.fromWei(balance, 'ether')))
   }, (error) => {
     console.log(error)
-    dispatch(setBallance(0))
-    dispatch({ type: WalletActions.SET_WALLET_ATTRIBUTE, key: 'error', value: "Failed to retrieve ballance" })
+    dispatch(setBalance(0))
+    dispatch({ type: WalletActions.SET_WALLET_ATTRIBUTE, key: 'error', value: "Failed to retrieve balance" })
   });
 
   // tokens
   botCoin.getTokenBalance().then((balance) => {
-    dispatch(setTokenBallance(botCoin.web3.utils.fromWei(balance, 'ether')))
+    dispatch(setTokenBalance(botCoin.web3.utils.fromWei(balance, 'ether')))
     dispatch(setInProgress(false))
   }, (error) => {
-    dispatch(setTokenBallance(0))
-    dispatch({ type: WalletActions.SET_WALLET_ATTRIBUTE, key: 'error', value: "Failed to retrieve token ballance" })
+    dispatch(setTokenBalance(0))
+    dispatch({ type: WalletActions.SET_WALLET_ATTRIBUTE, key: 'error', value: "Failed to retrieve token balance" })
     dispatch(setInProgress(false))
   });
 }
 
+/** Transfers BOT tokens
+ * @param to - recipient address
+ * @param amount - amount of BOT tokens to transfer
+ **/
 export const transferTokens = (to, amount) => async (dispatch) => {
   dispatch(setInProgress(true))
   dispatch(setPendingTx(true))
@@ -94,6 +127,12 @@ export const transferTokens = (to, amount) => async (dispatch) => {
   }
 }
 
+/** Process mined transfer transaction
+ * @param txId - transaction id (hash)
+ * @param status - transaction status
+ * @param receipt - transaction receipt
+ * @param amount - transfer amount
+ **/
 const transferTxMined = (txId, status, receipt, amount) => (dispatch) => {
   dispatch(setPendingTx(false));
 
@@ -107,6 +146,10 @@ const transferTxMined = (txId, status, receipt, amount) => (dispatch) => {
   dispatch(HistoryActions.addNewTransaction('botcoin', data))
 }
 
+/** Estimates gas fee for BOT tokens transfer
+ * @param to - recipient address
+ * @param amount - amount of BOT tokens to transfer
+ **/
 export const transferEstGas = (to, amount) => async (dispatch) => {
   dispatch(setInProgress(true))
   try {
