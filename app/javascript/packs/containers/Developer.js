@@ -8,7 +8,7 @@ import TransactionModal from '../components/shared/TransactionModal';
 import SubmitRegistrationModal from '../components/shared/SubmitRegistrationModal'
 import * as DeveloperActions from '../actions/developerActions';
 import * as WalletActions from '../actions/walletActions.js'
-import Success from '../components/developer/Success';
+import RegistrationStatus from '../components/developer/RegistrationStatus';
 import Loader from '../components/Loader';
 class DeveloperPage extends Component {
 
@@ -95,7 +95,7 @@ class DeveloperPage extends Component {
     return (
       <div className="white-container">
         <div className='inner-container registration'>
-          <Success visible={this.props.developer.successfullyAdded || (this.props.developer.developerId > 0)} />
+          <RegistrationStatus developer={this.props.developer} />
           <div className={(this.props.developer.successfullyAdded || (this.props.developer.developerId > 0)) ? 'hidden' : '' } >
             <h1 className='green-text'>Register</h1>
             <p className="botcoin-green">
