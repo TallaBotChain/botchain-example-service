@@ -27,7 +27,7 @@ ActiveRecord::Schema.define(version: 2018_11_26_085611) do
     t.string "eth_address"
     t.integer "developer_entry_id"
     t.integer "registration_vote_final_block"
-    t.boolean "registration_status", default: false
+    t.integer "registration_status", default: 0
     t.boolean "registration_status_was_sent", default: false
     t.index ["email"], name: "index_users_on_email"
     t.index ["remember_token"], name: "index_users_on_remember_token"
