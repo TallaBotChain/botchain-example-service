@@ -316,4 +316,15 @@
       }
     }
   }
+  .registration-statuses{
+    .not_used{
+      display: none;
+    }
+    .running{
+      color: green;
+    }
+    .waiting{
+      color: rgba(50, 55, 62, 0.6);
+    }
+  }
 }

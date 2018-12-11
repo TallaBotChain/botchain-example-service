@@ -2,6 +2,12 @@ import { DeveloperActions } from '../actions/developerActions.js'
 
 import update from 'immutability-helper';
 
+let [developer_entry_id, registration_vote_final_block, registration_status] = [0, null, 'not_approved']
+if(default_props && default_props.developer){
+  developer_entry_id = default_props.developer.developer_entry_id;
+  registration_vote_final_block = default_props.developer.registration_vote_final_block;
+  registration_status = default_props.developer.registration_status;
+}
 const initialState = {
   entryPrice: null,
   inProgress: false,
@@ -12,10 +18,10 @@ const initialState = {
   registrationVoteTxId: null,
   registrationVoteTxMined: false,
   successfullyAdded: false,
-  developerId: 0,
-  developerApproval: false,
+  developerId: developer_entry_id,
   registrationVoteId: null,
-  voteFinalBlock: null,
+  voteFinalBlock: registration_vote_final_block,
+  registrationStatus: registration_status,
   currentBlock: null,
   ipfsInProgress: false,
   ipfsHash: null,
@@ -25,7 +31,7 @@ const initialState = {
 const developer = (state = initialState, action) => {
   switch (action.type) {
     case DeveloperActions.RESET_STATE:
-      let new_state = {...initialState, ...{entryPrice: state.entryPrice, developerId: state.developerId, developerApproval: state.developerApproval}}
+      let new_state = { ...initialState, ...{ entryPrice: state.entryPrice, developerId: state.developerId, registrationStatus: state.registrationStatus, voteFinalBlock: state.voteFinalBlock}}
       return update(state, {$set: new_state});
     case DeveloperActions.SET_ATTRIBUTE:
       return update(state, {[action.key]: {$set: action.value}});

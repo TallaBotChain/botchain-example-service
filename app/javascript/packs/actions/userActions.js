@@ -1,4 +1,5 @@
 import {reset} from 'redux-form';
+import * as DeveloperActions from './developerActions';
 
 export const UserActions = {
   SET_ATTRIBUTE: 'USER_SET_ATTRIBUTE'
@@ -103,9 +104,13 @@ export const signInUser = (payload) => (dispatch) => {
         dispatch( setInProgress(false) );
       } else {
         dispatch( setErrors(null) );
+        dispatch(DeveloperActions.setDeveloperEntryId(response.developer.developer_entry_id));
+        dispatch(DeveloperActions.setRegistrationVoteFinalBlock(response.developer.registration_vote_final_block));
+        dispatch(DeveloperActions.setRegistrationStatus(response.developer.registration_status));
+        // TODO add processing for [response.developer.products]
         dispatch( setEncryptedMnemonic(response.encrypted_mnemonic) );
-        dispatch( setEthAddress(response.eth_address) );
-        dispatch( setCurrentUser(response.current_user) );
+        dispatch(setEthAddress(response.developer.eth_address));
+        dispatch(setCurrentUser(response.developer.email) );
 
         window.keyTools.applyEncryptedMnemonic(response.encrypted_mnemonic,
                                                 payload.password);

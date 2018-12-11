@@ -6,6 +6,7 @@ import user from './user'
 import wallet from './wallet'
 import ethereum from './ethereum'
 import history from './history'
+import products from './products'
 
 
 const reducer = combineReducers({
@@ -15,7 +16,8 @@ const reducer = combineReducers({
   user,
   wallet,
   ethereum,
-  history
+  history,
+  products
 })
 
 export default reducer

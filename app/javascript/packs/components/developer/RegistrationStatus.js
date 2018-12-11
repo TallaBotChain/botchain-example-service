@@ -54,18 +54,19 @@ class RegistrationStatus extends Component {
   render() {
     // if developer just added
     if (this.props.developer.successfullyAdded) return this.renderRegistrationSubmittedPendingApproval()
+
+    // if have registrationStatus 
+    if (this.props.developer.registrationStatus == 'approved') return this.renderRegistrationApproved();
+    if (this.props.developer.registrationStatus == 'denied') return this.renderRegistrationDenied()
+
     // else check registration status
     if (this.props.developer.developerId == 0) return null
-    if (!this.props.developer.developerApproval &&
-      ( this.props.developer.registrationVoteId == null ||
-        this.props.developer.voteFinalBlock == null ||
+    if (this.props.developer.registrationStatus == 'not_approved' &&
+      ( this.props.developer.voteFinalBlock == null ||
         this.props.developer.currentBlock == null
       )
     ) return <Loader visible={true} message="Checking registration status" />
     
-    
-    if (this.props.developer.developerApproval) return this.renderRegistrationApproved();
-
     if (this.props.developer.registrationVoteId == 0 || this.props.developer.voteFinalBlock == 0) return this.renderRegistrationError();
 
     if (this.props.developer.voteFinalBlock > this.props.developer.currentBlock){

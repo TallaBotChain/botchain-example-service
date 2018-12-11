@@ -25,7 +25,6 @@ class DeveloperPage extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    console.log("nextProps", nextProps);
     if( nextProps.developer.errors.length > 0 ) {
       console.log("hiding payment modal");
       this.setState({show_payment_modal: false});

@@ -43,6 +43,13 @@ export const resetState = () => {
   return { type: WalletActions.RESET_STATE}
 }
 
+/** Sets estimate gas fee for whole bot registration process
+ * @param value - amount of estimate gas fee (in ETH)
+ **/
+export const setBotRegistrationFee = (value) => {
+  return { type: WalletActions.SET_WALLET_ATTRIBUTE, key: 'botRegistrationFee', value: value }
+}
+
 /** Sets estimate gas fee for CurationCouncil.createRegistrationVote method
  * @param value - amount of estimate gas fee (in ETH)
  **/

@@ -14,8 +14,7 @@ class SessionsController < Clearance::SessionsController
             next_url = return_to || url_after_create
             render json: { redirect: next_url,
                            encrypted_mnemonic: @user.encrypted_mnemonic,
-                           eth_address: @user.eth_address,
-                           current_user: @user.email
+                           developer: @user.as_json
                          }
           else
             render json: { error: status.failure_message }

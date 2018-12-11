@@ -10,6 +10,8 @@ Rails.application.routes.draw do
 
   constraints Clearance::Constraints::SignedIn.new do
     root to: "pages#developer"
+    get "/products" => "pages#developer", as: "products"
+    get "/products/new" => "pages#developer", as: "products/new"
     get "/settings" => "pages#developer", as: "settings"
     get "/wallet/ethereum" => "pages#developer", as: "wallet/ethereum"
     get "/wallet/botcoin" => "pages#developer", as: "wallet/botcoin"

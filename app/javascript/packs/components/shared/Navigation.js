@@ -10,16 +10,19 @@ class Navigation extends React.Component {
     return ([
       <ul className="nav navbar-nav" key={1}>
         <LinkContainer exact to="/">
-          <NavItem eventKey={1}>Register</NavItem>
+          <NavItem eventKey={1}>Developer</NavItem>
+        </LinkContainer>
+        <LinkContainer exact to="/products">
+          <NavItem eventKey={2}>Products</NavItem>
         </LinkContainer>
         <LinkContainer to="/wallet/ethereum">
-          <NavItem eventKey={2}>Wallet</NavItem>
+          <NavItem eventKey={3}>Wallet</NavItem>
         </LinkContainer>
         <LinkContainer to="/settings">
-          <NavItem eventKey={3}>Settings</NavItem>
+          <NavItem eventKey={4}>Settings</NavItem>
         </LinkContainer>
         <LinkContainer to="/help">
-          <NavItem eventKey={4}>Help</NavItem>
+          <NavItem eventKey={5}>Help</NavItem>
         </LinkContainer>
         <li className="visible-xs"></li>
       </ul>,

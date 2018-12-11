@@ -11,14 +11,38 @@ export const DeveloperActions = {
   SET_ATTRIBUTE: "DEVELOPER_SET_ATTRIBUTE"
 }
 
+/** Sets developer entry ID in botchain developer registry
+ * @param value - string with Ethereum address
+ **/
+export const setDeveloperEntryId = (value) => {
+  return { type: DeveloperActions.SET_ATTRIBUTE, key: 'developerId', value: value }
+}
+
+/** Sets registration vote final block for developer
+ * @param value - string with Ethereum address
+ **/
+export const setRegistrationVoteFinalBlock = (value) => {
+  return { type: DeveloperActions.SET_ATTRIBUTE, key: 'voteFinalBlock', value: value }
+}
+
+/** Sets developer's registration status
+ * @param value - string with Ethereum address
+ **/
+export const setRegistrationStatus = (value) => {
+  return { type: DeveloperActions.SET_ATTRIBUTE, key: 'registrationStatus', value: value }
+}
+
 /** Fetch developerId for currentAccount from DeveloperRegistry */
 export const fetchDeveloperId = () => async (dispatch, getState) => {
   let registry = new DeveloperRegistry(window.app_config.developer_registry_contract);
-  let developerId = await registry.getDeveloperId();
-  dispatch({ type: DeveloperActions.SET_ATTRIBUTE, key: 'developerId', value: developerId });
+  let developerId = getState().developer.developerId;
+  if (developerId == 0){
+    developerId = await registry.getDeveloperId();
+    dispatch(setDeveloperEntryId(developerId));
+  }
   if( developerId > 0 ) {
     let approved = await registry.getDeveloperApproval(developerId);
-    dispatch({ type: DeveloperActions.SET_ATTRIBUTE, key: 'developerApproval', value: approved });
+    if (approved) dispatch(setRegistrationStatus('approved'))
     if (!approved){
       dispatch(fetchVoteFinalBlock());
       dispatch(fetchCurrentBlock());
@@ -30,12 +54,14 @@ export const fetchDeveloperId = () => async (dispatch, getState) => {
 }
 
 /** Fetch voteFinalBlock from CurationCouncil */
-const fetchVoteFinalBlock = () => async (dispatch) => {
+const fetchVoteFinalBlock = () => async (dispatch, getState) => {
+  let voteFinalBlock = getState().developer.voteFinalBlock;
+  if (voteFinalBlock != null) return;
   let council = new CurationCouncil(window.app_config.curation_council_contract);
   let voteId = await council.getRegistrationVoteId();
   dispatch({ type: DeveloperActions.SET_ATTRIBUTE, key: 'registrationVoteId', value: voteId });
-  let voteFinalBlock = await council.getVoteFinalBlock(voteId);
-  dispatch({ type: DeveloperActions.SET_ATTRIBUTE, key: 'voteFinalBlock', value: voteFinalBlock });
+  voteFinalBlock = await council.getVoteFinalBlock(voteId);
+  dispatch(setRegistrationVoteFinalBlock(voteFinalBlock));
 }
 
 /** Fetch current block from CurationCouncil */
