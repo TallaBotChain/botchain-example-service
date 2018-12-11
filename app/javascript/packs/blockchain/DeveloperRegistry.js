@@ -1,6 +1,5 @@
 import artifact from './abi/DeveloperRegistryDelegate.json'
 import BaseRegistry from './BaseRegistry'
-import multihash from 'multihashes';
 
 class DeveloperRegistry extends BaseRegistry {
   constructor() {
@@ -24,20 +23,6 @@ class DeveloperRegistry extends BaseRegistry {
   getDeveloperApproval(developerId) {
     let contract = this.contract;
     return contract.methods.approvalStatus(developerId).call({from: this.account});
-  }
-
-  /** Parse IPFS hash
-   * @param {string} IpfsHash - IPFS hash
-   **/
-  parseIpfsHash(IpfsHash){
-    const mhash = multihash.fromB58String(IpfsHash);
-    const decoded = multihash.decode(mhash);
-    const hexString = multihash.toHexString(mhash);
-    return {
-      digest: `0x${hexString.substring(4)}`,
-      fnCode: decoded.code,
-      size: decoded.length
-    };
   }
 
   /** Estimates addDeveloper gas

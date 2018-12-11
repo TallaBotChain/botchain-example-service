@@ -1,4 +1,5 @@
 import Web3 from 'web3'
+import multihash from 'multihashes';
 
 class BaseRegistry {
   constructor() {
@@ -33,6 +34,20 @@ class BaseRegistry {
    **/
   getMethodSignature(name) {
     return this.contract._jsonInterface.find((f) => (f.name  == name ) ).signature;
+  }
+
+  /** Parse IPFS hash
+   * @param {string} IpfsHash - IPFS hash
+   **/
+  parseIpfsHash(IpfsHash) {
+    const mhash = multihash.fromB58String(IpfsHash);
+    const decoded = multihash.decode(mhash);
+    const hexString = multihash.toHexString(mhash);
+    return {
+      digest: `0x${hexString.substring(4)}`,
+      fnCode: decoded.code,
+      size: decoded.length
+    };
   }
 }
 

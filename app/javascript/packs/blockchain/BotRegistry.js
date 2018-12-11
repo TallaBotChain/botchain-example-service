@@ -1,6 +1,5 @@
 import artifact from './abi/BotProductRegistryDelegate.json'
 import BaseRegistry from './BaseRegistry'
-import multihash from 'multihashes';
 
 class BotRegistry extends BaseRegistry {
   constructor() {
@@ -12,20 +11,6 @@ class BotRegistry extends BaseRegistry {
   /** Returns user address */
   get account() {
     return this.web3.eth.accounts.wallet[0].address;
-  }
-
-  /** Parse IPFS hash
-   * @param {string} IpfsHash - IPFS hash
-   **/
-  parseIpfsHash(IpfsHash){
-    const mhash = multihash.fromB58String(IpfsHash);
-    const decoded = multihash.decode(mhash);
-    const hexString = multihash.toHexString(mhash);
-    return {
-      digest: `0x${hexString.substring(4)}`,
-      fnCode: decoded.code,
-      size: decoded.length
-    };
   }
 
   /** Estimates addDeveloper gas
