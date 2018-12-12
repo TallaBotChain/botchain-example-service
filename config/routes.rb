@@ -12,6 +12,7 @@ Rails.application.routes.draw do
     root to: "pages#developer"
     get "/products" => "pages#developer", as: "products"
     get "/products/new" => "pages#developer", as: "products/new"
+    post "products" => "products#create"
     get "/settings" => "pages#developer", as: "settings"
     get "/wallet/ethereum" => "pages#developer", as: "wallet/ethereum"
     get "/wallet/botcoin" => "pages#developer", as: "wallet/botcoin"

@@ -1,28 +1,37 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Table } from 'react-bootstrap';
+import { Table, Row, Col } from 'react-bootstrap';
+import moment from 'moment';
+import { Link } from 'react-router-dom';
 
 class ProductsList extends Component {
   
   render() {
     return (<div>
-      <h1>BotChain Products</h1>
+      <Row>
+        <Col sm={8}>
+          <h1 className='green-text'>BotChain Products</h1>
+        </Col>
+        <Col sm={4}>
+          <Link to='/products/new' className="orange-button cta-button pull-right">Register Product</Link>
+        </Col>
+      </Row>
       <Table striped hover>
         <thead>
           <tr>
             <th>ETH Address</th>
             <th>Product Name</th>
             <th>Date Registered</th>
-            <th>Status</th>
+            <th>Tx</th>
           </tr>
         </thead>
         <tbody>
-          {this.props.products.list.map((row, i) => (
+          {this.props.products.allIds.map((eth_address, i) => (
             <tr key={i}>
-              <td>{row.eth_address}</td>
-              <td>{row.name}</td>
-              <td>{row.created_at}</td>
-              <td>{row.status}</td>
+              <td>{this.props.products.byAddress[eth_address].eth_address}</td>
+              <td>{this.props.products.byAddress[eth_address].name}</td>
+              <td>{moment(this.props.products.byAddress[eth_address].created_at).format('"MMM Do YYYY"')}</td>
+              <td><a href={`https://kovan.etherscan.io/tx/${this.props.products.byAddress[eth_address].create_bot_product_tx}`} target='_blank' rel='noreferrer noopener'>{this.props.products.byAddress[eth_address].create_bot_product_tx.substring(0, 6)}...</a></td>
             </tr>
           ))}
         </tbody>

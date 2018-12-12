@@ -1,12 +1,12 @@
 import axios from 'axios';
 import BotRegistry from '../blockchain/BotRegistry';
 import BotCoin from '../blockchain/BotCoin';
-import { start as startTxObserver } from './txObserverActions';
-import TxStatus from '../helpers/TxStatus';
+import { normalizeProducts } from '../helpers/JsonNormalizer';
 import * as WalletActions from './walletActions';
 
 export const ProductsActions = {
   RESET_STATE: 'PRODUCTS_RESET_STATE',
+  APPEND: 'PRODUCTS_APPEND',
   SET_ATTRIBUTE: "PRODUCTS_SET_ATTRIBUTE",
   SET_PROGRESS: "PRODUCTS_SET_PROGRESS"
 }
@@ -14,6 +14,16 @@ export const ProductsActions = {
 /** Resets redux state for AI products */
 export const resetTxs = () => (dispatch) => {
   dispatch({ type: ProductsActions.RESET_STATE });
+}
+
+/** Append products in redux state
+ * @param products - normalized products (helper normalizeProducts)
+ **/
+const appendProducts = (products) => {
+  return {
+    type: ProductsActions.APPEND,
+    products: normalizeProducts(products)
+  }
 }
 
 /** Sets in progress flag used to display in progress message or animation
@@ -47,7 +57,7 @@ export const fetchEntryPrice = () => async (dispatch) => {
 }
 
 /** Upload AI product metadata to IPFS 
- * @param values - developer metadata as JS object
+ * @param values - AI product metadata as JS object
 **/
 const addMetadata2IPFS = (values) => (dispatch) => {
   return new Promise((resolve, reject) => {
@@ -101,24 +111,17 @@ export const addAiProduct = (values) => async (dispatch, getState) => {
   try {
     dispatch(setProgressStatus('add_bot', 'running'));
     let txId = await registry.addBot(developerId, values.eth_address, ipfsHash);
-    dispatch({ type: BotActions.SET_ATTRIBUTE, key: 'addBotTxId', value: txId });
-    dispatch(startTxObserver(txId, addBotTxMined));
+    dispatch({ type: ProductsActions.SET_ATTRIBUTE, key: 'addBotTxId', value: txId });
+    dispatch(setProgressStatus('add_bot', 'completed'));
   } catch (e) {
-    // console.log(e);
     let errors = e.toString();
     dispatch(setErrors([errors || "Not signed. Request cancelled."]));
+    return
   }
 
   // store in DB
-}
-
-/** Process mined addBot transaction */
-const addBotTxMined = (status) => (dispatch) => {
-  if (status == TxStatus.SUCCEED) {
-    console.log("Mined addBot transaction");
-    dispatch({ type: BotActions.SET_ATTRIBUTE, key: 'addBotTxMined', value: true });
-    dispatch(setProgressStatus('add_bot', 'completed'));
-  }
+  await dispatch(storeProductInDB(values));
+  dispatch(setInProgress(false));
 }
 
 /** Fetch Estimate Gas for whole bot registration process */
@@ -132,12 +135,45 @@ export const fetchBotRegistrationProcessEstGas = () => async (dispatch, getState
     approveFee = parseFloat(botCoin.web3.utils.fromWei(`${approveEstGas * window.app_config.gas_price}`, 'ether'));
   }
   
-  let registry = new BotRegistry(window.app_config.bot_registry_contract);
-  let developerId = getState().developer.developerId;
-  let addBotEstGas = await registry.addBotEstGas(developerId, registry.account, 'QmXjFZZ3YJDkFvhhsRkTA5Y5MrtDfAMGHPFdfFbZZR9ivX'); // fake ipfs hash used only for gas estimation!
-  let addBotFee = parseFloat(botCoin.web3.utils.fromWei(`${addBotEstGas * window.app_config.gas_price}`, 'ether'));
+  let createBotProductFee = getState().wallet.createBotProductFee;
 
-  let registrationFee = approveFee + addBotFee
+  let registrationFee = approveFee + createBotProductFee
   console.log(`BotRegistrationFee: ${registrationFee}`);
   dispatch(WalletActions.setBotRegistrationFee(registrationFee));
+}
+
+/** store info about AI product in local db
+ * @param values - AI product metadata as JS object
+**/
+const storeProductInDB = (values) => (dispatch, getState) => {
+  return new Promise((resolve, reject) => {
+    let create_bot_product_tx = getState().products.addBotTxId
+    let form_data = { product: { eth_address: values.eth_address, name: values.name, create_bot_product_tx: create_bot_product_tx}}
+    dispatch(setProgressStatus('store_in_db', 'running'));
+    axios.post('/products', form_data)
+      .then(function (response) {
+        if (response.status == 200) {
+          if (response.data.products){
+            dispatch(appendProducts(response.data.products));
+            dispatch(setProgressStatus('store_in_db', 'completed'));
+            resolve()
+          }
+          if (response.data.errors){
+            dispatch(setErrors(response.data.errors));
+            reject()
+          }          
+        }
+        else {
+          console.log("storeProductInDB failed!")
+          console.log(response.data)
+          dispatch(setErrors([`storeProductInDB failed! HTTP status: ${response.status}`]));
+          reject()
+        }
+      })
+      .catch(function (error) {
+        console.log("storeProductInDB failed!" + error)
+        dispatch(setErrors([`storeProductInDB failed! ${error.toString()}`]));
+        reject()
+      })
+  }) 
 }

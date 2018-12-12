@@ -49,7 +49,11 @@ class BotRegistry extends BaseRegistry {
                   resolve(tx_id);
                 }
               });
-        });
+        })
+        .catch((err) => {
+          console.log(err);
+          reject(err);
+        });;
     });
   }
 }

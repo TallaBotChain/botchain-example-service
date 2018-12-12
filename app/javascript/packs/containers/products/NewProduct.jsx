@@ -3,7 +3,7 @@ import {connect} from 'react-redux'
 import ProductForm from '../../components/products/ProductForm';
 import ProductRegistrationModal from '../../components/products/ProductRegistrationModal';
 import * as ProductsActions from '../../actions/productsActions';
-
+import * as WalletActions from '../../actions/walletActions';
 
 class NewProduct extends Component {
 
@@ -13,9 +13,11 @@ class NewProduct extends Component {
     this.clickRegister = this.clickRegister.bind(this);
     this.closeRegistrationModal = this.closeRegistrationModal.bind(this);
     this.clickSubmitRegistration = this.clickSubmitRegistration.bind(this);
+    this.clickFinishButton = this.clickFinishButton.bind(this);
   }
 
   componentDidMount() {
+    this.props.getBalances();
     if (this.props.products.entryPrice == null) this.props.fetchEntryPrice();
     if (this.props.products.entryPrice !== null) this.props.fetchBotRegistrationProcessEstGas();
   }
@@ -40,6 +42,11 @@ class NewProduct extends Component {
     this.props.reset()
   }
 
+  clickFinishButton(){
+    this.props.reset()
+    this.props.history.push('/products');
+  }
+
   formSubmitDisabled() {
     return (this.props.wallet.botRegistrationFee == 0 ||
       this.props.wallet.botRegistrationFee > this.props.wallet.balance ||
@@ -61,6 +68,7 @@ class NewProduct extends Component {
           show={this.state.showRegistrationModal}
           submitRegistrationClick={() => this.clickSubmitRegistration}
           handleClose={() => this.closeRegistrationModal}
+          clickFinish={() => this.clickFinishButton}
           products={this.props.products}
           wallet={this.props.wallet}
         />
@@ -80,6 +88,9 @@ const mapDispatchToProps = dispatch => {
   return {
     reset: () => {
       dispatch(ProductsActions.resetTxs());
+    },
+    getBalances: () => {
+      dispatch(WalletActions.getBalances());
     },
     fetchEntryPrice: () => {
       dispatch(ProductsActions.fetchEntryPrice());

@@ -15,6 +15,7 @@ const initialState = {
   approveFee: 0,
   addDeveloperFee: 0,
   createRegistrationVoteFee: 0.000724628,
+  createBotProductFee: 0.001276824,
   hasPendingTx: false,
   currency: "BOTC"
 }

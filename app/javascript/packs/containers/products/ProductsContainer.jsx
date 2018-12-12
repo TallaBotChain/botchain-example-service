@@ -12,8 +12,8 @@ class ProductsContainer extends Component {
 
   componentDidMount() {
     this.props.fetchEntryPrice();
-    if (this.props.developer.registrationStatus == 'approved' && this.props.products.list.length == 0){
-      this.props.history.push('products/new');
+    if (this.props.developer.registrationStatus == 'approved' && this.props.products.allIds.length == 0){
+      this.props.history.push('/products/new');
     }
   }
 

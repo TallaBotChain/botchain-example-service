@@ -8,6 +8,18 @@ class ProductRegistrationModal extends Component {
 
   constructor(props) {
     super(props);
+    this.state = { step: 1 };
+  }
+
+  componentDidUpdate(prevProps) {
+    if (this.props.products.inProgress !== prevProps.products.inProgress) {
+      if (this.props.products.inProgress == true){
+        this.setState({ step: 2 });
+      }
+      else{
+        this.props.products.addBotTxId == null ? this.setState({ step: 1 }) : this.setState({ step: 3 });
+      }
+    }
   }
 
   renderRegistrationConfirmation() {
@@ -54,6 +66,9 @@ class ProductRegistrationModal extends Component {
           })}
         </ul>
         {this.props.products.errors.length > 0 && this.renderErrors()}
+        {this.state.step == 3 && 
+          <Button bsClass="btn default-button small-button width-86" type="button" onClick={this.props.clickFinish()}>Finish</Button>
+        }
       </div>
     )
   }
@@ -65,7 +80,7 @@ class ProductRegistrationModal extends Component {
           <Modal.Title className="text-center">AI PRODUCT REGISTRATION</Modal.Title>
         </Modal.Header>
         <Modal.Body className='text-center'>
-          {this.props.products.inProgress ? this.renderRegistrationStatus() : this.renderRegistrationConfirmation()}
+          {this.state.step == 1 ? this.renderRegistrationConfirmation() : this.renderRegistrationStatus()}
         </Modal.Body>
       </Modal>
     )
@@ -77,7 +92,8 @@ ProductRegistrationModal.propTypes = {
   wallet: PropTypes.object.isRequired,
   show: PropTypes.bool,
   submitRegistrationClick: PropTypes.func.isRequired,
-  handleClose: PropTypes.func.isRequired
+  handleClose: PropTypes.func.isRequired,
+  clickFinish: PropTypes.func.isRequired
 };
 
 export default ProductRegistrationModal;
