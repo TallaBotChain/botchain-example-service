@@ -21,8 +21,11 @@ class Navigation extends React.Component {
         <LinkContainer to="/settings">
           <NavItem eventKey={4}>Settings</NavItem>
         </LinkContainer>
+        <LinkContainer to="/about">
+          <NavItem eventKey={5}>About</NavItem>
+        </LinkContainer>
         <LinkContainer to="/help">
-          <NavItem eventKey={5}>Help</NavItem>
+          <NavItem eventKey={6}>Help</NavItem>
         </LinkContainer>
         <li className="visible-xs"></li>
       </ul>,
@@ -37,8 +40,11 @@ class Navigation extends React.Component {
   signedOutNav() {
     return ([
       <ul className="nav navbar-nav" key={1}>
+        <LinkContainer to="/about">
+          <NavItem eventKey={5}>About</NavItem>
+        </LinkContainer>
         <LinkContainer to="/help">
-          <NavItem eventKey={4}>Help</NavItem>
+          <NavItem eventKey={6}>Help</NavItem>
         </LinkContainer>
       </ul>,
       <ul className="nav navbar-nav navbar-right" key={2}>

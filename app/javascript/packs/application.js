@@ -22,6 +22,7 @@ import ProductsContainer from './containers/products/ProductsContainer'
 import NewProduct from './containers/products/NewProduct'
 import Settings from './containers/Settings'
 import Help from './containers/Help'
+import About from './containers/About'
 import SignUp from './containers/SignUp'
 import SignIn from './containers/SignIn'
 import WalletBotcoin from './containers/WalletBotcoin'
@@ -56,6 +57,7 @@ if(document.getElementById('app')) {
           <Route exact path="/products" component={ProductsContainer} />
           <Route path="/products/new" component={NewProduct} />
           <Route path="/settings" component={Settings}/>
+          <Route path="/about" component={About} />
           <Route path="/help" component={Help}/>
           <Route path='/sign_up' component={SignUp} />
           <Route path='/sign_in' component={SignIn} />
