@@ -96,6 +96,9 @@ class NewProduct extends Component {
         {!this.isNeedRefund() &&
           <div className='inner-container ai-products'>
             <p className="botcoin-green">
+              <strong>REGISTER</strong>
+            </p>
+            <p className="botcoin-green">
               <strong>Botchain AI Product</strong>
             </p>
             <ProductForm onSubmit={this.clickRegister} inProgress={this.props.products.inProgress} submitDisabled={this.formSubmitDisabled()} />

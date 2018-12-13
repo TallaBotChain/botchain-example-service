@@ -9,9 +9,9 @@ class RefundWallet extends Component {
   renderNeedEther(){
     return (
       <div>
-        <p>You have not enough Ether for registration fee. You need at least {this.props.wallet.botRegistrationFee}ETH. Now your balance is {this.props.wallet.balance}ETH. </p>
+        <p>Insufficient Ether to pay for this transaction. You need at least {this.props.wallet.botRegistrationFee}ETH, your current wallet balance is {this.props.wallet.balance}ETH. </p>
         <blockquote>
-          <p>Tip: For the test network, you can get ETH <a href="https://github.com/kovan-testnet/faucet" target="_blank" rel="noopener noreferrer">here</a>. You will need to paste your address into github when asked for your Kovan ETH address</p>
+          <p><small>Tip: For the test network, you can get ETH <a href="https://github.com/kovan-testnet/faucet" target="_blank" rel="noopener noreferrer">here</a>. You will need to paste your address into github when asked for your Kovan ETH address</small></p>
         </blockquote>
       </div>
       
@@ -20,7 +20,7 @@ class RefundWallet extends Component {
 
   renderNeedBotCoin() {
     return (
-      <p>You have not enough BotCoin for registration AI product. You need at least {this.props.products.entryPrice}BOTC. Now your balance is {this.props.wallet.tokenBalance}BOTC. </p>
+      <p>Insufficient BotCoin to pay for this transaction. You need at least {this.props.products.entryPrice}BOTC, your current wallet balance is {this.props.wallet.tokenBalance}BOTC. </p>
     )
   }
   

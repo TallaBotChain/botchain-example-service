@@ -15,12 +15,23 @@ const ethAddress = addValidator({
 })
 
 class ProductForm extends Component {
+  constructor(props) {
+    super(props);
+    this.generateEthAddress = this.generateEthAddress.bind(this);
+  }
+
+  generateEthAddress() {
+    let eth_address = window.keyTools.generateRandomAddress();
+    this.props.change('eth_address', eth_address);
+  }
+  
   render() {
     const { handleSubmit } = this.props;
     return (
       <form onSubmit={handleSubmit}>
+        <Button onClick={() => this.generateEthAddress()} title="Generate valid address">Generate</Button>
         <Field name="eth_address" type="text"
-          component={inputField} label="ETH Address" placeholder="0x000..."
+          component={inputField} label="ETH Address" placeholder="Product ETH Address"
           validate={[required(), ethAddress()]}
         />
         <Field name="name" type="text"

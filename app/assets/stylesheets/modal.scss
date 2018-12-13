@@ -306,12 +306,30 @@
       }
     }
   }
+  &.product-registration-modal {
+    .modal-content {
+      .default-button {
+        margin-top: 0;
+      }
+    }
+  }
   .registration-statuses{
+    padding-left: 0;
+    >li{
+      display: inline-block;
+      padding: 0 30px;
+    }
     .not_used{
       display: none;
     }
     .running{
-      color: green;
+      color: $check-green;
+      background: white asset_url('spinner.gif') no-repeat right center;
+    }
+    .completed{
+      font-weight: bold;
+      color: $check-green;
+      background: white asset_url('check.png') no-repeat right center;
     }
     .waiting{
       color: rgba(50, 55, 62, 0.6);

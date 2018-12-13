@@ -56,7 +56,7 @@ class ProductRegistrationModal extends Component {
     return (
       <div>
         <p><strong>Registration process consists of several steps and takes some time. Please, do not close this browser window until the registration process is complete!</strong></p>
-        <ul className='text-left registration-statuses'>
+        <ul className='registration-statuses'>
           {this.props.products.statusesOrder.map(function (status_key, index) {
             return (
               <li key={index} className={statuses[status_key]['status']}>
@@ -67,7 +67,10 @@ class ProductRegistrationModal extends Component {
         </ul>
         {this.props.products.errors.length > 0 && this.renderErrors()}
         {this.state.step == 3 && 
-          <Button bsClass="btn default-button small-button width-86" type="button" onClick={this.props.clickFinish()}>Finish</Button>
+          <div>
+            <p className="botcoin-green"><strong>Registration Successful!</strong></p>
+            <Button bsClass="btn default-button small-button width-86" type="button" onClick={this.props.clickFinish()}>Finish</Button>
+          </div>
         }
       </div>
     )
@@ -75,7 +78,7 @@ class ProductRegistrationModal extends Component {
 
   render() {
     return (
-      <Modal show={this.props.show} onHide={this.props.handleClose()} dialogClassName="app-modal payment-modal">
+      <Modal show={this.props.show} onHide={this.props.handleClose()} dialogClassName="app-modal payment-modal product-registration-modal">
         <Modal.Header>
           <Modal.Title className="text-center">AI PRODUCT REGISTRATION</Modal.Title>
         </Modal.Header>
