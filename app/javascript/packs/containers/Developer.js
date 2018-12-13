@@ -15,6 +15,7 @@ class DeveloperPage extends Component {
   constructor(props) {
     super(props);
     this.state = { show_payment_modal: false };
+    this.registerAiProduct = this.registerAiProduct.bind(this);
   }
 
   componentDidMount() {
@@ -89,12 +90,17 @@ class DeveloperPage extends Component {
     );
   }
 
+  registerAiProduct(){
+    this.props.history.push('/products/new');
+  }
+  
+
   render() {
 
     return (
       <div className="white-container">
         <div className='inner-container registration'>
-          <RegistrationStatus developer={this.props.developer} />
+          <RegistrationStatus developer={this.props.developer} registerAiProduct={() => this.registerAiProduct} />
           <div className={(this.props.developer.successfullyAdded || (this.props.developer.developerId > 0)) ? 'hidden' : '' } >
             <h1 className='green-text'>Register</h1>
             <p className="botcoin-green">

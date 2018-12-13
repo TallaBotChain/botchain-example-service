@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { Button } from 'react-bootstrap';
 import Loader from '../Loader';
 
 class RegistrationStatus extends Component {
@@ -23,6 +24,7 @@ class RegistrationStatus extends Component {
           Welcome to BotChain!<br />
           You are now an Approved BotChain Developer! You can now register your AI product or service in Botchain.
         </p>
+        <Button className="btn default-button cta-button width-100" onClick={this.props.registerAiProduct()}>Register AI Product</Button>
       </div>
     );
   }
@@ -79,7 +81,8 @@ class RegistrationStatus extends Component {
 }
 
 RegistrationStatus.propTypes = {
-  developer: PropTypes.object.isRequired
+  developer: PropTypes.object.isRequired,
+  registerAiProduct: PropTypes.func.isRequired
 };
 
 export default RegistrationStatus;

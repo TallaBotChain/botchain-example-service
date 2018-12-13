@@ -139,16 +139,6 @@
   &.receive-modal {
     .modal-content {
 
-      .qr {
-        width: 148px;
-        height: 148px;
-        padding: 8px;
-        background: white;
-        border-radius: 8px;
-        box-shadow: 1px 0 3px $gray-border;
-        margin-bottom: 20px;
-      };
-
       h3 {
         letter-spacing: unset;
         &.gray-text {
