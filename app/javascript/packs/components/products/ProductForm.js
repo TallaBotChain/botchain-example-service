@@ -20,6 +20,10 @@ class ProductForm extends Component {
     this.generateEthAddress = this.generateEthAddress.bind(this);
   }
 
+  componentDidMount(){
+    this.generateEthAddress();
+  }
+
   generateEthAddress() {
     let eth_address = window.keyTools.generateRandomAddress();
     this.props.change('eth_address', eth_address);
@@ -29,7 +33,6 @@ class ProductForm extends Component {
     const { handleSubmit } = this.props;
     return (
       <form onSubmit={handleSubmit}>
-        <Button onClick={() => this.generateEthAddress()} title="Generate valid address">Generate</Button>
         <Field name="eth_address" type="text"
           component={inputField} label="ETH Address" placeholder="Product ETH Address"
           validate={[required(), ethAddress()]}
