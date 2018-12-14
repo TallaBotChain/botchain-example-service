@@ -35,7 +35,7 @@ ActiveRecord::Schema.define(version: 2018_12_04_062356) do
     t.string "name"
     t.text "encrypted_mnemonic"
     t.string "eth_address"
-    t.integer "developer_entry_id"
+    t.integer "developer_entry_id", default: 0
     t.integer "registration_vote_final_block"
     t.integer "registration_status", default: 0
     t.boolean "registration_status_was_sent", default: false
