@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import {connect} from 'react-redux'
 import ProductsList from '../../components/products/ProductsList';
 import * as ProductsActions from '../../actions/productsActions';
+import * as DeveloperActions from '../../actions/developerActions';
+import Loader from '../../components/Loader';
 
 class ProductsContainer extends Component {
 
@@ -11,6 +13,7 @@ class ProductsContainer extends Component {
   }
 
   componentDidMount() {
+    if (this.props.developer.developerId == 0) this.props.fetchDeveloperId();
     this.props.fetchEntryPrice();
     if (this.props.developer.registrationStatus == 'approved' && this.props.products.allIds.length == 0){
       this.props.history.push('/products/new');
@@ -18,7 +21,14 @@ class ProductsContainer extends Component {
   }
 
   renderDeveloperNotApproved(){
-    return <h3>To register a new AI product, you must be an approved developer!</h3>
+    if (this.props.developer.registrationStatus == 'not_approved' &&
+       (this.props.developer.voteFinalBlock == null ||
+        this.props.developer.currentBlock == null)){
+      return <Loader visible={true} message="Checking registration status" />
+    }
+    else{
+      return <h3>To register a new AI product, you must be an approved developer!</h3>
+    }
   }
 
   render() {
@@ -46,6 +56,9 @@ const mapDispatchToProps = dispatch => {
   return {
     fetchEntryPrice: () => {
       dispatch(ProductsActions.fetchEntryPrice());
+    },
+    fetchDeveloperId: () => {
+      dispatch(DeveloperActions.fetchDeveloperId());
     }
   }
 }

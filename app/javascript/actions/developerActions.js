@@ -11,22 +11,22 @@ export const DeveloperActions = {
   SET_ATTRIBUTE: "DEVELOPER_SET_ATTRIBUTE"
 }
 
-/** Sets developer entry ID in botchain developer registry
- * @param value - string with Ethereum address
+/** Sets developer entry ID
+ * @param value - developer entry ID
  **/
 export const setDeveloperEntryId = (value) => {
   return { type: DeveloperActions.SET_ATTRIBUTE, key: 'developerId', value: value }
 }
 
 /** Sets registration vote final block for developer
- * @param value - string with Ethereum address
+ * @param value - final block for vote
  **/
 export const setRegistrationVoteFinalBlock = (value) => {
   return { type: DeveloperActions.SET_ATTRIBUTE, key: 'voteFinalBlock', value: value }
 }
 
 /** Sets developer's registration status
- * @param value - string with Ethereum address
+ * @param value - string with registration status
  **/
 export const setRegistrationStatus = (value) => {
   return { type: DeveloperActions.SET_ATTRIBUTE, key: 'registrationStatus', value: value }

@@ -52,15 +52,15 @@ class ProductRegistrationModal extends Component {
   }
 
   renderRegistrationStatus(){
-    const statuses = { ...this.props.products.statuses }
+    const registration_steps = { ...this.props.products.registration_steps }
     return (
       <div>
         <p><strong>Registration process consists of several steps and takes some time. Please, do not close this browser window until the registration process is complete!</strong></p>
         <ul className='registration-statuses'>
-          {this.props.products.statusesOrder.map(function (status_key, index) {
+          {this.props.products.stepsOrder.map(function (step, index) {
             return (
-              <li key={index} className={statuses[status_key]['status']}>
-                {statuses[status_key]['text']}
+              <li key={index} className={registration_steps[step]['status']}>
+                {registration_steps[step]['text']}
               </li>
             )
           })}

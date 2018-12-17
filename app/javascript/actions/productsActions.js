@@ -34,10 +34,11 @@ const setInProgress = (status) => {
 }
 
 /** Sets progress status to display in progress message
- * @param status - string value
+ * @param step - string with step name
+ * @param status - string with status of this step
  **/
-const setProgressStatus = (status_name, status) => {
-  return { type: ProductsActions.SET_PROGRESS, status_name: status_name, status: status }
+const setProgressStatus = (step, status) => {
+  return { type: ProductsActions.SET_PROGRESS, step: step, status: status }
 }
 
 /** setErrors
