@@ -2,7 +2,7 @@ class CurationCouncil < Blockchain
 
   def initialize()
     super
-    artifacts = JSON.parse(File.read( Rails.root.join('app/javascript/packs/blockchain/abi/CurationCouncilRegistryDelegate.json') ) )
+    artifacts = JSON.parse(File.read( Rails.root.join('app/javascript/blockchain/abi/CurationCouncilRegistryDelegate.json') ) )
     @abi = artifacts["abi"].to_json
     @contract = Ethereum::Contract.create(client: client, name: "CurationCouncil", address: Rails.application.config.x.curation_council_contract, abi: abi)
   end

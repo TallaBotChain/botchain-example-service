@@ -1,5 +1,6 @@
 import {reset} from 'redux-form';
 import * as DeveloperActions from './developerActions';
+import * as ProductsActions from './productsActions';
 
 export const UserActions = {
   SET_ATTRIBUTE: 'USER_SET_ATTRIBUTE'
@@ -107,7 +108,7 @@ export const signInUser = (payload) => (dispatch) => {
         dispatch(DeveloperActions.setDeveloperEntryId(response.developer.developer_entry_id));
         dispatch(DeveloperActions.setRegistrationVoteFinalBlock(response.developer.registration_vote_final_block));
         dispatch(DeveloperActions.setRegistrationStatus(response.developer.registration_status));
-        // TODO add processing for [response.developer.products]
+        dispatch(ProductsActions.appendProducts(response.developer.products));
         dispatch( setEncryptedMnemonic(response.encrypted_mnemonic) );
         dispatch(setEthAddress(response.developer.eth_address));
         dispatch(setCurrentUser(response.developer.email) );

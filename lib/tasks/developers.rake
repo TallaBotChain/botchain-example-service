@@ -12,12 +12,12 @@ namespace :developers do
     last_block = nil
     User.where(registration_status_was_sent: false).find_each do |user|
       puts "############ Checking developer address: #{user.eth_address}"
-      if user.developer_entry_id.nil?
+      if user.developer_entry_id == 0
         puts "Updating developer entry id for developer address: #{user.eth_address}"
         entry_id = developer_registry.getDeveloperId(user.eth_address)
         user.update_columns({developer_entry_id: entry_id}) if entry_id && entry_id > 0
       end
-      next if user.developer_entry_id.nil? # developer not registered yet
+      next if user.developer_entry_id == 0 # developer not registered yet
 
       if ids.include?(user.developer_entry_id)
         puts "Sending approved status by email"

@@ -19,7 +19,7 @@ export const resetTxs = () => (dispatch) => {
 /** Append products in redux state
  * @param products - normalized products (helper normalizeProducts)
  **/
-const appendProducts = (products) => {
+export const appendProducts = (products) => {
   return {
     type: ProductsActions.APPEND,
     products: normalizeProducts(products)
@@ -103,7 +103,8 @@ export const addAiProduct = (values) => async (dispatch, getState) => {
   // approve botcoin if need
   let entryPrice = getState().developer.entryPrice;
   if (entryPrice > 0){
-    // approve botcoin
+    // In the current version, registration does not require debiting BOTC.
+    // If this changes in future, we will have to implement approve BOTC debiting here.
   }
 
   // createBotProduct
@@ -150,13 +151,13 @@ const storeProductInDB = (values) => (dispatch, getState) => {
   return new Promise((resolve, reject) => {
     let create_bot_product_tx = getState().products.addBotTxId
     let form_data = { product: { eth_address: values.eth_address, name: values.name, create_bot_product_tx: create_bot_product_tx}}
-    dispatch(setProgressStatus('store_in_db', 'running'));
+    // dispatch(setProgressStatus('store_in_db', 'running'));
     axios.post('/products', form_data)
       .then(function (response) {
         if (response.status == 200) {
           if (response.data.products){
             dispatch(appendProducts(response.data.products));
-            dispatch(setProgressStatus('store_in_db', 'completed'));
+            // dispatch(setProgressStatus('store_in_db', 'completed'));
             resolve()
           }
           if (response.data.errors){

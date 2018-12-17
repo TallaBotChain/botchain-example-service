@@ -59,7 +59,7 @@ class RegistrationStatus extends Component {
 
     // if have registrationStatus 
     if (this.props.developer.registrationStatus == 'approved') return this.renderRegistrationApproved();
-    if (this.props.developer.registrationStatus == 'denied') return this.renderRegistrationDenied()
+    if (this.props.developer.registrationStatus == 'rejected') return this.renderRegistrationDenied()
 
     // else check registration status
     if (this.props.developer.developerId == 0) return null

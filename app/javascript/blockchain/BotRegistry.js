@@ -14,6 +14,8 @@ class BotRegistry extends BaseRegistry {
   }
 
   /** Estimates addDeveloper gas
+   * @param {string} developerId - developer entry ID
+   * @param {string} botProductAddress - AI product ETH address
    * @param {string} IpfsHash - IPFS hash
    * @returns {Promise}
    **/
@@ -22,10 +24,10 @@ class BotRegistry extends BaseRegistry {
     return this.contract.methods.createBotProduct(developerId, botProductAddress, ipfsParsed.digest, ipfsParsed.fnCode, ipfsParsed.size).estimateGas({from: this.account, gasPrice: this.gasPrice});
   }
 
-  /**
-   * @param developerId
-   * @param {string} botProductAddress
-   * @param {string} IpfsHash
+  /** Adds new AI product into BotRegistry
+   * @param {string} developerId - developer entry ID
+   * @param {string} botProductAddress - AI product ETH address
+   * @param {string} IpfsHash - IPFS hash
    * @returns {Promise}
    **/
   addBot(developerId, botProductAddress, IpfsHash) {

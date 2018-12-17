@@ -6,13 +6,11 @@ let products_list = default_props && default_props.developer ? normalizeProducts
 const initialState = {
   inProgress: false,
   registration_steps: {
-    check_balance: {status: 'not_used', text: 'Checking balance'},
     load_to_ipfs: {status: 'waiting', text: 'Loading metadata to IPFS'},
     approve: {status: 'waiting', text: 'Approving BOT token transaction'},
-    add_bot: {status: 'waiting', text: 'Registering AI product in BotChain'},
-    store_in_db: { status: 'not_used', text: 'Storing product in local database'}
+    add_bot: {status: 'waiting', text: 'Registering AI product in BotChain'}
   },
-  stepsOrder: ['check_balance', 'load_to_ipfs', 'approve', 'add_bot', 'store_in_db'],
+  stepsOrder: ['load_to_ipfs', 'approve', 'add_bot'],
   entryPrice: null,
   addBotTxId: null,
   byAddress: products_list.byAddress, 
