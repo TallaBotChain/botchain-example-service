@@ -19,6 +19,14 @@ class ProductsContainer extends Component {
       this.props.history.push('/products/new');
     }
   }
+  
+  componentDidUpdate(prevProps) {
+    if (this.props.developer.registrationStatus !== prevProps.developer.registrationStatus && 
+        this.props.developer.registrationStatus == 'approved' &&
+        this.props.products.allIds.length == 0 ) {
+      this.props.history.push('/products/new');
+    }
+  }
 
   renderDeveloperNotApproved(){
     if (this.props.developer.registrationStatus == 'not_approved' &&

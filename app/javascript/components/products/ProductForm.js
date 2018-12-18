@@ -17,16 +17,6 @@ const ethAddress = addValidator({
 class ProductForm extends Component {
   constructor(props) {
     super(props);
-    this.generateEthAddress = this.generateEthAddress.bind(this);
-  }
-
-  componentDidMount(){
-    this.generateEthAddress();
-  }
-
-  generateEthAddress() {
-    let eth_address = window.keyTools.generateRandomAddress();
-    this.props.change('eth_address', eth_address);
   }
   
   render() {

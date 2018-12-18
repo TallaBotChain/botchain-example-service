@@ -18,16 +18,6 @@ class KeyTools {
     return this.web3.eth.accounts.wallet[0].address;
   }
 
-  /** Generates random valid address */
-  generateRandomAddress(){
-    let plainMnemonic = bip39.generateMnemonic();
-    let hdkey = EthereumHDKey.fromMasterSeed(bip39.mnemonicToSeed(plainMnemonic));
-    let walletPath = "m/44'/60'/0'/0/";
-    let wallet = hdkey.derivePath(walletPath + '0').getWallet();
-    let address = '0x' + wallet.getAddress().toString('hex');
-    return address
-  }
-
   /**
    * Generates mnemonic and encrypt it with password
    * @param password - plain password string
