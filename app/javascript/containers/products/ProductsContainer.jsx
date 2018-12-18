@@ -13,7 +13,7 @@ class ProductsContainer extends Component {
   }
 
   componentDidMount() {
-    if (this.props.developer.developerId == 0) this.props.fetchDeveloperId();
+    if (this.props.developer.registrationStatus == 'not_approved' || this.props.developer.registrationStatus == 'not_registered') this.props.fetchDeveloperId();
     this.props.fetchEntryPrice();
     if (this.props.developer.registrationStatus == 'approved' && this.props.products.allIds.length == 0){
       this.props.history.push('/products/new');
@@ -22,6 +22,7 @@ class ProductsContainer extends Component {
 
   renderDeveloperNotApproved(){
     if (this.props.developer.registrationStatus == 'not_approved' &&
+        this.props.developer.registrationStatus != 'not_registered' &&
        (this.props.developer.voteFinalBlock == null ||
         this.props.developer.currentBlock == null)){
       return <Loader visible={true} message="Checking registration status" />

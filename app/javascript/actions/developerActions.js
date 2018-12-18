@@ -50,6 +50,7 @@ export const fetchDeveloperId = () => async (dispatch, getState) => {
   }
   else{
     dispatch(fetchRegistrationProcessEstGas());
+    dispatch(setRegistrationStatus('not_registered'))
   }
 }
 

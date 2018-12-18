@@ -20,7 +20,7 @@ Rails.application.routes.draw do
   end
 
   constraints Clearance::Constraints::SignedOut.new do
-    root to: redirect('/sign_up')
+    root to: redirect('/about')
   end
 
 end
