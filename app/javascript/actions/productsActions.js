@@ -3,6 +3,8 @@ import BotRegistry from '../blockchain/BotRegistry';
 import BotCoin from '../blockchain/BotCoin';
 import { normalizeProducts } from '../helpers/JsonNormalizer';
 import * as WalletActions from './walletActions';
+import BotRegistrationSteps from '../helpers/BotRegistrationSteps'
+import StepStatus from '../helpers/StepStatus'
 
 export const ProductsActions = {
   RESET_STATE: 'PRODUCTS_RESET_STATE',
@@ -54,7 +56,7 @@ export const fetchEntryPrice = () => async (dispatch) => {
   let price = await registry.getEntryPrice();
   let botCoin = new BotCoin();
   dispatch({ type: ProductsActions.SET_ATTRIBUTE, key: 'entryPrice', value: botCoin.convertToHuman(price) });
-  if (price == 0) dispatch(setProgressStatus('approve', 'not_used'));
+  if (price == 0) dispatch(setProgressStatus(BotRegistrationSteps.APPROVE.id, StepStatus.NOT_USED));
 }
 
 /** Upload AI product metadata to IPFS 
@@ -62,7 +64,7 @@ export const fetchEntryPrice = () => async (dispatch) => {
 **/
 const addMetadata2IPFS = (values) => (dispatch) => {
   return new Promise((resolve, reject) => {
-    dispatch(setProgressStatus('load_to_ipfs', 'running'));
+    dispatch(setProgressStatus(BotRegistrationSteps.LOAD_TO_IPFS.id, StepStatus.RUNNING));
     const config = { headers: { 'content-type': 'multipart/form-data' } };
     const formData = new FormData()
     formData.append('file', JSON.stringify(values))
@@ -71,7 +73,7 @@ const addMetadata2IPFS = (values) => (dispatch) => {
       .then(function (response) {
         if (response.status == 200 && response.data['Hash']) {
           dispatch({ type: ProductsActions.SET_ATTRIBUTE, key: 'ipfsHash', value: response.data['Hash'] });
-          dispatch(setProgressStatus('load_to_ipfs', 'completed'));
+          dispatch(setProgressStatus(BotRegistrationSteps.LOAD_TO_IPFS.id, StepStatus.COMPLETED));
           resolve(response.data['Hash'])
         }
         else {
@@ -111,10 +113,10 @@ export const addAiProduct = (values) => async (dispatch, getState) => {
   let registry = new BotRegistry(window.app_config.bot_registry_contract);
   let developerId = getState().developer.developerId;
   try {
-    dispatch(setProgressStatus('add_bot', 'running'));
+    dispatch(setProgressStatus(BotRegistrationSteps.ADD_BOT.id, StepStatus.RUNNING));
     let txId = await registry.addBot(developerId, values.eth_address, ipfsHash);
     dispatch({ type: ProductsActions.SET_ATTRIBUTE, key: 'addBotTxId', value: txId });
-    dispatch(setProgressStatus('add_bot', 'completed'));
+    dispatch(setProgressStatus(BotRegistrationSteps.ADD_BOT.id, StepStatus.COMPLETED));
   } catch (e) {
     let errors = e.toString();
     dispatch(setErrors([errors || "Not signed. Request cancelled."]));
@@ -151,13 +153,11 @@ const storeProductInDB = (values) => (dispatch, getState) => {
   return new Promise((resolve, reject) => {
     let create_bot_product_tx = getState().products.addBotTxId
     let form_data = { product: { eth_address: values.eth_address, name: values.name, create_bot_product_tx: create_bot_product_tx}}
-    // dispatch(setProgressStatus('store_in_db', 'running'));
     axios.post('/products', form_data)
       .then(function (response) {
         if (response.status == 200) {
           if (response.data.products){
             dispatch(appendProducts(response.data.products));
-            // dispatch(setProgressStatus('store_in_db', 'completed'));
             resolve()
           }
           if (response.data.errors){

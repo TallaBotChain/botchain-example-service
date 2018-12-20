@@ -2,22 +2,28 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Modal, Button } from 'react-bootstrap';
 import Errors from '../Errors';
+import BotRegistrationSteps from '../../helpers/BotRegistrationSteps'
+import StepStatus from '../../helpers/StepStatus'
 
 
 class ProductRegistrationModal extends Component {
 
   constructor(props) {
     super(props);
-    this.state = { step: 1 };
+    this.state = { modal_slide: 1 };
+  }
+
+  getKeyByValue(object, value) {
+    return Object.keys(object).find(key => object[key] === value);
   }
 
   componentDidUpdate(prevProps) {
     if (this.props.products.inProgress !== prevProps.products.inProgress) {
       if (this.props.products.inProgress == true){
-        this.setState({ step: 2 });
+        this.setState({ modal_slide: 2 });
       }
       else{
-        this.props.products.addBotTxId == null ? this.setState({ step: 1 }) : this.setState({ step: 3 });
+        this.props.products.addBotTxId == null ? this.setState({ modal_slide: 1 }) : this.setState({ modal_slide: 3 });
       }
     }
   }
@@ -53,20 +59,21 @@ class ProductRegistrationModal extends Component {
 
   renderRegistrationStatus(){
     const registration_steps = { ...this.props.products.registration_steps }
+    let local_this = this;
     return (
       <div>
         <p><strong>Registration process consists of several steps and takes some time. Please, do not close this browser window until the registration process is complete!</strong></p>
         <ul className='registration-statuses'>
           {this.props.products.stepsOrder.map(function (step, index) {
             return (
-              <li key={index} className={registration_steps[step]['status']}>
-                {registration_steps[step]['text']}
+              <li key={index} className={local_this.getKeyByValue(StepStatus, registration_steps[BotRegistrationSteps[step].id]).toLowerCase()}>
+                { BotRegistrationSteps[step].description}
               </li>
             )
           })}
         </ul>
         {this.props.products.errors.length > 0 && this.renderErrors()}
-        {this.state.step == 3 && 
+        {this.state.modal_slide == 3 && 
           <div>
             <p className="botcoin-green"><strong>Registration Successful!</strong></p>
             <Button bsClass="btn default-button small-button width-86" type="button" onClick={this.props.clickFinish()}>Finish</Button>
@@ -83,7 +90,7 @@ class ProductRegistrationModal extends Component {
           <Modal.Title className="text-center">AI PRODUCT REGISTRATION</Modal.Title>
         </Modal.Header>
         <Modal.Body className='text-center'>
-          {this.state.step == 1 ? this.renderRegistrationConfirmation() : this.renderRegistrationStatus()}
+          {this.state.modal_slide == 1 ? this.renderRegistrationConfirmation() : this.renderRegistrationStatus()}
         </Modal.Body>
       </Modal>
     )
