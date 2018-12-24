@@ -24,7 +24,7 @@ namespace :developers do
 
       if ids.include?(user.developer_entry_id)
         puts "Sending approved status by email for user: [#{user.email}]"
-        RegistrationStatusMailer.with(user: user).developer_approved.deliver_later
+        RegistrationStatusMailer.with(user: user).developer_approved.deliver_now
         user.update_columns({registration_status: User.registration_statuses['approved'], registration_status_was_sent: true})
       else
         # puts "doing extra check!"
@@ -42,7 +42,7 @@ namespace :developers do
         
         if user.registration_vote_final_block < last_block
           puts "Sending rejected status by email for user: [#{user.email}]"
-          RegistrationStatusMailer.with(user: user).developer_rejected.deliver_later
+          RegistrationStatusMailer.with(user: user).developer_rejected.deliver_now
           user.update_columns({registration_status: User.registration_statuses['rejected'], registration_status_was_sent: true})
         end
       end
