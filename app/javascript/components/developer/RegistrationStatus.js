@@ -10,7 +10,7 @@ class RegistrationStatus extends Component {
         <h1 className='green-text'>REGISTRATION SUCCESSFULLY SUBMITTED!</h1>
         <p>
           Your developer address has been successfully registered for approval.<br />
-          You will be informed about the approvement by email.<br />
+          You will receive an email as soon as your registration is approved.<br />
           Once approved, you can register a product or service in Botchain.
         </p>
       </div>
