@@ -10,11 +10,19 @@ class ProductRegistrationModal extends Component {
 
   constructor(props) {
     super(props);
-    this.state = { modal_slide: 1 };
+    this.state = { 
+      modal_slide: 1, 
+      registration_steps: {},
+      steps_order: ['LOAD_TO_IPFS', 'APPROVE', 'ADD_BOT']
+    };
   }
 
   getKeyByValue(object, value) {
     return Object.keys(object).find(key => object[key] === value);
+  }
+
+  componentDidMount() {
+    this.updateStateRegistrationSteps();
   }
 
   componentDidUpdate(prevProps) {
@@ -26,6 +34,30 @@ class ProductRegistrationModal extends Component {
         this.props.products.addBotTxId == null ? this.setState({ modal_slide: 1 }) : this.setState({ modal_slide: 3 });
       }
     }
+    if (this.props.products.current_registration_step !== prevProps.products.current_registration_step){
+      this.updateStateRegistrationSteps();
+    }
+  }
+
+  updateStateRegistrationSteps() {
+    const current_step = this.props.products.current_registration_step.step;
+    const current_status = this.props.products.current_registration_step.status;
+    let registration_steps = {};
+    this.state.steps_order.map((step) => {
+      if (BotRegistrationSteps[step].id == current_step) {
+        registration_steps[BotRegistrationSteps[step].id] = current_status
+      }
+      else if (BotRegistrationSteps[step].id < current_step) {
+        registration_steps[BotRegistrationSteps[step].id] = StepStatus.COMPLETED
+      }
+      else {
+        registration_steps[BotRegistrationSteps[step].id] = StepStatus.WAITING
+      }
+    })
+    // check APPROVE STATUS
+    if (this.props.products.entryPrice == 0) registration_steps[BotRegistrationSteps.APPROVE.id] = StepStatus.NOT_USED
+
+    this.setState({ registration_steps: registration_steps });
   }
 
   renderRegistrationConfirmation() {
@@ -58,15 +90,14 @@ class ProductRegistrationModal extends Component {
   }
 
   renderRegistrationStatus(){
-    const registration_steps = { ...this.props.products.registration_steps }
     let local_this = this;
     return (
       <div>
         <p><strong>Registration process consists of several steps and takes some time. Please, do not close this browser window until the registration process is complete!</strong></p>
         <ul className='registration-statuses'>
-          {this.props.products.stepsOrder.map(function (step, index) {
+          {this.state.steps_order.map(function (step, index) {
             return (
-              <li key={index} className={local_this.getKeyByValue(StepStatus, registration_steps[BotRegistrationSteps[step].id]).toLowerCase()}>
+              <li key={index} className={local_this.getKeyByValue(StepStatus, local_this.state.registration_steps[BotRegistrationSteps[step].id]).toLowerCase()}>
                 { BotRegistrationSteps[step].description}
               </li>
             )

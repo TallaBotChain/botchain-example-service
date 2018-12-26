@@ -56,7 +56,6 @@ export const fetchEntryPrice = () => async (dispatch) => {
   let price = await registry.getEntryPrice();
   let botCoin = new BotCoin();
   dispatch({ type: ProductsActions.SET_ATTRIBUTE, key: 'entryPrice', value: botCoin.convertToHuman(price) });
-  if (price == 0) dispatch(setProgressStatus(BotRegistrationSteps.APPROVE.id, StepStatus.NOT_USED));
 }
 
 /** Upload AI product metadata to IPFS 
