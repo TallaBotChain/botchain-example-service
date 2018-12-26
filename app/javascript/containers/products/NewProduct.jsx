@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import {connect} from 'react-redux'
 import ProductForm from '../../components/products/ProductForm';
 import ProductRegistrationModal from '../../components/products/ProductRegistrationModal';
-import RefundWallet from '../../components/products/RefundWallet';
+import RefundWallet from '../../components/wallet/RefundWallet';
 import * as ProductsActions from '../../actions/productsActions';
 import * as WalletActions from '../../actions/walletActions';
 import Loader from '../../components/Loader'
@@ -86,9 +86,11 @@ class NewProduct extends Component {
           <span className={`registration-step ${!this.isNeedRefund() ? 'active' : ''}`}>2. Registration</span>
         </div>
         {this.isNeedRefund() && 
-          <RefundWallet 
-            wallet={this.props.wallet} 
-            products={this.props.products} 
+          <RefundWallet
+            registrationFee={this.props.wallet.botRegistrationFee}
+            balance={this.props.wallet.balance}
+            entryPrice={this.props.products.entryPrice}
+            tokenBalance={this.props.wallet.tokenBalance}
             getBalance={this.props.getBalances}
             address={this.props.user.ethAddress}
           />

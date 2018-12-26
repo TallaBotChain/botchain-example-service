@@ -135,6 +135,7 @@ const registrationVoteTxMined = (status) => (dispatch) => {
   if (status == TxStatus.SUCCEED) {
     console.log("Mined registrationVote transaction");
     dispatch({ type: DeveloperActions.SET_ATTRIBUTE, key: 'registrationVoteTxMined', value: true });
+    dispatch(setRegistrationStatus('not_approved'))
     dispatch({ type: DeveloperActions.SET_ATTRIBUTE, key: 'successfullyAdded', value: true });
   }
 }
@@ -219,7 +220,7 @@ export const addMetadata2IPFS = (values) => (dispatch) => {
 }
 
 /** Fetch Estimate Gas for whole registration process */
-export const fetchRegistrationProcessEstGas = () => async (dispatch, getState) => {
+const fetchRegistrationProcessEstGas = () => async (dispatch, getState) => {
   let botCoin = new BotCoin();
   let chargingContract = window.app_config.developer_registry_contract;
   let amount = getState().developer.entryPrice;
