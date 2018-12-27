@@ -85,11 +85,11 @@ class PaymentModal extends Component {
         </Modal.Header>
         <Modal.Body className={ this.state.step == 2 ? 'text-center' : 'hidden' }>
           <p className="large-p">
-            <b>This transaction has been successfully submitted</b><br/>  and is now awaiting confirmation. You can check the status of this transaction on <a href={`${"https://kovan.etherscan.io"}/tx/${this.props.tx_id}`} target='_blank'>Etherscan here</a>.
+            <b>This transaction has been successfully submitted</b><br/> and is now awaiting confirmation. You can check the status of this transaction on <a href={`${"https://kovan.etherscan.io"}/tx/${this.props.tx_id}`} target='_blank'>Etherscan here</a>.
           </p>
           <div className='warning'>
             <h4>Do not close this browser window!</h4>
-            <p> The Transaction's speed depends on the Ethereum Network and can range anywhere from a few seconds to up to an hour. This modal will close automatically when the transaction is complete.</p>
+            <p>The Transaction's speed depends on the Ethereum Network and can range anywhere from a few seconds to up to an hour. This modal will close automatically when the transaction is complete.</p>
           </div>
           <Loader visible={true} message="Processing Transaction"/>
         </Modal.Body>
