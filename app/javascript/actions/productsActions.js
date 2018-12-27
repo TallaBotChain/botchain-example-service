@@ -7,8 +7,7 @@ import * as WalletActions from './walletActions';
 export const ProductsActions = {
   RESET_STATE: 'PRODUCTS_RESET_STATE',
   APPEND: 'PRODUCTS_APPEND',
-  SET_ATTRIBUTE: "PRODUCTS_SET_ATTRIBUTE",
-  SET_PROGRESS: "PRODUCTS_SET_PROGRESS"
+  SET_ATTRIBUTE: "PRODUCTS_SET_ATTRIBUTE"
 }
 
 /** Resets redux state for AI products */
@@ -33,12 +32,18 @@ const setInProgress = (status) => {
   return { type: ProductsActions.SET_ATTRIBUTE, key: 'inProgress', value: status }
 }
 
-/** Sets progress status to display in progress message
+/** Sets current registration step, used to display registration progress 
  * @param step - string with step name
- * @param status - string with status of this step
  **/
-const setProgressStatus = (step, status) => {
-  return { type: ProductsActions.SET_PROGRESS, step: step, status: status }
+const setRegistrationStep = (step) => {
+  return { type: ProductsActions.SET_ATTRIBUTE, key: 'registrationStep', value: step }
+}
+
+/** Sets status for current registration step, used to display registration progress 
+ * @param status - string with step status name
+ **/
+const setStepStatus = (status) => {
+  return { type: ProductsActions.SET_ATTRIBUTE, key: 'stepStatus', value: status }
 }
 
 /** setErrors
@@ -54,7 +59,6 @@ export const fetchEntryPrice = () => async (dispatch) => {
   let price = await registry.getEntryPrice();
   let botCoin = new BotCoin();
   dispatch({ type: ProductsActions.SET_ATTRIBUTE, key: 'entryPrice', value: botCoin.convertToHuman(price) });
-  if (price == 0) dispatch(setProgressStatus('approve', 'not_used'));
 }
 
 /** Upload AI product metadata to IPFS 
@@ -62,7 +66,8 @@ export const fetchEntryPrice = () => async (dispatch) => {
 **/
 const addMetadata2IPFS = (values) => (dispatch) => {
   return new Promise((resolve, reject) => {
-    dispatch(setProgressStatus('load_to_ipfs', 'running'));
+    dispatch(setRegistrationStep('load_to_ipfs'));
+    dispatch(setStepStatus('running'));
     const config = { headers: { 'content-type': 'multipart/form-data' } };
     const formData = new FormData()
     formData.append('file', JSON.stringify(values))
@@ -71,7 +76,8 @@ const addMetadata2IPFS = (values) => (dispatch) => {
       .then(function (response) {
         if (response.status == 200 && response.data['Hash']) {
           dispatch({ type: ProductsActions.SET_ATTRIBUTE, key: 'ipfsHash', value: response.data['Hash'] });
-          dispatch(setProgressStatus('load_to_ipfs', 'completed'));
+          dispatch(setRegistrationStep('load_to_ipfs'));
+          dispatch(setStepStatus('completed'));
           resolve(response.data['Hash'])
         }
         else {
@@ -111,10 +117,12 @@ export const addAiProduct = (values) => async (dispatch, getState) => {
   let registry = new BotRegistry(window.app_config.bot_registry_contract);
   let developerId = getState().developer.developerId;
   try {
-    dispatch(setProgressStatus('add_bot', 'running'));
+    dispatch(setRegistrationStep('add_bot'));
+    dispatch(setStepStatus('running'));
     let txId = await registry.addBot(developerId, values.eth_address, ipfsHash);
     dispatch({ type: ProductsActions.SET_ATTRIBUTE, key: 'addBotTxId', value: txId });
-    dispatch(setProgressStatus('add_bot', 'completed'));
+    dispatch(setRegistrationStep('add_bot'));
+    dispatch(setStepStatus('completed'));
   } catch (e) {
     let errors = e.toString();
     dispatch(setErrors([errors || "Not signed. Request cancelled."]));
@@ -151,13 +159,11 @@ const storeProductInDB = (values) => (dispatch, getState) => {
   return new Promise((resolve, reject) => {
     let create_bot_product_tx = getState().products.addBotTxId
     let form_data = { product: { eth_address: values.eth_address, name: values.name, create_bot_product_tx: create_bot_product_tx}}
-    // dispatch(setProgressStatus('store_in_db', 'running'));
     axios.post('/products', form_data)
       .then(function (response) {
         if (response.status == 200) {
           if (response.data.products){
             dispatch(appendProducts(response.data.products));
-            // dispatch(setProgressStatus('store_in_db', 'completed'));
             resolve()
           }
           if (response.data.errors){
