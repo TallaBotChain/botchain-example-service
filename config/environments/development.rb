@@ -42,12 +42,11 @@ Rails.application.configure do
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.smtp_settings = {
       :address => 'smtp.gmail.com',
-      :port => 465,
-      :user_name => Rails.application.credentials[Rails.env.to_sym][:smtp_user],
-      :password => Rails.application.credentials[Rails.env.to_sym][:smtp_password],
-      :authentication => :login,
-      :ssl => true,
-      :tls => true,
+      :port => 587,
+      :domain => ENV['SMTP_DOMAIN'],
+      :user_name => ENV['SMTP_USER'],
+      :password => ENV['SMTP_PASSWORD'],
+      :authentication => 'plain',
       :enable_starttls_auto => true
   }
 
