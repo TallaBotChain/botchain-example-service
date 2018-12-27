@@ -5,12 +5,8 @@ import {normalizeProducts} from '../helpers/JsonNormalizer';
 let products_list = default_props && default_props.developer ? normalizeProducts(default_props.developer.products) : {byAddress: {}, allIds: []}
 const initialState = {
   inProgress: false,
-  registration_steps: {
-    load_to_ipfs: {status: 'waiting', text: 'Loading metadata to IPFS'},
-    approve: {status: 'waiting', text: 'Approving BOT token transaction'},
-    add_bot: {status: 'waiting', text: 'Registering AI product in BotChain'}
-  },
-  stepsOrder: ['load_to_ipfs', 'approve', 'add_bot'],
+  registrationStep: 'load_to_ipfs',
+  stepStatus: 'waiting',
   entryPrice: null,
   addBotTxId: null,
   byAddress: products_list.byAddress, 
@@ -31,8 +27,6 @@ const products = (state = initialState, action) => {
     return update(state, { $set: new_state });
   case ProductsActions.APPEND:
     return update(state, { byAddress: { $merge: action.products.byAddress }, allIds: { $set: uniqueArray([...state.allIds, ...action.products.allIds]) } });
-  case ProductsActions.SET_PROGRESS:
-    return update(state, { registration_steps: { [action.step]: { status: { $set: action.status }} } })
   case ProductsActions.SET_ATTRIBUTE:
     return update(state, { [action.key]: { $set: action.value } });
   default:

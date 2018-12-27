@@ -19,6 +19,7 @@ class NewProduct extends Component {
   }
 
   componentDidMount() {
+    if (this.props.developerId == 0) this.props.history.push('/products');
     this.props.getBalances();
     if (this.props.products.entryPrice == null) this.props.fetchEntryPrice();
     if (this.props.products.entryPrice !== null) this.props.fetchBotRegistrationProcessEstGas();
@@ -121,7 +122,8 @@ const mapStateToProps = state => {
   return {
     products: state.products,
     wallet: state.wallet,
-    user: state.user
+    user: state.user,
+    developerId: state.developer.developerId
   }
 }
 
