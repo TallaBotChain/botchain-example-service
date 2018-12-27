@@ -84,7 +84,7 @@ footer {
   bottom: 0;
 }
 
-.wallet-navigation {
+.wallet-navigation, .registration-steps {
   height: 56px;
   background: $light-green;
   border-bottom: 2px solid $border-green;
@@ -93,7 +93,7 @@ footer {
     padding-left: 25px;
   }
 
-  a {
+  a, .registration-step {
     color: $wallet-link;
     font-size: 0.875em;
     font-weight: 500;
@@ -106,7 +106,7 @@ footer {
     @media(max-width : $screen-xs-max) {
       padding-top: 12px;
     }
-    &:hover {
+    &:hover:not(.registration-step) {
       color: $wallet-link-active;
       text-decoration: none;
     }
@@ -405,3 +405,13 @@ p {
     }
   }
 }
+
+.qr {
+  width: 148px;
+  height: 148px;
+  padding: 8px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 1px 0 3px $gray-border;
+  margin-bottom: 20px;
+};

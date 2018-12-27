@@ -10,10 +10,20 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_11_26_085611) do
+ActiveRecord::Schema.define(version: 2018_12_04_062356) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "products", force: :cascade do |t|
+    t.bigint "user_id"
+    t.string "eth_address", default: "", null: false
+    t.string "name", default: "", null: false
+    t.string "create_bot_product_tx", default: "", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_products_on_user_id"
+  end
 
   create_table "users", force: :cascade do |t|
     t.datetime "created_at", null: false
@@ -25,7 +35,7 @@ ActiveRecord::Schema.define(version: 2018_11_26_085611) do
     t.string "name"
     t.text "encrypted_mnemonic"
     t.string "eth_address"
-    t.integer "developer_entry_id"
+    t.integer "developer_entry_id", default: 0
     t.integer "registration_vote_final_block"
     t.integer "registration_status", default: 0
     t.boolean "registration_status_was_sent", default: false
@@ -33,4 +43,5 @@ ActiveRecord::Schema.define(version: 2018_11_26_085611) do
     t.index ["remember_token"], name: "index_users_on_remember_token"
   end
 
+  add_foreign_key "products", "users"
 end

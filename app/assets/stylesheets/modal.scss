@@ -139,16 +139,6 @@
   &.receive-modal {
     .modal-content {
 
-      .qr {
-        width: 148px;
-        height: 148px;
-        padding: 8px;
-        background: white;
-        border-radius: 8px;
-        box-shadow: 1px 0 3px $gray-border;
-        margin-bottom: 20px;
-      };
-
       h3 {
         letter-spacing: unset;
         &.gray-text {
@@ -314,6 +304,35 @@
       .lds-spinner {
         float: left;
       }
+    }
+  }
+  &.product-registration-modal {
+    .modal-content {
+      .default-button {
+        margin-top: 0;
+      }
+    }
+  }
+  .registration-statuses{
+    padding-left: 0;
+    >li{
+      display: inline-block;
+      padding: 0 30px;
+    }
+    .not_used{
+      display: none;
+    }
+    .running{
+      color: $check-green;
+      background: white asset_url('spinner.gif') no-repeat right center;
+    }
+    .completed{
+      font-weight: bold;
+      color: $check-green;
+      background: white asset_url('check.png') no-repeat right center;
+    }
+    .waiting{
+      color: rgba(50, 55, 62, 0.6);
     }
   }
 }
