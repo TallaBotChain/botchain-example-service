@@ -1,13 +1,12 @@
 import { ProductsActions } from '../actions/productsActions.js'
 import update from 'immutability-helper';
 import {normalizeProducts} from '../helpers/JsonNormalizer';
-import BotRegistrationSteps from '../helpers/BotRegistrationSteps'
-import StepStatus from '../helpers/StepStatus'
 
 let products_list = default_props && default_props.developer ? normalizeProducts(default_props.developer.products) : {byAddress: {}, allIds: []}
 const initialState = {
   inProgress: false,
-  current_registration_step: { step: BotRegistrationSteps.LOAD_TO_IPFS.id, status: StepStatus.WAITING},
+  registrationStep: 'load_to_ipfs',
+  stepStatus: 'waiting',
   entryPrice: null,
   addBotTxId: null,
   byAddress: products_list.byAddress, 
@@ -28,8 +27,6 @@ const products = (state = initialState, action) => {
     return update(state, { $set: new_state });
   case ProductsActions.APPEND:
     return update(state, { byAddress: { $merge: action.products.byAddress }, allIds: { $set: uniqueArray([...state.allIds, ...action.products.allIds]) } });
-  case ProductsActions.SET_PROGRESS:
-    return update(state, { current_registration_step: { step: { $set: action.step }, status: { $set: action.status } } })
   case ProductsActions.SET_ATTRIBUTE:
     return update(state, { [action.key]: { $set: action.value } });
   default:

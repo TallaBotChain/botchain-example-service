@@ -2,9 +2,6 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Modal, Button } from 'react-bootstrap';
 import Errors from '../Errors';
-import BotRegistrationSteps from '../../helpers/BotRegistrationSteps'
-import StepStatus from '../../helpers/StepStatus'
-
 
 class ProductRegistrationModal extends Component {
 
@@ -12,13 +9,13 @@ class ProductRegistrationModal extends Component {
     super(props);
     this.state = { 
       modal_slide: 1, 
-      registration_steps: {},
-      steps_order: ['LOAD_TO_IPFS', 'APPROVE', 'ADD_BOT']
+      registration_steps: {
+        load_to_ipfs: { status: 'waiting', text: 'Loading metadata to IPFS' },
+        approve:      { status: 'waiting', text: 'Approving BOT token transaction' },
+        add_bot:      { status: 'waiting', text: 'Registering AI product in BotChain' }
+      },
+      steps_order: ['load_to_ipfs', 'approve', 'add_bot']
     };
-  }
-
-  getKeyByValue(object, value) {
-    return Object.keys(object).find(key => object[key] === value);
   }
 
   componentDidMount() {
@@ -34,28 +31,29 @@ class ProductRegistrationModal extends Component {
         this.props.products.addBotTxId == null ? this.setState({ modal_slide: 1 }) : this.setState({ modal_slide: 3 });
       }
     }
-    if (this.props.products.current_registration_step !== prevProps.products.current_registration_step){
+    if (this.props.products.registrationStep !== prevProps.products.registrationStep || this.props.products.stepStatus !== prevProps.products.stepStatus){
       this.updateStateRegistrationSteps();
     }
   }
 
   updateStateRegistrationSteps() {
-    const current_step = this.props.products.current_registration_step.step;
-    const current_status = this.props.products.current_registration_step.status;
-    let registration_steps = {};
-    this.state.steps_order.map((step) => {
-      if (BotRegistrationSteps[step].id == current_step) {
-        registration_steps[BotRegistrationSteps[step].id] = current_status
+    const current_step = this.props.products.registrationStep;
+    const current_step_index = this.state.steps_order.findIndex((elem)=>{return elem==current_step})
+    const current_status = this.props.products.stepStatus;
+    let registration_steps = { ...this.state.registration_steps };
+    this.state.steps_order.map((step, index) => {
+      if (index == current_step_index) {
+        registration_steps[step].status = current_status
       }
-      else if (BotRegistrationSteps[step].id < current_step) {
-        registration_steps[BotRegistrationSteps[step].id] = StepStatus.COMPLETED
+      else if (index < current_step_index) {
+        registration_steps[step].status = 'completed'
       }
       else {
-        registration_steps[BotRegistrationSteps[step].id] = StepStatus.WAITING
+        registration_steps[step].status = 'waiting'
       }
     })
     // check APPROVE STATUS
-    if (this.props.products.entryPrice == 0) registration_steps[BotRegistrationSteps.APPROVE.id] = StepStatus.NOT_USED
+    if (this.props.products.entryPrice == 0) registration_steps.approve.status = 'not_used'
 
     this.setState({ registration_steps: registration_steps });
   }
@@ -90,18 +88,17 @@ class ProductRegistrationModal extends Component {
   }
 
   renderRegistrationStatus(){
-    let local_this = this;
     return (
       <div>
         <p><strong>Registration process consists of several steps and takes some time. Please, do not close this browser window until the registration process is complete!</strong></p>
         <ul className='registration-statuses'>
           {this.state.steps_order.map(function (step, index) {
             return (
-              <li key={index} className={local_this.getKeyByValue(StepStatus, local_this.state.registration_steps[BotRegistrationSteps[step].id]).toLowerCase()}>
-                { BotRegistrationSteps[step].description}
+              <li key={index} className={this.state.registration_steps[step].status}>
+                {this.state.registration_steps[step].text}
               </li>
             )
-          })}
+          }, this)}
         </ul>
         {this.props.products.errors.length > 0 && this.renderErrors()}
         {this.state.modal_slide == 3 && 
