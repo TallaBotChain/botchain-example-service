@@ -36,7 +36,7 @@ class ProductsContainer extends Component {
       return <Loader visible={true} message="Checking registration status" />
     }
     else{
-      return <h3>To register a new AI product, you must be an approved developer!</h3>
+      return <p>To register a new AI Product or Bot, you must be an approved BotChain Developer</p>
     }
   }
 

@@ -67,6 +67,10 @@ body {
   p.botcoin-green {
     margin-top: 0;
   }
+
+  blockquote small::before{
+    content: none;
+  }
 }
 
 .footer {
