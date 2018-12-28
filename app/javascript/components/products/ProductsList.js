@@ -19,10 +19,10 @@ class ProductsList extends Component {
       <Table striped hover>
         <thead>
           <tr>
-            <th>ETH Address</th>
+            <th>Product ETH Address</th>
             <th>Product Name</th>
             <th>Date Registered</th>
-            <th>Tx</th>
+            <th>Transaction</th>
           </tr>
         </thead>
         <tbody>
@@ -30,8 +30,8 @@ class ProductsList extends Component {
             <tr key={i}>
               <td>{this.props.products.byAddress[eth_address].eth_address}</td>
               <td>{this.props.products.byAddress[eth_address].name}</td>
-              <td>{moment(this.props.products.byAddress[eth_address].created_at).format('"MMM Do YYYY"')}</td>
-              <td><a href={`https://kovan.etherscan.io/tx/${this.props.products.byAddress[eth_address].create_bot_product_tx}`} target='_blank' rel='noreferrer noopener'>{this.props.products.byAddress[eth_address].create_bot_product_tx.substring(0, 6)}...</a></td>
+              <td>{moment(this.props.products.byAddress[eth_address].created_at).format('MMM Do YYYY')}</td>
+              <td><a href={`https://kovan.etherscan.io/tx/${this.props.products.byAddress[eth_address].create_bot_product_tx}`} target='_blank' rel='noreferrer noopener'>View in Etherscan</a></td>
             </tr>
           ))}
         </tbody>

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import {connect} from 'react-redux'
 import DeveloperForm from '../components/developer/DeveloperForm';
-import NotEnoughEth from '../components/developer/NotEnoughEth';
+import RefundWallet from '../components/wallet/RefundWallet';
 import Errors from '../components/Errors';
 import PaymentModal from '../components/shared/PaymentModal';
 import TransactionModal from '../components/shared/TransactionModal';
@@ -93,49 +93,115 @@ class DeveloperPage extends Component {
   registerAiProduct(){
     this.props.history.push('/products/new');
   }
-  
 
-  render() {
+  isNeedRefund() {
+    return (this.props.wallet.registrationFee > this.props.wallet.balance ||
+            this.props.developer.entryPrice > this.props.wallet.tokenBalance)
+  }
 
+  isDeveloperRegistered(){
+    return (this.props.developer.successfullyAdded || (this.props.developer.developerId > 0))
+  }
+
+  isWalletDataFetching() {
+    return (this.props.wallet.inProgress == true ||
+            this.props.developer.entryPrice == null ||
+            this.props.wallet.registrationFee == 0)
+  }
+
+  isRegistrationChecking(){
+    return  ( this.props.developer.registrationStatus == 'not_approved' && 
+              !this.props.developer.successfullyAdded &&
+            ( this.props.developer.voteFinalBlock == null || this.props.developer.currentBlock == null ) )
+  }
+
+  activeRegistrationTab(){
+    if (this.isDeveloperRegistered()) return 3
+    return (this.isNeedRefund() ? 1 : 2)
+  }
+
+  renderRegistrationTabs(){
+    if (this.isRegistrationChecking() || (!this.isDeveloperRegistered() && this.isWalletDataFetching())) return null
+    return(
+      <div className='registration-steps'>
+        <span className={`registration-step ${this.activeRegistrationTab() == 1 ? 'active' : ''}`}>1. Fund Wallet</span>
+        <span className={`registration-step ${this.activeRegistrationTab() == 2 ? 'active' : ''}`}>2. Registration</span>
+        <span className={`registration-step ${this.activeRegistrationTab() == 3 ? 'active' : ''}`}>3. Submission</span>
+      </div>
+    )
+  }
+
+  renderRegistrationForm(){
+    return(
+      <div>
+        <h1 className='green-text'>Register</h1>
+        <p className="botcoin-green">
+          <strong>Botchain Developer</strong>
+        </p>
+        <Errors errors={this.props.developer.errors} />
+        <DeveloperForm onSubmit={this.submit} submitDisabled={this.formSubmitDisabled()} ipfsInProgress={this.props.developer.ipfsInProgress} />
+        <PaymentModal
+          balance={this.props.wallet.balance}
+          token_balance={this.props.wallet.tokenBalance}
+          tx_id={this.props.developer.allowanceTxId}
+          show={this.showPaymentModal()}
+          approveClick={this.approveClick}
+          entryPrice={this.props.developer.entryPrice}
+          handleClose={this.hidePaymentModal}
+        />
+        <TransactionModal
+          tx_id={this.props.developer.addDeveloperTxId}
+          show={this.showTransactionModal()}
+          continueClick={this.continueClick}
+          handleClose={this.hidePaymentModal}
+          entryPrice={this.props.developer.entryPrice}
+          txFee={this.props.wallet.addDeveloperFee}
+        />
+        <SubmitRegistrationModal
+          tx_id={this.props.developer.registrationVoteTxId}
+          show={this.showSubmitRegistrationModal()}
+          submitRegistrationClick={this.submitRegistrationClick}
+          handleClose={this.hidePaymentModal}
+          entryPrice={this.props.developer.entryPrice}
+          txFee={this.props.wallet.createRegistrationVoteFee}
+        />
+      </div>
+    )
+  }
+
+  renderChecking(message) {
     return (
       <div className="white-container">
         <div className='inner-container registration'>
-          <RegistrationStatus developer={this.props.developer} registerAiProduct={() => this.registerAiProduct} />
-          <div className={(this.props.developer.successfullyAdded || (this.props.developer.developerId > 0)) ? 'hidden' : '' } >
-            <h1 className='green-text'>Register</h1>
-            <p className="botcoin-green">
-              <strong>Botchain Developer</strong>
-            </p>
-            <Loader visible={this.props.wallet.registrationFee == 0} message="Checking balance"/>
-            <Errors errors={this.props.developer.errors} />
-            <NotEnoughEth balance={this.props.wallet.balance} registrationFee={this.props.wallet.registrationFee} />
-            <DeveloperForm onSubmit={this.submit} submitDisabled={this.formSubmitDisabled()} ipfsInProgress={this.props.developer.ipfsInProgress}/>
-            <PaymentModal 
-              balance={this.props.wallet.balance} 
-              token_balance={this.props.wallet.tokenBalance} 
-              tx_id={this.props.developer.allowanceTxId} 
-              show={this.showPaymentModal()}
-              approveClick={this.approveClick} 
-              entryPrice={this.props.developer.entryPrice} 
-              handleClose={this.hidePaymentModal} 
-            />
-            <TransactionModal 
-              tx_id={this.props.developer.addDeveloperTxId}
-              show={this.showTransactionModal()}
-              continueClick={this.continueClick} 
-              handleClose={this.hidePaymentModal}
+          <Loader visible={true} message={message} />
+        </div>
+      </div>
+    )
+  }
+
+  render() {
+    if (this.isRegistrationChecking()) return this.renderChecking('Checking registration status');
+    if (!this.isDeveloperRegistered() && this.isWalletDataFetching()) return this.renderChecking('Checking balance');
+    return (
+      <div className="white-container">
+        {this.renderRegistrationTabs()}
+        <div className='inner-container registration'>
+          {this.activeRegistrationTab() == 1 && 
+            <RefundWallet 
+              registrationFee={this.props.wallet.registrationFee}
+              balance={this.props.wallet.balance}
               entryPrice={this.props.developer.entryPrice}
-              txFee={this.props.wallet.addDeveloperFee}
-          />
-            <SubmitRegistrationModal
-              tx_id={this.props.developer.registrationVoteTxId}
-              show={this.showSubmitRegistrationModal()}
-              submitRegistrationClick={this.submitRegistrationClick}
-              handleClose={this.hidePaymentModal}
-              entryPrice={this.props.developer.entryPrice}
-              txFee={this.props.wallet.createRegistrationVoteFee}
+              tokenBalance={this.props.wallet.tokenBalance}
+              getBalance={this.props.getBalances}
+              address={this.props.user.ethAddress}
             />
-          </div>
+          }
+          {this.activeRegistrationTab() == 2 && 
+            this.renderRegistrationForm()
+          }
+          {this.activeRegistrationTab() == 3 && 
+            <RegistrationStatus developer={this.props.developer} registerAiProduct={() => this.registerAiProduct} />
+          }
         </div>
       </div>
     )
