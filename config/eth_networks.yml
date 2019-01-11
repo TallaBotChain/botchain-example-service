@@ -1,0 +1,28 @@
+default: &default
+  default_network: 'kovan'
+  networks:
+    mainnet:
+      network_id: 1
+      network_name: "Ethereum Main Network"
+      geth_rpc: "https://mainnet.infura.io/B9pg6oqTiZgkeibkCKjV"
+      botcoin_contract: "0xe150cbd19aaa7f202ab241422cfaaa99deb464e4"
+      developer_registry_contract: "0x5c8f6d050c843cf48a5c49ee0d126cf0c26f2204"
+      curation_council_contract: "0x5ce5bc32909660100b0a1ec998c1eca9f59946ec"
+      bot_registry_contract: "0xbb2d7f81adb5a27b43c65e23862d4edcf80a4bbc"
+    kovan:
+      network_id: 42
+      network_name: "Kovan Test Network"
+      geth_rpc: "https://kovan.infura.io/quylRadtDHfbMF9rF15R"
+      botcoin_contract: "0xe150cbd19aaa7f202ab241422cfaaa99deb464e4"
+      developer_registry_contract: "0x5c8f6d050c843cf48a5c49ee0d126cf0c26f2204"
+      curation_council_contract: "0x5ce5bc32909660100b0a1ec998c1eca9f59946ec"
+      bot_registry_contract: "0xbb2d7f81adb5a27b43c65e23862d4edcf80a4bbc"
+
+development:
+  <<: *default
+
+staging:
+  <<: *default
+
+production:
+  <<: *default

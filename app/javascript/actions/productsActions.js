@@ -55,7 +55,7 @@ const setErrors = (errors) => {
 
 /** Fetch entryPrice from BotRegistry */
 export const fetchEntryPrice = () => async (dispatch) => {
-  let registry = new BotRegistry(window.app_config.bot_registry_contract);
+  let registry = new BotRegistry(window.keyTools.currentNetworkConfig.bot_registry_contract);
   let price = await registry.getEntryPrice();
   let botCoin = new BotCoin();
   dispatch({ type: ProductsActions.SET_ATTRIBUTE, key: 'entryPrice', value: botCoin.convertToHuman(price) });
@@ -99,7 +99,7 @@ const addMetadata2IPFS = (values) => (dispatch) => {
  **/
 export const addAiProduct = (values) => async (dispatch, getState) => {
   dispatch(setInProgress(true));
-  console.log("Bot registry contract:", window.app_config.bot_registry_contract);
+  console.log("Bot registry contract:", window.keyTools.currentNetworkConfig.bot_registry_contract);
   console.log("Form values:", values);
 
   // upload bot metadata to IPFS
@@ -114,7 +114,7 @@ export const addAiProduct = (values) => async (dispatch, getState) => {
   }
 
   // createBotProduct
-  let registry = new BotRegistry(window.app_config.bot_registry_contract);
+  let registry = new BotRegistry(window.keyTools.currentNetworkConfig.bot_registry_contract);
   let developerId = getState().developer.developerId;
   try {
     dispatch(setRegistrationStep('add_bot'));
@@ -137,7 +137,7 @@ export const addAiProduct = (values) => async (dispatch, getState) => {
 /** Fetch Estimate Gas for whole bot registration process */
 export const fetchBotRegistrationProcessEstGas = () => async (dispatch, getState) => {
   let botCoin = new BotCoin();
-  let chargingContract = window.app_config.developer_registry_contract;
+  let chargingContract = window.keyTools.currentNetworkConfig.developer_registry_contract;
   let amount = getState().products.entryPrice;
   let approveFee = 0
   if (amount > 0){

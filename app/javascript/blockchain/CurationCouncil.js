@@ -4,7 +4,7 @@ import BaseRegistry from './BaseRegistry'
 class CurationCouncil extends BaseRegistry {
   constructor() {
     super();
-    this.contract = new this.web3.eth.Contract(artifact.abi, window.app_config.curation_council_contract);
+    this.contract = new this.web3.eth.Contract(artifact.abi, window.keyTools.currentNetworkConfig.curation_council_contract);
     console.log('CurationCouncil contract:', this.contract);
     this.gasPrice = window.app_config.gas_price;
   }

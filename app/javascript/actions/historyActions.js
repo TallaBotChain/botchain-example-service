@@ -104,7 +104,7 @@ export const getBotcoinHistory = () => (dispatch, getState) => {
       ...defaultAccountApiParams(),
       action: "tokentx",
       startblock: parseInt(startblock)+1,
-      contractaddress: window.app_config.botcoin_contract,
+      contractaddress: window.keyTools.currentNetworkConfig.botcoin_contract,
     }
   })
   .then(function (response) {

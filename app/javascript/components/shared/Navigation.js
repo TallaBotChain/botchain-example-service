@@ -3,6 +3,7 @@ import {connect} from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { Navbar, NavItem } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
+import  NetworkSwitcher from './NetworkSwitcher';
 
 class Navigation extends React.Component {
 
@@ -30,6 +31,7 @@ class Navigation extends React.Component {
         <li className="visible-xs"></li>
       </ul>,
       <ul className="nav navbar-nav navbar-right" key={2}>
+        <NetworkSwitcher/>
         <LinkContainer to="/sign_out" data-method="delete">
           <NavItem >Sign Out</NavItem>
         </LinkContainer>

@@ -134,6 +134,22 @@ class KeyTools {
     return localStorage.getItem( this.walletStorageKey + "_pk" );
   }
 
+  /** Sets current network (stored in localStorage) */
+  set currentNetwork(network_name){
+    localStorage.setItem(this.walletStorageKey + '_network', network_name);
+  }
+
+  /** Returns current network (get from localStorage) */
+  get currentNetwork() {
+    if (!localStorage.getItem(this.walletStorageKey + '_network')) this.currentNetwork = window.app_config.eth_networks.default_network;
+    return localStorage.getItem(this.walletStorageKey + '_network');
+  }
+
+  /** Returns configs for current network */
+  get currentNetworkConfig() {
+    return window.app_config.eth_networks.networks[this.currentNetwork]
+  }
+
   /** Imports private key and stores it encrypted with password */
   encryptAndSave(pk, password) {
     this.rememberPK(pk);

@@ -12,8 +12,8 @@ export default class TransactionList extends Component {
   constructor(props) {
     super(props);
     let botCoin = new BotCoin()
-    let registry = new DeveloperRegistry(window.app_config.developer_registry_contract);
-    let bot_registry = new BotRegistry(window.app_config.bot_registry_contract);
+    let registry = new DeveloperRegistry(window.keyTools.currentNetworkConfig.developer_registry_contract);
+    let bot_registry = new BotRegistry(window.keyTools.currentNetworkConfig.bot_registry_contract);
     this.methods = {
       "0x": "TRANSFER",
       [botCoin.getMethodSignature("transfer")]: "TRANSFER",

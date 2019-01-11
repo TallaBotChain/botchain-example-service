@@ -4,7 +4,7 @@ import BaseRegistry from './BaseRegistry'
 class DeveloperRegistry extends BaseRegistry {
   constructor() {
     super();
-    this.contract = new this.web3.eth.Contract(artifact.abi, window.app_config.developer_registry_contract);
+    this.contract = new this.web3.eth.Contract(artifact.abi, window.keyTools.currentNetworkConfig.developer_registry_contract);
     this.gasPrice = window.app_config.gas_price;
   }
 
