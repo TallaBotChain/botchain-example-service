@@ -69,7 +69,7 @@ export const addNewTransaction = (type, data) => (dispatch) => {
 export const getEthereumHistory = () => (dispatch, getState) => {
   dispatch(setInProgress(true))
   let startblock = getState().history.ethereumBlockId
-  axios.get(window.app_config.etherscan_api_url, {
+  axios.get(window.keyTools.currentNetworkConfig.etherscan_api_url, {
     params: {
       ...defaultAccountApiParams(),
       startblock: parseInt(startblock)+1,
@@ -99,7 +99,7 @@ export const getEthereumHistory = () => (dispatch, getState) => {
 export const getBotcoinHistory = () => (dispatch, getState) => {
   dispatch(setInProgress(true))
   let startblock = getState().history.botcoinBlockId
-  axios.get(window.app_config.etherscan_api_url, {
+  axios.get(window.keyTools.currentNetworkConfig.etherscan_api_url, {
     params: {
       ...defaultAccountApiParams(),
       action: "tokentx",

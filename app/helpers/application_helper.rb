@@ -8,7 +8,6 @@ module ApplicationHelper
       recaptcha_key: Rails.application.config.x.recaptcha_key,
       coinbase_price_api_url: Rails.application.config.x.coinbase_price_api_url,
       etherscan_api_key: Rails.application.config.x.etherscan_api_key,
-      etherscan_api_url: Rails.application.config.x.etherscan_api_url,
       eth_networks: Rails.application.config_for(:eth_networks)
     }
     javascript_tag("window.app_config=#{config.to_json};")
