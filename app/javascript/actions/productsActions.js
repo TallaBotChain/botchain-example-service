@@ -158,7 +158,7 @@ export const fetchBotRegistrationProcessEstGas = () => async (dispatch, getState
 const storeProductInDB = (values) => (dispatch, getState) => {
   return new Promise((resolve, reject) => {
     let create_bot_product_tx = getState().products.addBotTxId
-    let form_data = { product: { eth_address: values.eth_address, name: values.name, create_bot_product_tx: create_bot_product_tx}}
+    let form_data = { product: { eth_address: values.eth_address, name: values.name, create_bot_product_tx: create_bot_product_tx, network_id: window.keyTools.currentNetworkConfig.network_id}}
     axios.post('/products', form_data)
       .then(function (response) {
         if (response.status == 200) {

@@ -1,6 +1,7 @@
 class User < ApplicationRecord
   include Clearance::User
   has_many :products
+  has_many :registrations
 
   enum registration_status: [:not_approved, :approved, :rejected]
 

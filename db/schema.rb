@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_12_04_062356) do
+ActiveRecord::Schema.define(version: 2019_01_10_114103) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -22,7 +22,23 @@ ActiveRecord::Schema.define(version: 2018_12_04_062356) do
     t.string "create_bot_product_tx", default: "", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "network_id"
+    t.index ["network_id"], name: "index_products_on_network_id"
     t.index ["user_id"], name: "index_products_on_user_id"
+  end
+
+  create_table "registrations", force: :cascade do |t|
+    t.bigint "user_id"
+    t.integer "network_id"
+    t.integer "entry_id", default: 0
+    t.integer "vote_final_block"
+    t.integer "status", default: 0
+    t.boolean "status_was_sent", default: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["status_was_sent"], name: "index_registrations_on_status_was_sent"
+    t.index ["user_id", "network_id"], name: "index_registrations_on_user_id_and_network_id", unique: true
+    t.index ["user_id"], name: "index_registrations_on_user_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -44,4 +60,5 @@ ActiveRecord::Schema.define(version: 2018_12_04_062356) do
   end
 
   add_foreign_key "products", "users"
+  add_foreign_key "registrations", "users"
 end

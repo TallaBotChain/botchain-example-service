@@ -14,6 +14,6 @@ class ProductsController < ApplicationController
   private
 
   def product_params
-    params.require(:product).permit(:eth_address, :name, :create_bot_product_tx)
+    params.require(:product).permit(:eth_address, :name, :create_bot_product_tx, :network_id)
   end
 end
