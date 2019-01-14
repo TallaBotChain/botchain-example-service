@@ -142,7 +142,7 @@ export const fetchBotRegistrationProcessEstGas = () => async (dispatch, getState
   let approveFee = 0
   if (amount > 0){
     let approveEstGas = await botCoin.approveEstGas(amount, chargingContract);
-    approveFee = parseFloat(botCoin.web3.utils.fromWei(`${approveEstGas * window.app_config.gas_price}`, 'ether'));
+    approveFee = parseFloat(botCoin.web3.utils.fromWei(`${approveEstGas * window.keyTools.currentNetworkConfig.gas_price}`, 'ether'));
   }
   
   let createBotProductFee = getState().wallet.createBotProductFee;

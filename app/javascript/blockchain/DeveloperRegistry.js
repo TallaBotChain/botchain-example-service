@@ -5,7 +5,7 @@ class DeveloperRegistry extends BaseRegistry {
   constructor() {
     super();
     this.contract = new this.web3.eth.Contract(artifact.abi, window.keyTools.currentNetworkConfig.developer_registry_contract);
-    this.gasPrice = window.app_config.gas_price;
+    this.gasPrice = window.keyTools.currentNetworkConfig.gas_price;
   }
 
   /** Returns user address */

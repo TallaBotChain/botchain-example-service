@@ -225,12 +225,12 @@ const fetchRegistrationProcessEstGas = () => async (dispatch, getState) => {
   let chargingContract = window.keyTools.currentNetworkConfig.developer_registry_contract;
   let amount = getState().developer.entryPrice;
   let approveEstGas = await botCoin.approveEstGas(amount, chargingContract);
-  let approveFee = parseFloat(botCoin.web3.utils.fromWei(`${approveEstGas * window.app_config.gas_price}`, 'ether'));
+  let approveFee = parseFloat(botCoin.web3.utils.fromWei(`${approveEstGas * window.keyTools.currentNetworkConfig.gas_price}`, 'ether'));
   dispatch(WalletActions.setApproveFee(approveFee));
 
   let registry = new DeveloperRegistry(window.keyTools.currentNetworkConfig.developer_registry_contract);
   let addDeveloperEstGas = await registry.addDeveloperEstGas('QmXjFZZ3YJDkFvhhsRkTA5Y5MrtDfAMGHPFdfFbZZR9ivX'); // fake ipfs hash used only for gas estimation!
-  let addDeveloperFee = parseFloat(botCoin.web3.utils.fromWei(`${addDeveloperEstGas * window.app_config.gas_price}`, 'ether'));
+  let addDeveloperFee = parseFloat(botCoin.web3.utils.fromWei(`${addDeveloperEstGas * window.keyTools.currentNetworkConfig.gas_price}`, 'ether'));
   dispatch(WalletActions.setAddDeveloperFee(addDeveloperFee));
 
   let createRegistrationVoteFee = getState().wallet.createRegistrationVoteFee;

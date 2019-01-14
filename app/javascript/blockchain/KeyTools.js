@@ -8,7 +8,7 @@ class KeyTools {
   /** @constructor
    * @param rpcUrl - geth/parity RPC URL, most likely Infura
    **/
-  constructor(rpcUrl) {
+  constructor(rpcUrl = this.currentNetworkConfig.geth_rpc) {
     this.web3 = new Web3(new Web3.providers.HttpProvider(rpcUrl));
     if( this.savedPK ) this.privateKey = this.savedPK;
   }

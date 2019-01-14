@@ -78,7 +78,6 @@ Rails.application.configure do
   config.x.developer_registry_contract = "0x5c8f6d050c843cf48a5c49ee0d126cf0c26f2204"
   config.x.curation_council_contract = "0x5ce5bc32909660100b0a1ec998c1eca9f59946ec"
   config.x.bot_registry_contract = "0xbb2d7f81adb5a27b43c65e23862d4edcf80a4bbc"
-  config.x.gas_price = 4000000000
   config.x.coinbase_price_api_url = "https://api.coinbase.com/v2/prices/ETH-USD/spot"
   config.x.etherscan_api_key = "UI5FHY91GIQ94U6IUDKRGDYS4JWSGGXD24"
   config.x.etherscan_api_url = "https://api-kovan.etherscan.io/api"

@@ -54,7 +54,7 @@ export const addNewTransaction = (type, data) => (dispatch) => {
       hash: data.txId,
       from: data.from || "0x",
       timeStamp: Math.floor(Date.now() /1000),
-      gasPrice: window.app_config.gas_price,
+      gasPrice: window.keyTools.currentNetworkConfig.gas_price,
       gasUsed: data.gasUsed,
       blockNumber: data.blockNumber,
       value: curationCouncil.web3.utils.toWei(data.value.toString(), "ether"),

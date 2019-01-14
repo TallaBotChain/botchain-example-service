@@ -6,7 +6,7 @@ class CurationCouncil extends BaseRegistry {
     super();
     this.contract = new this.web3.eth.Contract(artifact.abi, window.keyTools.currentNetworkConfig.curation_council_contract);
     console.log('CurationCouncil contract:', this.contract);
-    this.gasPrice = window.app_config.gas_price;
+    this.gasPrice = window.keyTools.currentNetworkConfig.gas_price;
   }
 
   /** Returns user address */

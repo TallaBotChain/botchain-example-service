@@ -5,18 +5,20 @@ default: &default
       network_id: 1
       network_name: "Ethereum Main Network"
       geth_rpc: "https://mainnet.infura.io/B9pg6oqTiZgkeibkCKjV"
-      botcoin_contract: "0xe150cbd19aaa7f202ab241422cfaaa99deb464e4"
-      developer_registry_contract: "0x5c8f6d050c843cf48a5c49ee0d126cf0c26f2204"
-      curation_council_contract: "0x5ce5bc32909660100b0a1ec998c1eca9f59946ec"
-      bot_registry_contract: "0xbb2d7f81adb5a27b43c65e23862d4edcf80a4bbc"
+      botcoin_contract: "0xe3118a166103f109643497da22fa656cde28ac73"
+      developer_registry_contract: "0xa462380eeefd9f6c4447d5ec26e14125b79e1064"
+      curation_council_contract: "0x32def20015dbf8026255ed7390f937759cd25559"
+      bot_registry_contract: "0x570977acb30fc8dfd70163b95f8e3f86d8c3773f"
+      gas_price: 4000000000
     kovan:
       network_id: 42
       network_name: "Kovan Test Network"
-      geth_rpc: "https://kovan.infura.io/quylRadtDHfbMF9rF15R"
+      geth_rpc: "https://kovan.infura.io/B9pg6oqTiZgkeibkCKjV"
       botcoin_contract: "0xe150cbd19aaa7f202ab241422cfaaa99deb464e4"
       developer_registry_contract: "0x5c8f6d050c843cf48a5c49ee0d126cf0c26f2204"
       curation_council_contract: "0x5ce5bc32909660100b0a1ec998c1eca9f59946ec"
       bot_registry_contract: "0xbb2d7f81adb5a27b43c65e23862d4edcf80a4bbc"
+      gas_price: 4000000000
 
 development:
   <<: *default

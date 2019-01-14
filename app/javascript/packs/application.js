@@ -32,7 +32,7 @@ import KeyTools from '../blockchain/KeyTools'
 
 const loggerMiddleware = createLogger()
 
-window.keyTools = new KeyTools(window.app_config.geth_rpc);
+window.keyTools = new KeyTools();
 
 let initialState = {
   user: {
