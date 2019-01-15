@@ -14,22 +14,34 @@ export const DeveloperActions = {
 /** Sets developer entry ID
  * @param value - developer entry ID
  **/
-export const setDeveloperEntryId = (value) => {
+const setDeveloperEntryId = (value) => {
   return { type: DeveloperActions.SET_ATTRIBUTE, key: 'developerId', value: value }
 }
 
 /** Sets registration vote final block for developer
  * @param value - final block for vote
  **/
-export const setRegistrationVoteFinalBlock = (value) => {
+const setRegistrationVoteFinalBlock = (value) => {
   return { type: DeveloperActions.SET_ATTRIBUTE, key: 'voteFinalBlock', value: value }
 }
 
 /** Sets developer's registration status
  * @param value - string with registration status
  **/
-export const setRegistrationStatus = (value) => {
+const setRegistrationStatus = (value) => {
   return { type: DeveloperActions.SET_ATTRIBUTE, key: 'registrationStatus', value: value }
+}
+
+/** Sets developer registration status for current network
+ * @param registrations - array with registrations info by networks from DB
+ **/
+export const setRegistrationStatusForCurrentNetwork = (registrations) => (dispatch) => {
+  let current_network_id = window.keyTools.currentNetworkConfig.network_id
+  if (registrations[current_network_id]) {
+    dispatch(setDeveloperEntryId(registrations[current_network_id].entry_id));
+    dispatch(setRegistrationVoteFinalBlock(registrations[current_network_id].vote_final_block));
+    dispatch(setRegistrationStatus(registrations[current_network_id].status));
+  }
 }
 
 /** Fetch developerId for currentAccount from DeveloperRegistry */

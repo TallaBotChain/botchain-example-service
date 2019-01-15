@@ -35,12 +35,12 @@ class ProductsList extends Component {
               <td><a href={`https://kovan.etherscan.io/tx/${this.props.products.byAddress[eth_address].create_bot_product_tx}`} target='_blank' rel='noreferrer noopener'>View in Etherscan</a></td>
             </tr>
           ))}
-          { this.props.products.allIds.length == 0 && 
-            this.props.products.fetchInProgress &&
-            <Loader visible={true} message="Fetching products" />
-          }
         </tbody>
       </Table>
+      {this.props.products.allIds.length == 0 &&
+        this.props.products.fetchInProgress &&
+        <Loader visible={true} message="Fetching products" />
+      }
     </div>)
   }
 }

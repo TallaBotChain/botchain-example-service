@@ -20,6 +20,7 @@ class DeveloperPage extends Component {
 
   componentDidMount() {
     this.props.reset();
+    if (this.props.developer.developerId == 0 && default_props.developer) this.props.setRegistrationStatusForCurrentNetwork(default_props.developer.registrations);
     this.props.getBalances();
     this.props.fetchEntryPrice();
     this.props.fetchDeveloperId();
@@ -242,6 +243,9 @@ const mapDispatchToProps = dispatch => {
     },
     createRegistrationVote: () => {
       dispatch(DeveloperActions.createRegistrationVote());
+    },
+    setRegistrationStatusForCurrentNetwork: (registrations) => {
+      dispatch(DeveloperActions.setRegistrationStatusForCurrentNetwork(registrations));
     }
   }
 }

@@ -13,6 +13,7 @@ class ProductsContainer extends Component {
   }
 
   componentDidMount() {
+    if (this.props.developer.developerId == 0 && default_props.developer) this.props.setRegistrationStatusForCurrentNetwork(default_props.developer.registrations);
     if (this.props.developer.registrationStatus == 'not_approved' || this.props.developer.registrationStatus == 'not_registered') this.props.fetchDeveloperId();
     this.props.fetchEntryPrice();
     if (this.props.developer.registrationStatus == 'approved' && this.props.products.allIds.length == 0){
@@ -77,6 +78,9 @@ const mapDispatchToProps = dispatch => {
     },
     fetchDeveloperId: () => {
       dispatch(DeveloperActions.fetchDeveloperId());
+    },
+    setRegistrationStatusForCurrentNetwork: (registrations) => {
+      dispatch(DeveloperActions.setRegistrationStatusForCurrentNetwork(registrations));
     }
   }
 }
