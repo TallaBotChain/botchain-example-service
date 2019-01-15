@@ -32,6 +32,13 @@ const setInProgress = (status) => {
   return { type: ProductsActions.SET_ATTRIBUTE, key: 'inProgress', value: status }
 }
 
+/** Sets in progress flag used to display in progress message or animation
+ * @param status - boolean value, true if request is in progress
+ **/
+const setFetchInProgress = (status) => {
+  return { type: ProductsActions.SET_ATTRIBUTE, key: 'fetchInProgress', value: status }
+}
+
 /** Sets current registration step, used to display registration progress 
  * @param step - string with step name
  **/
@@ -159,7 +166,7 @@ const storeProductInDB = (values) => (dispatch, getState) => {
   return new Promise((resolve, reject) => {
     let create_bot_product_tx = getState().products.addBotTxId
     let form_data = { product: { eth_address: values.eth_address, name: values.name, create_bot_product_tx: create_bot_product_tx, network_id: window.keyTools.currentNetworkConfig.network_id}}
-    axios.post('/products', form_data)
+    axios.post('/api/products', form_data)
       .then(function (response) {
         if (response.status == 200) {
           if (response.data.products){
@@ -184,4 +191,32 @@ const storeProductInDB = (values) => (dispatch, getState) => {
         reject()
       })
   }) 
+}
+
+export const fetchProducts = () => (dispatch, getState) => {
+  if (getState().products.fetchInProgress) return
+  dispatch(setFetchInProgress(true));
+  axios.get('/api/products', { params: {network_id: window.keyTools.currentNetworkConfig.network_id} })
+    .then(function (response) {
+      if (response.status == 200) {
+        if (response.data.products) {
+          dispatch(appendProducts(response.data.products));
+        }
+        if (response.data.errors) {
+          console.log(response.data.errors)
+          dispatch(setErrors(response.data.errors));
+        }
+      }
+      else {
+        console.log("fetchProducts from DB failed!")
+        console.log(response.data)
+        dispatch(setErrors([`fetchProducts failed! HTTP status: ${response.status}`]));
+      }
+      dispatch(setFetchInProgress(false));
+    })
+    .catch(function (error) {
+      console.log("fetchProducts failed!" + error)
+      dispatch(setErrors([`fetchProducts failed! ${error.toString()}`]));
+      dispatch(setFetchInProgress(false));
+    })
 }

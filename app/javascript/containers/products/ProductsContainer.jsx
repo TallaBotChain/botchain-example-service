@@ -16,7 +16,7 @@ class ProductsContainer extends Component {
     if (this.props.developer.registrationStatus == 'not_approved' || this.props.developer.registrationStatus == 'not_registered') this.props.fetchDeveloperId();
     this.props.fetchEntryPrice();
     if (this.props.developer.registrationStatus == 'approved' && this.props.products.allIds.length == 0){
-      this.props.history.push('/products/new');
+      this.props.fetchProducts();
     }
   }
   
@@ -24,6 +24,12 @@ class ProductsContainer extends Component {
     if (this.props.developer.registrationStatus !== prevProps.developer.registrationStatus && 
         this.props.developer.registrationStatus == 'approved' &&
         this.props.products.allIds.length == 0 ) {
+      this.props.fetchProducts();
+    }
+    if (this.props.products.fetchInProgress !== prevProps.products.fetchInProgress &&
+        this.props.developer.registrationStatus == 'approved' &&
+        this.props.products.allIds.length == 0 &&
+        this.props.products.fetchInProgress == false) {
       this.props.history.push('/products/new');
     }
   }
@@ -65,6 +71,9 @@ const mapDispatchToProps = dispatch => {
   return {
     fetchEntryPrice: () => {
       dispatch(ProductsActions.fetchEntryPrice());
+    },
+    fetchProducts: () => {
+      dispatch(ProductsActions.fetchProducts());
     },
     fetchDeveloperId: () => {
       dispatch(DeveloperActions.fetchDeveloperId());

@@ -1,5 +1,10 @@
-class ProductsController < ApplicationController
+class Api::ProductsController < ApplicationController
   before_action :require_login
+
+  def index
+    products = current_user.products.where(network_id: params[:network_id])
+    render json: {products: products.as_json}
+  end
 
   def create
     product = current_user.products.create(product_params)

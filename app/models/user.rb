@@ -11,8 +11,6 @@ class User < ApplicationRecord
   validates_acceptance_of :age
 
   def as_json(options={})
-    json = super({:only => [:email, :eth_address, :developer_entry_id, :registration_vote_final_block, :registration_status]})
-    json['products'] = self.products.as_json()
-    json
+    super({:only => [:email, :eth_address, :developer_entry_id, :registration_vote_final_block, :registration_status]})
   end
 end
