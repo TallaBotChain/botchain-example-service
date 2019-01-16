@@ -1,10 +1,10 @@
 class CurationCouncil < Blockchain
 
-  def initialize()
-    super
+  def initialize(network_name)
+    super(network_name)
     artifacts = JSON.parse(File.read( Rails.root.join('app/javascript/blockchain/abi/CurationCouncilRegistryDelegate.json') ) )
     @abi = artifacts["abi"].to_json
-    @contract = Ethereum::Contract.create(client: client, name: "CurationCouncil", address: Rails.application.config.x.curation_council_contract, abi: abi)
+    @contract = Ethereum::Contract.create(client: client, name: "CurationCouncil", address: eth_networks_config[network_name]['curation_council_contract'], abi: abi)
   end
 
   def getRegistrationVoteIdByAddress(address)
