@@ -22,9 +22,11 @@ class Navigation extends React.Component {
         <LinkContainer to="/settings">
           <NavItem eventKey={4}>Settings</NavItem>
         </LinkContainer>
-        <LinkContainer to="/about">
-          <NavItem eventKey={5}>About</NavItem>
-        </LinkContainer>
+        {window.keyTools.currentNetwork == 'kovan' &&
+          <LinkContainer to="/about">
+            <NavItem eventKey={5}>About</NavItem>
+          </LinkContainer>
+        }
         <LinkContainer to="/help">
           <NavItem eventKey={6}>Help</NavItem>
         </LinkContainer>
