@@ -1,4 +1,5 @@
 nav {
+  letter-spacing: 0.01em;
   .navbar-right {
     margin-right: -25px;
   }
@@ -50,7 +51,32 @@ nav {
             box-shadow: none;
           }
         }
+      }
+      .network-switcher{
+        .dropdown-toggle{
+          padding: 7px 9px 9px 24px;
+          border: 1px solid $light-green;
+          border-radius: 20px;
+          &::before{
+            display: inline-block;
+            position: absolute;
+            content: "";
+            border: 1px solid $light-green;
+            border-radius: 6px;
+            width: 10px;
+            height: 10px;
+            top: 12px;
+            left: 10px;
+          }
+        }
+        &.kovan .dropdown-toggle::before{
+          background-color: $network-kovan;
+        }
+        &.mainnet .dropdown-toggle::before{
+          background-color: $network-mainnet;
+        }
         .dropdown-menu{
+          right: 18px;
           li{
             a{
               margin: 0;
@@ -60,6 +86,23 @@ nav {
                 background-color: $light-green;
                 color: $wallet-link-active;
               }
+              &::before{
+                display: inline-block;
+                position: relative;
+                content: "";
+                border: 1px solid white;
+                border-radius: 6px;
+                width: 10px;
+                height: 10px;
+                top: -1px;
+                left: -4px;
+              }
+            }
+            &.kovan a::before{
+              background-color: $network-kovan;
+            }
+            &.mainnet a::before{
+              background-color: $network-mainnet;
             }
           }
         }
