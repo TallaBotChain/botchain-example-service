@@ -44,14 +44,17 @@ class Navigation extends React.Component {
   signedOutNav() {
     return ([
       <ul className="nav navbar-nav" key={1}>
-        <LinkContainer to="/about">
-          <NavItem eventKey={5}>About</NavItem>
-        </LinkContainer>
+        {window.keyTools.currentNetwork == 'kovan' &&
+          <LinkContainer to="/about">
+            <NavItem eventKey={5}>About</NavItem>
+          </LinkContainer>
+        }
         <LinkContainer to="/help">
           <NavItem eventKey={6}>Help</NavItem>
         </LinkContainer>
       </ul>,
       <ul className="nav navbar-nav navbar-right" key={2}>
+        <NetworkSwitcher />
         <LinkContainer to="/sign_up">
           <NavItem eventKey={1}>Sign Up</NavItem>
         </LinkContainer>

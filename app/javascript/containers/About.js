@@ -4,7 +4,9 @@ import { connect } from 'react-redux'
 class AboutPage extends Component {
 
   componentDidMount() {
-    if (this.props.user.signedIn && window.keyTools.currentNetwork == 'mainnet') this.props.history.push('/');
+    if (window.keyTools.currentNetwork == 'mainnet'){
+      this.props.user.signedIn ? this.props.history.push('/') : this.props.history.push('/sign_up');
+    }
   }
 
   render() {
