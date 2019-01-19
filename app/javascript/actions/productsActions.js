@@ -32,6 +32,13 @@ const setInProgress = (status) => {
   return { type: ProductsActions.SET_ATTRIBUTE, key: 'inProgress', value: status }
 }
 
+/** Sets in progress flag used to display in progress message or animation
+ * @param status - boolean value, true if request is in progress
+ **/
+const setFetchInProgress = (status) => {
+  return { type: ProductsActions.SET_ATTRIBUTE, key: 'fetchInProgress', value: status }
+}
+
 /** Sets current registration step, used to display registration progress 
  * @param step - string with step name
  **/
@@ -55,7 +62,7 @@ const setErrors = (errors) => {
 
 /** Fetch entryPrice from BotRegistry */
 export const fetchEntryPrice = () => async (dispatch) => {
-  let registry = new BotRegistry(window.app_config.bot_registry_contract);
+  let registry = new BotRegistry();
   let price = await registry.getEntryPrice();
   let botCoin = new BotCoin();
   dispatch({ type: ProductsActions.SET_ATTRIBUTE, key: 'entryPrice', value: botCoin.convertToHuman(price) });
@@ -99,7 +106,7 @@ const addMetadata2IPFS = (values) => (dispatch) => {
  **/
 export const addAiProduct = (values) => async (dispatch, getState) => {
   dispatch(setInProgress(true));
-  console.log("Bot registry contract:", window.app_config.bot_registry_contract);
+  console.log("Bot registry contract:", window.keyTools.currentNetworkConfig.bot_registry_contract);
   console.log("Form values:", values);
 
   // upload bot metadata to IPFS
@@ -114,7 +121,7 @@ export const addAiProduct = (values) => async (dispatch, getState) => {
   }
 
   // createBotProduct
-  let registry = new BotRegistry(window.app_config.bot_registry_contract);
+  let registry = new BotRegistry();
   let developerId = getState().developer.developerId;
   try {
     dispatch(setRegistrationStep('add_bot'));
@@ -137,12 +144,12 @@ export const addAiProduct = (values) => async (dispatch, getState) => {
 /** Fetch Estimate Gas for whole bot registration process */
 export const fetchBotRegistrationProcessEstGas = () => async (dispatch, getState) => {
   let botCoin = new BotCoin();
-  let chargingContract = window.app_config.developer_registry_contract;
+  let chargingContract = window.keyTools.currentNetworkConfig.developer_registry_contract;
   let amount = getState().products.entryPrice;
   let approveFee = 0
   if (amount > 0){
     let approveEstGas = await botCoin.approveEstGas(amount, chargingContract);
-    approveFee = parseFloat(botCoin.web3.utils.fromWei(`${approveEstGas * window.app_config.gas_price}`, 'ether'));
+    approveFee = parseFloat(botCoin.web3.utils.fromWei(`${approveEstGas * window.keyTools.currentNetworkConfig.gas_price}`, 'ether'));
   }
   
   let createBotProductFee = getState().wallet.createBotProductFee;
@@ -158,8 +165,8 @@ export const fetchBotRegistrationProcessEstGas = () => async (dispatch, getState
 const storeProductInDB = (values) => (dispatch, getState) => {
   return new Promise((resolve, reject) => {
     let create_bot_product_tx = getState().products.addBotTxId
-    let form_data = { product: { eth_address: values.eth_address, name: values.name, create_bot_product_tx: create_bot_product_tx}}
-    axios.post('/products', form_data)
+    let form_data = { product: { eth_address: values.eth_address, name: values.name, create_bot_product_tx: create_bot_product_tx, network_id: window.keyTools.currentNetworkConfig.network_id}}
+    axios.post('/api/products', form_data)
       .then(function (response) {
         if (response.status == 200) {
           if (response.data.products){
@@ -184,4 +191,32 @@ const storeProductInDB = (values) => (dispatch, getState) => {
         reject()
       })
   }) 
+}
+
+export const fetchProducts = () => (dispatch, getState) => {
+  if (getState().products.fetchInProgress) return
+  dispatch(setFetchInProgress(true));
+  axios.get('/api/products', { params: {network_id: window.keyTools.currentNetworkConfig.network_id} })
+    .then(function (response) {
+      if (response.status == 200) {
+        if (response.data.products) {
+          dispatch(appendProducts(response.data.products));
+        }
+        if (response.data.errors) {
+          console.log(response.data.errors)
+          dispatch(setErrors(response.data.errors));
+        }
+      }
+      else {
+        console.log("fetchProducts from DB failed!")
+        console.log(response.data)
+        dispatch(setErrors([`fetchProducts failed! HTTP status: ${response.status}`]));
+      }
+      dispatch(setFetchInProgress(false));
+    })
+    .catch(function (error) {
+      console.log("fetchProducts failed!" + error)
+      dispatch(setErrors([`fetchProducts failed! ${error.toString()}`]));
+      dispatch(setFetchInProgress(false));
+    })
 }

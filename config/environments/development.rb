@@ -73,15 +73,8 @@ Rails.application.configure do
   # Use an evented file watcher to asynchronously detect changes in source code,
   # routes, locales, etc. This feature depends on the listen gem.
   config.file_watcher = ActiveSupport::EventedFileUpdateChecker
-  config.x.geth_rpc = "https://kovan.infura.io/quylRadtDHfbMF9rF15R"
-  config.x.botcoin_contract = "0xe150cbd19aaa7f202ab241422cfaaa99deb464e4"
-  config.x.developer_registry_contract = "0x5c8f6d050c843cf48a5c49ee0d126cf0c26f2204"
-  config.x.curation_council_contract = "0x5ce5bc32909660100b0a1ec998c1eca9f59946ec"
-  config.x.bot_registry_contract = "0xbb2d7f81adb5a27b43c65e23862d4edcf80a4bbc"
-  config.x.gas_price = 4000000000
   config.x.coinbase_price_api_url = "https://api.coinbase.com/v2/prices/ETH-USD/spot"
   config.x.etherscan_api_key = "UI5FHY91GIQ94U6IUDKRGDYS4JWSGGXD24"
-  config.x.etherscan_api_url = "https://api-kovan.etherscan.io/api"
   # You mustn't use unencrypted secrets in VCS. It's used here only for quick launch demo app. 
   # Please read more about Rails credentials, for example here https://medium.com/cedarcode/rails-5-2-credentials-9b3324851336
   config.x.recaptcha_key = "6LeJjV0UAAAAAPIJAPaVa4B18NkFGJm-b5f-pKl2"

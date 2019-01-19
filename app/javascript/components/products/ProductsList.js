@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { Table, Row, Col } from 'react-bootstrap';
 import moment from 'moment';
 import { Link } from 'react-router-dom';
+import Loader from '../../components/Loader';
 
 class ProductsList extends Component {
   
@@ -36,6 +37,10 @@ class ProductsList extends Component {
           ))}
         </tbody>
       </Table>
+      {this.props.products.allIds.length == 0 &&
+        this.props.products.fetchInProgress &&
+        <Loader visible={true} message="Fetching products" />
+      }
     </div>)
   }
 }

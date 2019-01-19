@@ -1,16 +1,15 @@
 import { ProductsActions } from '../actions/productsActions.js'
 import update from 'immutability-helper';
-import {normalizeProducts} from '../helpers/JsonNormalizer';
 
-let products_list = default_props && default_props.developer ? normalizeProducts(default_props.developer.products) : {byAddress: {}, allIds: []}
 const initialState = {
   inProgress: false,
+  fetchInProgress: false,
   registrationStep: 'load_to_ipfs',
   stepStatus: 'waiting',
   entryPrice: null,
   addBotTxId: null,
-  byAddress: products_list.byAddress, 
-  allIds: products_list.allIds,
+  byAddress: {}, 
+  allIds: [],
   errors: []
 }
 

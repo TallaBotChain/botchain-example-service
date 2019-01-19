@@ -1,6 +1,13 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux'
 
 class AboutPage extends Component {
+
+  componentDidMount() {
+    if (window.keyTools.currentNetwork == 'mainnet'){
+      this.props.user.signedIn ? this.props.history.push('/') : this.props.history.push('/sign_up');
+    }
+  }
 
   render() {
     return (
@@ -92,4 +99,10 @@ class AboutPage extends Component {
   }
 }
 
-export default AboutPage;
+const mapStateToProps = state => {
+  return {
+    user: state.user
+  }
+}
+
+export default connect(mapStateToProps, null)(AboutPage);

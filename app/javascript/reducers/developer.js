@@ -2,12 +2,6 @@ import { DeveloperActions } from '../actions/developerActions.js'
 
 import update from 'immutability-helper';
 
-let [developer_entry_id, registration_vote_final_block, registration_status] = [0, null, 'not_approved']
-if(default_props && default_props.developer){
-  developer_entry_id = default_props.developer.developer_entry_id;
-  registration_vote_final_block = default_props.developer.registration_vote_final_block;
-  registration_status = default_props.developer.registration_status;
-}
 const initialState = {
   entryPrice: null,
   inProgress: false,
@@ -18,10 +12,10 @@ const initialState = {
   registrationVoteTxId: null,
   registrationVoteTxMined: false,
   successfullyAdded: false,
-  developerId: developer_entry_id,
+  developerId: 0,
   registrationVoteId: null,
-  voteFinalBlock: registration_vote_final_block,
-  registrationStatus: registration_status,
+  voteFinalBlock: null,
+  registrationStatus: 'not_approved',
   currentBlock: null,
   ipfsInProgress: false,
   ipfsHash: null,

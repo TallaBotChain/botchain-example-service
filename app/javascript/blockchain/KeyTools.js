@@ -8,7 +8,7 @@ class KeyTools {
   /** @constructor
    * @param rpcUrl - geth/parity RPC URL, most likely Infura
    **/
-  constructor(rpcUrl) {
+  constructor(rpcUrl = this.currentNetworkConfig.geth_rpc) {
     this.web3 = new Web3(new Web3.providers.HttpProvider(rpcUrl));
     if( this.savedPK ) this.privateKey = this.savedPK;
   }
@@ -132,6 +132,22 @@ class KeyTools {
   // this is unsafe feature is for demo purpose only
   get savedPK() {
     return localStorage.getItem( this.walletStorageKey + "_pk" );
+  }
+
+  /** Sets current network (stored in localStorage) */
+  set currentNetwork(network_name){
+    localStorage.setItem(this.walletStorageKey + '_network', network_name);
+  }
+
+  /** Returns current network (get from localStorage) */
+  get currentNetwork() {
+    if (!localStorage.getItem(this.walletStorageKey + '_network')) this.currentNetwork = window.app_config.eth_networks.default_network;
+    return localStorage.getItem(this.walletStorageKey + '_network');
+  }
+
+  /** Returns configs for current network */
+  get currentNetworkConfig() {
+    return window.app_config.eth_networks.networks[this.currentNetwork]
   }
 
   /** Imports private key and stores it encrypted with password */

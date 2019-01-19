@@ -54,7 +54,7 @@ export const addNewTransaction = (type, data) => (dispatch) => {
       hash: data.txId,
       from: data.from || "0x",
       timeStamp: Math.floor(Date.now() /1000),
-      gasPrice: window.app_config.gas_price,
+      gasPrice: window.keyTools.currentNetworkConfig.gas_price,
       gasUsed: data.gasUsed,
       blockNumber: data.blockNumber,
       value: curationCouncil.web3.utils.toWei(data.value.toString(), "ether"),
@@ -69,7 +69,7 @@ export const addNewTransaction = (type, data) => (dispatch) => {
 export const getEthereumHistory = () => (dispatch, getState) => {
   dispatch(setInProgress(true))
   let startblock = getState().history.ethereumBlockId
-  axios.get(window.app_config.etherscan_api_url, {
+  axios.get(window.keyTools.currentNetworkConfig.etherscan_api_url, {
     params: {
       ...defaultAccountApiParams(),
       startblock: parseInt(startblock)+1,
@@ -99,12 +99,12 @@ export const getEthereumHistory = () => (dispatch, getState) => {
 export const getBotcoinHistory = () => (dispatch, getState) => {
   dispatch(setInProgress(true))
   let startblock = getState().history.botcoinBlockId
-  axios.get(window.app_config.etherscan_api_url, {
+  axios.get(window.keyTools.currentNetworkConfig.etherscan_api_url, {
     params: {
       ...defaultAccountApiParams(),
       action: "tokentx",
       startblock: parseInt(startblock)+1,
-      contractaddress: window.app_config.botcoin_contract,
+      contractaddress: window.keyTools.currentNetworkConfig.botcoin_contract,
     }
   })
   .then(function (response) {

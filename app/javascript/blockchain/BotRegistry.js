@@ -4,8 +4,8 @@ import BaseRegistry from './BaseRegistry'
 class BotRegistry extends BaseRegistry {
   constructor() {
     super();
-    this.contract = new this.web3.eth.Contract(artifact.abi, window.app_config.bot_registry_contract);
-    this.gasPrice = window.app_config.gas_price;
+    this.contract = new this.web3.eth.Contract(artifact.abi, window.keyTools.currentNetworkConfig.bot_registry_contract);
+    this.gasPrice = window.keyTools.currentNetworkConfig.gas_price;
   }
 
   /** Returns user address */

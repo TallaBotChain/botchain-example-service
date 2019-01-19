@@ -1,8 +1,13 @@
 class Blockchain
   attr_reader :client, :contract, :abi
   
-  def initialize()
-    @client = Ethereum::HttpClient.new(Rails.application.config.x.geth_rpc)
+  def initialize(network_name)
+    raise ArgumentError, "Network with name: '#{network_name}' is not defined in config/eth_networks.yml" unless eth_networks_config.has_key?(network_name)
+    @client = Ethereum::HttpClient.new(eth_networks_config[network_name]['geth_rpc'])
+  end
+
+  def eth_networks_config
+    @eth_networks_config ||= Rails.application.config_for(:eth_networks)['networks']
   end
 
   def last_block

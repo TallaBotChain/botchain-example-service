@@ -13,14 +13,16 @@ Rails.application.routes.draw do
     root to: "pages#developer"
     get "/products" => "pages#developer", as: "products"
     get "/products/new" => "pages#developer", as: "products/new"
-    post "products" => "products#create"
     get "/settings" => "pages#developer", as: "settings"
     get "/wallet/ethereum" => "pages#developer", as: "wallet/ethereum"
     get "/wallet/botcoin" => "pages#developer", as: "wallet/botcoin"
+    namespace :api do
+      resources :products, only: [:index, :create]
+    end
   end
 
   constraints Clearance::Constraints::SignedOut.new do
-    root to: redirect('/about')
+    root to: redirect('/sign_up')
   end
 
 end

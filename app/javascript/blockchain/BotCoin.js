@@ -6,9 +6,9 @@ class BotCoin extends BaseRegistry {
   constructor() {
     super();
     this.web3 = window.keyTools.web3;
-    this.contract = new this.web3.eth.Contract(artifact.abi, window.app_config.botcoin_contract);
+    this.contract = new this.web3.eth.Contract(artifact.abi, window.keyTools.currentNetworkConfig.botcoin_contract);
     this.decimals = 18;
-    this.gasPrice = window.app_config.gas_price;
+    this.gasPrice = window.keyTools.currentNetworkConfig.gas_price;
   }
 
   /** Returns user address */
