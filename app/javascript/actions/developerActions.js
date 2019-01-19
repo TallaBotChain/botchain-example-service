@@ -46,7 +46,7 @@ export const setRegistrationStatusForCurrentNetwork = (registrations) => (dispat
 
 /** Fetch developerId for currentAccount from DeveloperRegistry */
 export const fetchDeveloperId = () => async (dispatch, getState) => {
-  let registry = new DeveloperRegistry(window.keyTools.currentNetworkConfig.developer_registry_contract);
+  let registry = new DeveloperRegistry();
   let developerId = getState().developer.developerId;
   if (developerId == 0){
     developerId = await registry.getDeveloperId();
@@ -70,7 +70,7 @@ export const fetchDeveloperId = () => async (dispatch, getState) => {
 const fetchVoteFinalBlock = () => async (dispatch, getState) => {
   let voteFinalBlock = getState().developer.voteFinalBlock;
   if (voteFinalBlock != null) return;
-  let council = new CurationCouncil(window.keyTools.currentNetworkConfig.curation_council_contract);
+  let council = new CurationCouncil();
   let voteId = await council.getRegistrationVoteId();
   dispatch({ type: DeveloperActions.SET_ATTRIBUTE, key: 'registrationVoteId', value: voteId });
   voteFinalBlock = await council.getVoteFinalBlock(voteId);
@@ -79,14 +79,14 @@ const fetchVoteFinalBlock = () => async (dispatch, getState) => {
 
 /** Fetch current block from CurationCouncil */
 const fetchCurrentBlock = () => async (dispatch) => {
-  let council = new CurationCouncil(window.keyTools.currentNetworkConfig.curation_council_contract);
+  let council = new CurationCouncil();
   let currentBlock = await council.getCurrentBlock();
   dispatch({ type: DeveloperActions.SET_ATTRIBUTE, key: 'currentBlock', value: currentBlock });
 }
 
 /** Fetch entryPrice from DeveloperRegistry */
 export const fetchEntryPrice = () => async (dispatch) => {
-  let registry = new DeveloperRegistry(window.keyTools.currentNetworkConfig.developer_registry_contract);
+  let registry = new DeveloperRegistry();
   let price = await registry.getEntryPrice();
   let botCoin = new BotCoin();
   dispatch({ type: DeveloperActions.SET_ATTRIBUTE, key: 'entryPrice', value: botCoin.convertToHuman(price) });
@@ -104,7 +104,7 @@ const setErrors = (errors)  => {
  **/
 export const addDeveloper = (ipfsHash) => async (dispatch) => {
   console.log("Developer registry contract:", window.keyTools.currentNetworkConfig.developer_registry_contract);
-  let registry = new DeveloperRegistry(window.keyTools.currentNetworkConfig.developer_registry_contract);
+  let registry = new DeveloperRegistry();
   try {
     let txId = await registry.addDeveloper(ipfsHash);
     dispatch( { type: DeveloperActions.SET_ATTRIBUTE, key: 'addDeveloperTxId', value: txId });
@@ -130,7 +130,7 @@ const addDeveloperTxMined = (status) => (dispatch) => {
 
 /** create RegistrationVote in CurationCouncilRegistry */
 export const createRegistrationVote = () => (dispatch) => {
-  let council = new CurationCouncil(window.keyTools.currentNetworkConfig.curation_council_contract);
+  let council = new CurationCouncil();
   console.log('Registering Vote');
   council.createRegistrationVote()
     .then((tx_id) => {
@@ -240,7 +240,7 @@ const fetchRegistrationProcessEstGas = () => async (dispatch, getState) => {
   let approveFee = parseFloat(botCoin.web3.utils.fromWei(`${approveEstGas * window.keyTools.currentNetworkConfig.gas_price}`, 'ether'));
   dispatch(WalletActions.setApproveFee(approveFee));
 
-  let registry = new DeveloperRegistry(window.keyTools.currentNetworkConfig.developer_registry_contract);
+  let registry = new DeveloperRegistry();
   let addDeveloperEstGas = await registry.addDeveloperEstGas('QmXjFZZ3YJDkFvhhsRkTA5Y5MrtDfAMGHPFdfFbZZR9ivX'); // fake ipfs hash used only for gas estimation!
   let addDeveloperFee = parseFloat(botCoin.web3.utils.fromWei(`${addDeveloperEstGas * window.keyTools.currentNetworkConfig.gas_price}`, 'ether'));
   dispatch(WalletActions.setAddDeveloperFee(addDeveloperFee));

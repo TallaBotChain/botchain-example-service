@@ -62,7 +62,7 @@ const setErrors = (errors) => {
 
 /** Fetch entryPrice from BotRegistry */
 export const fetchEntryPrice = () => async (dispatch) => {
-  let registry = new BotRegistry(window.keyTools.currentNetworkConfig.bot_registry_contract);
+  let registry = new BotRegistry();
   let price = await registry.getEntryPrice();
   let botCoin = new BotCoin();
   dispatch({ type: ProductsActions.SET_ATTRIBUTE, key: 'entryPrice', value: botCoin.convertToHuman(price) });
@@ -121,7 +121,7 @@ export const addAiProduct = (values) => async (dispatch, getState) => {
   }
 
   // createBotProduct
-  let registry = new BotRegistry(window.keyTools.currentNetworkConfig.bot_registry_contract);
+  let registry = new BotRegistry();
   let developerId = getState().developer.developerId;
   try {
     dispatch(setRegistrationStep('add_bot'));
