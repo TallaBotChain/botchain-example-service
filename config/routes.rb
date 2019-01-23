@@ -25,4 +25,6 @@ Rails.application.routes.draw do
     root to: redirect('/sign_up')
   end
 
+  get "*path", to: redirect('/')
+
 end
