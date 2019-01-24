@@ -29,6 +29,7 @@ import WalletBotcoin from '../containers/WalletBotcoin'
 import WalletEthereum from '../containers/WalletEthereum'
 import Navigation from '../components/shared/Navigation'
 import KeyTools from '../blockchain/KeyTools'
+import requireUserAuth from '../components/shared/requireUserAuth';
 
 const loggerMiddleware = createLogger()
 
@@ -36,12 +37,13 @@ window.keyTools = new KeyTools();
 
 let initialState = {
   user: {
-    currentUser: window.app_config.current_user,
-    signedIn: (window.app_config.current_user!=''),
+    currentUser: '',
+    signedIn: false,
     inProgress: false,
     errors: [],
-    encryptedMnemonic: (window.app_config.encrypted_mnemonic),
-    ethAddress: (window.app_config.eth_address)
+    encryptedMnemonic: null,
+    ethAddress: null,
+    authChecked: false
   }
 };
 
@@ -53,16 +55,16 @@ if(document.getElementById('app')) {
       <Router>
         <div>
           <Navigation />
-          <Route exact path="/" component={Developer}/>
-          <Route exact path="/products" component={ProductsContainer} />
-          <Route path="/products/new" component={NewProduct} />
-          <Route path="/settings" component={Settings}/>
+          <Route exact path="/" component={requireUserAuth(Developer)}/>
+          <Route exact path="/products" component={requireUserAuth(ProductsContainer)} />
+          <Route path="/products/new" component={requireUserAuth(NewProduct)} />
+          <Route path="/settings" component={requireUserAuth(Settings)}/>
           <Route path="/about" component={About} />
           <Route path="/help" component={Help}/>
           <Route path='/sign_up' component={SignUp} />
           <Route path='/sign_in' component={SignIn} />
-          <Route path='/wallet/botcoin' component={WalletBotcoin} />
-          <Route path='/wallet/ethereum' component={WalletEthereum} />
+          <Route path='/wallet/botcoin' component={requireUserAuth(WalletBotcoin)} />
+          <Route path='/wallet/ethereum' component={requireUserAuth(WalletEthereum)} />
         </div>
       </Router>
     </Provider>,

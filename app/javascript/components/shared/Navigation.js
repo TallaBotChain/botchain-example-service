@@ -4,8 +4,13 @@ import { withRouter } from 'react-router-dom';
 import { Navbar, NavItem } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
 import  NetworkSwitcher from './NetworkSwitcher';
+import { checkAuth } from '../../actions/userActions'
 
 class Navigation extends React.Component {
+
+  componentDidMount(){
+    this.props.checkAuth();
+  }
 
   signedInNav() {
     return ([
@@ -89,4 +94,12 @@ const mapStateToProps = state => {
   }
 }
 
-export default withRouter(connect(mapStateToProps)(Navigation))
+const mapDispatchToProps = dispatch => {
+  return {
+    checkAuth: () => {
+      dispatch(checkAuth());
+    }
+  }
+}
+
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Navigation))

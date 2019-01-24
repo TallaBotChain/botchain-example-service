@@ -11,7 +11,7 @@ class User < ApplicationRecord
   validates_acceptance_of :age
 
   def as_json(options={})
-    json = super({:only => [:email, :eth_address]})
+    json = super({:only => [:email, :eth_address]}.merge(options))
     json['registrations'] = registrations_json
     json
   end

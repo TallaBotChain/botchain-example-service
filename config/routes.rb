@@ -18,6 +18,7 @@ Rails.application.routes.draw do
     get "/wallet/botcoin" => "pages#developer", as: "wallet/botcoin"
     namespace :api do
       resources :products, only: [:index, :create]
+      get 'sessions/check'
     end
   end
 
