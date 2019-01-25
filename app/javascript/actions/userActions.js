@@ -206,3 +206,19 @@ export const checkAuth = () => (dispatch) => {
       console.log('Failed to checkAuth' + error)
     })
 }
+
+/** LogOut current user **/
+export const logOut = () => (dispatch) => {
+  axios.delete('/api/sessions/destroy')
+    .then(response => {
+      if (response.status == 200 && response.data == 'ok') {
+        dispatch(setEncryptedMnemonic(null));
+        dispatch(setEthAddress(null));
+        dispatch(setCurrentUser(''));
+        dispatch(setSignedIn(false));
+      }
+    })
+    .catch(function (error) {
+      console.log('Failed to logOut' + error)
+    })
+}

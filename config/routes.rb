@@ -19,6 +19,7 @@ Rails.application.routes.draw do
     namespace :api do
       resources :products, only: [:index, :create]
       get 'sessions/check'
+      delete 'sessions/destroy'
     end
   end
 

@@ -4,7 +4,7 @@ import { withRouter } from 'react-router-dom';
 import { Navbar, NavItem } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
 import  NetworkSwitcher from './NetworkSwitcher';
-import { checkAuth } from '../../actions/userActions'
+import * as userActions from '../../actions/userActions'
 
 class Navigation extends React.Component {
 
@@ -39,7 +39,7 @@ class Navigation extends React.Component {
       </ul>,
       <ul className="nav navbar-nav navbar-right" key={2}>
         <NetworkSwitcher/>
-        <LinkContainer to="/sign_out" data-method="delete">
+        <LinkContainer to="#" onClick={() => this.props.logOut()}>
           <NavItem >Sign Out</NavItem>
         </LinkContainer>
       </ul>
@@ -97,7 +97,10 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     checkAuth: () => {
-      dispatch(checkAuth());
+      dispatch(userActions.checkAuth());
+    },
+    logOut: () => {
+      dispatch(userActions.logOut());
     }
   }
 }

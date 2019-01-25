@@ -5,4 +5,9 @@ class Api::SessionsController < Clearance::SessionsController
     render json: { user: current_user.as_json(only: [:email, :eth_address, :encrypted_mnemonic])}
   end
 
+  def destroy
+    sign_out
+    render json: :ok
+  end
+
 end
