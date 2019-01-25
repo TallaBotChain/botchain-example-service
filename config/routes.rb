@@ -18,11 +18,15 @@ Rails.application.routes.draw do
     get "/wallet/botcoin" => "pages#developer", as: "wallet/botcoin"
     namespace :api do
       resources :products, only: [:index, :create]
+      get 'sessions/check'
+      delete 'sessions/destroy'
     end
   end
 
   constraints Clearance::Constraints::SignedOut.new do
     root to: redirect('/sign_up')
   end
+
+  get "*path", to: redirect('/')
 
 end

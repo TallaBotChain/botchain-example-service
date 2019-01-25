@@ -1,5 +1,6 @@
 import {reset} from 'redux-form';
 import * as DeveloperActions from './developerActions';
+import axios from 'axios';
 
 export const UserActions = {
   SET_ATTRIBUTE: 'USER_SET_ATTRIBUTE'
@@ -31,6 +32,13 @@ const setInProgress = (value) => {
  **/
 const setSignedIn = (value) => {
   return { type: UserActions.SET_ATTRIBUTE, key: 'signedIn', value: value }
+}
+
+/** Sets user authChecked status
+ * @param value - boolean value, true if user Auth is checked
+ **/
+const setAuthChecked = (value) => {
+  return { type: UserActions.SET_ATTRIBUTE, key: 'authChecked', value: value }
 }
 
 /** Sets user name
@@ -179,4 +187,38 @@ export const decryptMnemonic = (password) => (dispatch, getState) => {
   }else {
     dispatch( setErrors(['password is invalid']) );
   }
+}
+
+
+/** Checking user auth **/
+export const checkAuth = () => (dispatch) => {
+  axios.get('/api/sessions/check')
+    .then( response => {
+      if (response.status == 200 && response.data.user){
+        dispatch(setEncryptedMnemonic(response.data.user.encrypted_mnemonic));
+        dispatch(setEthAddress(response.data.user.eth_address));
+        dispatch(setCurrentUser(response.data.user.email));
+        dispatch(setSignedIn(true));
+      }
+      dispatch(setAuthChecked(true));
+    })
+    .catch(function (error) {
+      console.log('Failed to checkAuth' + error)
+    })
+}
+
+/** LogOut current user **/
+export const logOut = () => (dispatch) => {
+  axios.delete('/api/sessions/destroy')
+    .then(response => {
+      if (response.status == 200 && response.data == 'ok') {
+        dispatch(setEncryptedMnemonic(null));
+        dispatch(setEthAddress(null));
+        dispatch(setCurrentUser(''));
+        dispatch(setSignedIn(false));
+      }
+    })
+    .catch(function (error) {
+      console.log('Failed to logOut' + error)
+    })
 }
