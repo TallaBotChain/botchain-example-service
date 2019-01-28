@@ -41,6 +41,7 @@ let initialState = {
     signedIn: false,
     inProgress: false,
     errors: [],
+    alerts: [],
     encryptedMnemonic: null,
     ethAddress: null,
     authChecked: false
