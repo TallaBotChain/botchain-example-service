@@ -3,7 +3,13 @@ import * as DeveloperActions from './developerActions';
 import axios from 'axios';
 
 export const UserActions = {
-  SET_ATTRIBUTE: 'USER_SET_ATTRIBUTE'
+  SET_ATTRIBUTE: 'USER_SET_ATTRIBUTE',
+  RESET_STATE: 'USER_RESET_STATE'
+}
+
+/** Resets redux state for User */
+export const resetState = () => {
+  return { type: UserActions.RESET_STATE }
 }
 
 /** setErrors
@@ -200,10 +206,15 @@ export const checkAuth = () => (dispatch) => {
         dispatch(setCurrentUser(response.data.user.email));
         dispatch(setSignedIn(true));
       }
+      else{
+        dispatch(resetState());
+      }
       dispatch(setAuthChecked(true));
     })
     .catch(function (error) {
       console.log('Failed to checkAuth' + error)
+      dispatch(resetState());
+      dispatch(setAuthChecked(true));
     })
 }
 
@@ -212,13 +223,13 @@ export const logOut = () => (dispatch) => {
   axios.delete('/api/sessions/destroy')
     .then(response => {
       if (response.status == 200 && response.data == 'ok') {
-        dispatch(setEncryptedMnemonic(null));
-        dispatch(setEthAddress(null));
-        dispatch(setCurrentUser(''));
-        dispatch(setSignedIn(false));
+        dispatch(resetState());
+        dispatch(setAuthChecked(true));
       }
     })
     .catch(function (error) {
       console.log('Failed to logOut' + error)
+      dispatch(resetState());
+      dispatch(setAuthChecked(true));
     })
 }
