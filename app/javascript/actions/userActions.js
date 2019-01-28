@@ -214,6 +214,7 @@ export const checkAuth = () => (dispatch) => {
     .catch(function (error) {
       console.log('Failed to checkAuth' + error)
       dispatch(resetState());
+      dispatch(setAuthChecked(true));
     })
 }
 
@@ -223,10 +224,12 @@ export const logOut = () => (dispatch) => {
     .then(response => {
       if (response.status == 200 && response.data == 'ok') {
         dispatch(resetState());
+        dispatch(setAuthChecked(true));
       }
     })
     .catch(function (error) {
       console.log('Failed to logOut' + error)
       dispatch(resetState());
+      dispatch(setAuthChecked(true));
     })
 }

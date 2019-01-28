@@ -16,8 +16,7 @@ const initialState = {
 const user = (state = initialState, action) => {
   switch (action.type) {
   case UserActions.RESET_STATE:
-    let new_state = { ...initialState, ...{ authChecked: state.authChecked } }
-    return update(state, { $set: new_state });
+    return update(state, { $set: initialState });
   case UserActions.SET_ATTRIBUTE:
     return update(state, {[action.key]: {$set: action.value}});
   default:
